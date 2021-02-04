@@ -3,6 +3,7 @@ import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { groupService } from '../services/GroupService'
 import { groupMemberService } from "../services/GroupMemberService"
+import { messageService } from "../services/MessageService"
 export class GroupController extends BaseController {
   constructor() {
     super('api/groups')
@@ -10,6 +11,7 @@ export class GroupController extends BaseController {
       .get('', this.getAll)
       .get('/:id', this.getById)
       .get(':id/groupMembers', this.getGroupMembersByGroupId)
+      .get('/:id/messages', this.getMessagesByGroupId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .put('/:id', this.edit)
@@ -36,6 +38,14 @@ export class GroupController extends BaseController {
   async getGroupMembersByGroupId(req, res, next) {
     try {
       const data = await groupMemberService.getGroupMembersByGroupId(req.params.id)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getMessagesByGroupId(req, res, next) {
+    try {
+      const data = await messageService.getMessagesByGroupId({ groupId: req.params.id })
       res.send(data)
     } catch (error) {
       next(error)

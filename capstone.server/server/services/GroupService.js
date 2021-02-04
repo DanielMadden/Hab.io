@@ -1,5 +1,6 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import { groupMemberService } from '../services/GroupMemberService'
 
 class GroupService {
   async find(query = {}) {
