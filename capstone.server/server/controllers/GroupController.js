@@ -10,7 +10,7 @@ export class GroupController extends BaseController {
     this.router
       .get('', this.getAll)
       .get('/:id', this.getById)
-      .get(':id/groupMembers', this.getGroupMembersByGroupId)
+      .get(':id/groupMembers', this.getGroupMembersByGroupId) // TODO: This should use auth and check if the caller belongs to the group
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/:id/messages', this.getMessagesByGroupId)
       .post('', this.create)
