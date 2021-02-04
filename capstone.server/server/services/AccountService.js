@@ -53,7 +53,7 @@ class AccountService {
   async getAccounts(ids = []) {
     const accounts = await dbContext.Account.find({
       _id: { $in: ids }
-    }).select('email picture name')
+    })
     return accounts
   }
 

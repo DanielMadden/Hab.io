@@ -1,7 +1,8 @@
 import BaseController from '../utils/BaseController'
+// @ts-ignore
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { groupService } from '../services/GroupService'
-export class GroupsController extends BaseController {
+export class GroupController extends BaseController {
   constructor() {
     super('api/groups')
     this.router

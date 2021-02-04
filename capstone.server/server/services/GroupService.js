@@ -1,10 +1,10 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import { groupMemberService } from '../services/GroupMemberService'
 
 class GroupService {
-  
   async find(query = {}) {
-    const groups = await dbContext.Groups.find().populate('creator')
+    const groups = await dbContext.Groups.find(query).populate('creator')
     return groups
   }
 
@@ -16,8 +16,12 @@ class GroupService {
     return group
   }
 
-  async create(body) {
-    return await dbContext.Groups.create(body)
+  async create(group) {
+     const newGroup = await dbContext.Groups.create(group)
+     console.log(newGroup + "Does this object have a groupId?")
+     const newGroupMember = {memberId: group.creatorId, groupId: newGroup.id, status: 'Moderator'}
+     groupMemberService.create(newGroupMember)
+     return newGroup
   }
 
   async edit(group) {
