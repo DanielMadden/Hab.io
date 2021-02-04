@@ -1,4 +1,5 @@
 import BaseController from '../utils/BaseController'
+// @ts-ignore
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { badgeService } from '../services/BadgeService'
 export class BadgeController extends BaseController {

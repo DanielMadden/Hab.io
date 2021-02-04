@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
+import { habitsService } from "../services/HabitsService"
 import BaseController from '../utils/BaseController'
 
 export class AccountController extends BaseController {
@@ -9,6 +10,7 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/query', this.getAccounts)
+      .get('/:id/habits', this.getHabitsByAccountId)
   }
 
   async getUserAccount(req, res, next) {
@@ -23,6 +25,14 @@ export class AccountController extends BaseController {
   async getAccounts(req, res, next) {
     try {
       res.send(accountService.getAccounts(req.body))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getHabitsByAccountId(req, res, next){
+    try {
+      res.send(habitsService.getHabitsByAccountId(req.params.id))
     } catch (error) {
       next(error)
     }

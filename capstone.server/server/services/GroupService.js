@@ -15,8 +15,12 @@ class GroupService {
     return group
   }
 
-  async create(body) {
-    return await dbContext.Groups.create(body)
+  async create(group) {
+     const newGroup = await dbContext.Groups.create(group)
+     console.log(newGroup + "Does this object have a groupId?")
+     const newGroupMember = {memberId: group.creatorId, groupId: newGroup.id, status: 'Moderator'}
+     groupMemberService.create(newGroupMember)
+     return newGroup
   }
 
   async edit(group) {
