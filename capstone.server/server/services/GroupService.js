@@ -2,9 +2,8 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class GroupService {
-  
   async find(query = {}) {
-    const groups = await dbContext.Groups.find().populate('creator')
+    const groups = await dbContext.Groups.find(query).populate('creator')
     return groups
   }
 

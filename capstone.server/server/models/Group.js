@@ -10,7 +10,7 @@ const Group = new Schema(
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
-Group.virtual('user', {
+Group.virtual('creator', {
   localField: 'creatorId',
   ref: 'Account',
   foreignField: '_id',
