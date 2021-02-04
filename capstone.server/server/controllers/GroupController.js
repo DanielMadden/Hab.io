@@ -9,8 +9,8 @@ export class GroupController extends BaseController {
     this.router
       .get('', this.getAll)
       .get('/:id', this.getById)
-      .get('/:id/messages', this.getMessagesByGroupId)
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('/:id/messages', this.getMessagesByGroupId)
       .post('', this.create)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
@@ -35,7 +35,7 @@ export class GroupController extends BaseController {
   }
   async getMessagesByGroupId(req, res, next) {
     try {
-      const data = await messageService.getMessagesByGroupId({ groupId: req.params.id })
+      const data = await messageService.getMessagesByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
       res.send(data)
     } catch (error) {
       next(error)

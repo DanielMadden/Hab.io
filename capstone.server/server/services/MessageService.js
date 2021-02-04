@@ -1,5 +1,6 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import { groupService } from '../services/GroupService'
 
 class MessageService {
 
@@ -7,7 +8,12 @@ class MessageService {
     return await dbContext.Messages.create(body)
   }
 
-  async getMessagesByGroupId(query = {}) {
+  async getMessagesByGroupId(query = {}, userId, groupId) {
+    const group = await dbContext.Groups.findById({ _id: groupId }).populate('creator')
+    if (!group) {
+      throw new BadRequest('Invalid groupId')
+    }
+    // TODO: Use groupMemberService to validate that user belongs to group
     const notes = await dbContext.Messages.find(query).populate('creator')
     if (!notes) {
       throw new BadRequest('Invalid Id')

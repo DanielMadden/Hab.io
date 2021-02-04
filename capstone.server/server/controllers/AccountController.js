@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
+import { badgeService } from "../services/BadgeService"
 import { habitsService } from "../services/HabitsService"
 import BaseController from '../utils/BaseController'
 
