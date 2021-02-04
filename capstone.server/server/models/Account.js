@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const Account = new Schema(
   {
@@ -7,7 +8,9 @@ const Account = new Schema(
     _id: { type: String, required: true },
     email: { type: String, lowercase: true, unique: true },
     name: { type: String, required: true },
-    picture: { type: String }
+    picture: { type: String },
+    badges: { type: [ObjectId], ref: 'Badge' },
+    will: { type: Number, default: 0 }
     // NOTE If you wish to add additional public properties for Accounts do so here
   },
   { timestamps: true, _id: false, toJSON: { virtuals: true } }
