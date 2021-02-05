@@ -4,7 +4,11 @@ import { groupService } from '../services/GroupService'
 
 class MessageService {
 
-  async create(body) {
+  async create(body, userId) {
+    const memberCheck = await dbContext.GroupMembers.findOne({memberId: userId, groupId: body.groupId})
+    if (!memberCheck) {
+      throw new BadRequest('Invalid group or user does not belong to group')
+    }
     let ret = await dbContext.Messages.create(body)
     return ret
   }

@@ -12,7 +12,6 @@ export class FollowController extends BaseController {
   }
   async create(req, res, next){
     try {
-      // TODO
       res.send(followService.create(req.body))
     } catch (error) {
       next(error)

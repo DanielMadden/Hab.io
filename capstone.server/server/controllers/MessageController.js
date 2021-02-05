@@ -11,7 +11,8 @@ export class MessageController extends BaseController {
 
   async create(req, res, next) {
     try {
-      const data = await messageService.create(req.body)
+      req.body.creatorId = req.userInfo.id
+      const data = await messageService.create(req.body, req.userInfo.id)
       res.status(201).send(data)
     } catch (error) {
       next(error)
