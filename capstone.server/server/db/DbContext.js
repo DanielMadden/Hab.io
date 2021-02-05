@@ -9,7 +9,6 @@ import GroupMemberSchema from '../models/GroupMember'
 import MessageSchema from '../models/Message'
 
 class DbContext {
-  Values = mongoose.model('Value', ValueSchema);
   Account = mongoose.model('Account', AccountSchema);
   Groups = mongoose.model('Group', GroupSchema);
   Badges = mongoose.model('Badge', BadgeSchema);
