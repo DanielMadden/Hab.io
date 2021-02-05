@@ -10,7 +10,7 @@ class GroupMemberService {
     return await dbContext.GroupMembers.create(groupMember)
   }
   async edit(groupMemberId, update, accountId) {
-    const groupMember = dbContext.GroupMembers.findById(groupMemberId)
+    const groupMember = (await dbContext.GroupMembers.findById(groupMemberId)).toObject()
     if(groupMember.status === 'Moderator'){
       return dbContext.GroupMembers.findOneAndUpdate(groupMemberId, update)
     }
