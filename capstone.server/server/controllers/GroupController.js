@@ -2,9 +2,9 @@ import BaseController from '../utils/BaseController'
 // @ts-ignore
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { groupService } from '../services/GroupService'
-import { groupMemberService } from "../services/GroupMemberService"
-import { messageService } from "../services/MessageService"
-import { habitService } from "../services/HabitService"
+import { groupMemberService } from '../services/GroupMemberService'
+import { messageService } from '../services/MessageService'
+import { habitService } from '../services/HabitService'
 
 export class GroupController extends BaseController {
   constructor() {
@@ -38,6 +38,7 @@ export class GroupController extends BaseController {
       next(error)
     }
   }
+
   async getGroupMembersByGroupId(req, res, next) {
     try {
       const data = await groupMemberService.getGroupMembersByGroupId(req.params.id)
@@ -46,6 +47,7 @@ export class GroupController extends BaseController {
       next(error)
     }
   }
+
   async getMessagesByGroupId(req, res, next) {
     try {
       const data = await messageService.getMessagesByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
