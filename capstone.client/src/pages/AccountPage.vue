@@ -77,7 +77,7 @@ export default {
   setup() {
     return {
       account: computed(() => AppState.account),
-      level: computed(() => AppState.account.will / 100)
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will)))
     }
   }
 }
