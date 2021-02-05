@@ -2,6 +2,10 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class GroupMemberService {
+  async getActiveGroupMember(groupId, accountId) {
+    return dbContext.GroupMembers.find({ groupId: groupId, memberId: accountId }).populate('memberId')
+  }
+
   async getGroupMembersByGroupId(groupId) {
     return dbContext.GroupMembers.find({ groupId: groupId }).populate('memberId')
   }
@@ -15,6 +19,10 @@ class GroupMemberService {
     if (groupMember.status === 'Moderator') {
       return dbContext.GroupMembers.findOneAndUpdate(groupMemberId, update)
     }
+  }
+
+  async leaveGroup(groupMemberId, accountId) {
+
   }
 
   async delete(groupMemberId, accountId) {
