@@ -15,6 +15,7 @@ class GroupMemberService {
       return dbContext.GroupMembers.findOneAndUpdate(groupMemberId, update)
     }
   }
+  
   async delete(groupMemberId, accountId) {
     // if not working put a breakpoint and hover over the variables
     const groupMember = await (await dbContext.GroupMembers.findById(groupMemberId)).toObject()

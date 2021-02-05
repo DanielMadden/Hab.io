@@ -4,6 +4,8 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { groupService } from '../services/GroupService'
 import { groupMemberService } from "../services/GroupMemberService"
 import { messageService } from "../services/MessageService"
+import { habitService } from "../services/HabitService"
+
 export class GroupController extends BaseController {
   constructor() {
     super('api/groups')
@@ -13,6 +15,7 @@ export class GroupController extends BaseController {
       .get(':id/groupMembers', this.getGroupMembersByGroupId) // TODO: This should use auth and check if the caller belongs to the group
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/:id/messages', this.getMessagesByGroupId)
+      .get('/:id/habits', this.getHabitsByGroupId)
       .post('', this.create)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
@@ -46,6 +49,15 @@ export class GroupController extends BaseController {
   async getMessagesByGroupId(req, res, next) {
     try {
       const data = await messageService.getMessagesByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getHabitsByGroupId(req, res, next) {
+    try {
+      const data = await habitService.getHabitsByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
       res.send(data)
     } catch (error) {
       next(error)

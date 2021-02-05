@@ -6,7 +6,7 @@ const GroupMember = new Schema(
   {
     groupId: { type: ObjectId, ref: 'Group', required: true },
     memberId: { type: String, ref: 'Account', required: true },
-    status: { type:String, required: true}
+    status: { type: String, required: true}
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
