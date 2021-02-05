@@ -9,11 +9,10 @@ class MessageService {
   }
 
   async getMessagesByGroupId(query = {}, userId, groupId) {
-    const group = await dbContext.Groups.findById({ _id: groupId }).populate('creator')
-    if (!group) {
-      throw new BadRequest('Invalid groupId')
+    const memberCheck = await dbContext.GroupMembers.findOne({memberId: userId, groupId: groupId})
+    if (!memberCheck) {
+      throw new BadRequest('Invalid group or user does not belong to group')
     }
-    // TODO: Use groupMemberService to validate that user belongs to group
     const notes = await dbContext.Messages.find(query).populate('creator')
     if (!notes) {
       throw new BadRequest('Invalid Id')
