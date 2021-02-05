@@ -1,6 +1,7 @@
 <template>
   <header>
-    <Navbar />
+    <!-- <Navbar /> -->
+    <nav-component></nav-component>
   </header>
   <main>
     <router-view v-slot="{ Component }">
@@ -19,7 +20,9 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import NavComponent from './components/NavComponent.vue'
 export default {
+  components: { NavComponent },
   name: 'App',
   setup() {
     return {

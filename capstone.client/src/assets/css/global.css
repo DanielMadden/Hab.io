@@ -1,2 +1,32 @@
-@import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+:root {
+  --nav-height: 75px;
+}
 
+html, body, #app, main {
+  height: 100%;
+  width: 100%;
+}
+
+#navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background-color: black;
+  color: white;
+}
+
+#navbar-vert-stretch {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden
+}
+
+#home {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - var(--nav-height))
+}
