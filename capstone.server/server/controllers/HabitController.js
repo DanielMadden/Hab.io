@@ -1,5 +1,5 @@
-import { habitService } from "../services/HabitService"
-import BaseController from "../utils/BaseController"
+import { habitService } from '../services/HabitService'
+import BaseController from '../utils/BaseController'
 
 export class HabitController extends BaseController {
   constructor() {
@@ -10,31 +10,39 @@ export class HabitController extends BaseController {
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
   }
-  async getById(req, res, next){
+
+  async getById(req, res, next) {
     try {
-      res.send(habitService.getById(req.params.id))
+      const data = await habitService.getById(req.params.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async create(req, res, next){
+
+  async create(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      res.send(habitService.create(req.body))
+      const data = await habitService.create(req.body)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async edit(req, res, next){
+
+  async edit(req, res, next) {
     try {
-      res.send(habitService.edit(req.params.id, req.body, req.userInfo.id))
+      const data = await habitService.edit(req.params.id, req.body, req.userInfo.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async delete(req, res, next){
+
+  async delete(req, res, next) {
     try {
-      res.send(habitService.delete(req.params.id, req.userInfo.id))
+      const data = await habitService.delete(req.params.id, req.userInfo.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }

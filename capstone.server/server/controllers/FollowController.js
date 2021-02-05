@@ -1,5 +1,5 @@
-import { followService } from "../services/FollowService"
-import BaseController from "../utils/BaseController"
+import { followService } from '../services/FollowService'
+import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 
 export class FollowController extends BaseController {
@@ -10,17 +10,20 @@ export class FollowController extends BaseController {
       .post('', this.create)
       .delete('/:id', this.delete)
   }
-  async create(req, res, next){
+
+  async create(req, res, next) {
     try {
-      res.send(followService.create(req.body))
+      const data = await followService.create(req.body)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async delete(req, res, next){
+
+  async delete(req, res, next) {
     try {
-      // TODO
-      res.send(followService.delete())
+      const data = await followService.delete(req.params.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }

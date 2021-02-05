@@ -3,6 +3,12 @@ import { BadRequest } from '../utils/Errors'
 import { groupMemberService } from '../services/GroupMemberService'
 
 class GroupService {
+  async getGroupsByAccountId(accountId) {
+    const groupMembers = await dbContext.GroupMembers.find({ memberId: accountId })
+    const groupIds = groupMembers.map(groupMember => groupMember.groupId)
+    return await dbContext.Groups.find({ groupId: { $in: groupIds } })
+  }
+
   async find(query = {}) {
     const groups = await dbContext.Groups.find(query).populate('creator')
     return groups
@@ -25,12 +31,12 @@ class GroupService {
     return newGroup
   }
 
-  async edit(group) {
-    const grp = await dbContext.Groups.findOneAndUpdate({ _id: group.id }, group, { new: true }).populate('creator')
-    if (!grp) {
+  async edit(update) {
+    const group = await dbContext.Groups.findOneAndUpdate({ _id: update.id }, update, { new: true }).populate('creator')
+    if (!group) {
       throw new BadRequest('You are not the user, or this is not a valid group')
     }
-    return grp
+    return group
   }
 
   async delete(id) {

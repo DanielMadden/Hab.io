@@ -1,9 +1,10 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
-import { badgeService } from "../services/BadgeService"
-import { habitService } from "../services/HabitService"
-import { followService } from "../services/FollowService"
+// import { badgeService } from '../services/BadgeService'
+import { habitService } from '../services/HabitService'
+import { followService } from '../services/FollowService'
 import BaseController from '../utils/BaseController'
+import { groupService } from '../services/GroupService'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -12,6 +13,7 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/query', this.getAccounts)
+      .get('/:id/groups', this.getGroupsByAccountId)
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
       .get('/:id/followees', this.getFolloweesByAccountId)
@@ -28,29 +30,44 @@ export class AccountController extends BaseController {
 
   async getAccounts(req, res, next) {
     try {
-      res.send(accountService.getAccounts(req.body))
+      const data = await accountService.getAccounts(req.body)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
 
-  async getHabitsByAccountId(req, res, next){
+  async getGroupsByAccountId(req, res, next) {
     try {
-      res.send(habitService.getHabitsByAccountId(req.params.id))
+      const data = await groupService.getGroupsByAccountId(req.params.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async getFollowersByAccountId(req, res, next){
+
+  async getHabitsByAccountId(req, res, next) {
     try {
-      res.send(followService.getFollowsByAccountId({ followeeId: req.params.id }))
+      const data = await habitService.getHabitsByAccountId(req.params.id)
+      res.send(data)
     } catch (error) {
       next(error)
     }
   }
-  async getFolloweesByAccountId(req, res, next){
+
+  async getFollowersByAccountId(req, res, next) {
     try {
-      res.send(followService.getFollowsByAccountId({ followerId: req.params.id }))
+      const data = await followService.getFollowsByAccountId({ followeeId: req.params.id })
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getFolloweesByAccountId(req, res, next) {
+    try {
+      const data = await followService.getFollowsByAccountId({ followerId: req.params.id })
+      res.send(data)
     } catch (error) {
       next(error)
     }
