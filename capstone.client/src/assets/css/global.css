@@ -11,7 +11,7 @@ main {
   width: 100%;
 }
 
-#navbar {
+#nav-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -21,14 +21,18 @@ main {
   color: white;
 }
 
-#navbar-vert-stretch {
+#nav-vert-stretch {
   height: 100%;
   max-height: 100%;
   overflow: hidden;
 }
 
-#home,
-#group-main {
+#nav-profile-image {
+  height: 50px;
+  border-radius: 100%;
+}
+
+#home {
   position: absolute;
   bottom: 0;
   width: 100%;
