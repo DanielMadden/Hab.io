@@ -19,6 +19,7 @@ class GroupService {
     const res = await api.get(baseURL + groupId)
     groupPage ? AppState.activeGroup = res.data : AppState.activeGroupInfo = res.data
   }
+  // api/group/:id/groupmembers
 
   async createGroup(data) {
     await api.post(baseURL, data)
