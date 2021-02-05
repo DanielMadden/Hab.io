@@ -5,7 +5,8 @@ import { groupService } from '../services/GroupService'
 class MessageService {
 
   async create(body) {
-    return await dbContext.Messages.create(body)
+    let ret = await dbContext.Messages.create(body)
+    return ret
   }
 
   async getMessagesByGroupId(query = {}, userId, groupId) {
