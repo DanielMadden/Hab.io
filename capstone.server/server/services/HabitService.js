@@ -1,6 +1,7 @@
 import { dbContext } from "../db/DbContext";
+import { BadRequest } from '../utils/Errors'
 
-class HabitsService {
+class HabitService {
   async getById(habitId) {
     return await dbContext.Habits.find({id: habitId})
   }
@@ -24,7 +25,17 @@ class HabitsService {
   async delete(habitId, userId) {
     throw new Error("Method not implemented.");
   }
-
+  async getHabitsByGroupId(query = {}, userId, groupId) {
+    const memberCheck = await dbContext.GroupMembers.findOne({memberId: userId, groupId: groupId})
+    if (!memberCheck) {
+      throw new BadRequest('Invalid group or user does not belong to group')
+    }
+    const habits = await dbContext.Habits.find(query)
+    if (!habits) {
+      throw new BadRequest('Invalid Id')
+    }
+    return habits
+  }
 }
 
-export const habitsService = new HabitsService()
+export const habitService = new HabitService()
