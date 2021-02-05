@@ -1,2 +1,135 @@
-@import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+:root {
+  --transition-overlay: .3s;
+}
 
+/* Set height and width to 100% of display */
+
+html, body, #app, main {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* Anything here will take up the full page minus the height of the navbar */
+
+#home {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - var(--nav-height))
+}
+
+/* Nav Bar */
+
+#nav-bar {
+  /* Changing font-size will affect height */
+  font-size: 16px;
+  --nav-height: 5em;
+  /* Usual */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background-color: black;
+  color: white;
+  padding-right: 1em;
+  padding-left: 1em
+}
+
+#nav-bar h1 {
+  font-size: 250%;
+}
+
+#nav-bar h4 {
+  font-size: 150%;
+}
+
+/* #nav-vert-stretch {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden
+} */
+
+#nav-profile-image {
+  height: calc(var(--nav-height) * 9/12);
+  border-radius: 100%
+}
+
+.nav-item {
+  margin-left: 1em
+}
+
+.nav-button {
+  height: calc(var(--nav-height) * 7/12);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  transition: all .2s;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: black;
+}
+
+/* Darken Screen */
+
+#darken {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity var(--transition-overlay);
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#darken.show {
+  pointer-events: auto;
+  opacity: 1
+}
+
+#darken.hide {
+  pointer-events: none;
+  opacity: 0
+}
+
+/* Fancy Scrollbars */
+
+:root {
+  --scrollbar-thickness: 20px;
+  --scrollbar-padding: 5px;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-thickness)
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.199);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.418);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.199);
+}
+
+/* Dark (Fancy) Solid Scrollbars */
+
+.dark-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 20px;
+  border: var(--scrollbar-padding) white solid
+}

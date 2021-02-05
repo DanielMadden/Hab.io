@@ -1,0 +1,45 @@
+@import "./global.css";
+:root {
+  --container-height: 90%;
+  --container-width: 20em;
+}
+
+#myGroups-container {
+  background-color: white;
+  border-radius: 10px;
+  /* Adjusting font size will adjust right, width, and padding (em is dependent on font-size) */
+  font-size: 20px;
+  width: var(--container-width);
+  padding-top: 1em;
+  padding-right: calc(1em - var(--scrollbar-padding));
+  padding-left: 1em;
+  /* Calculate top variable to vertically center */
+  top: calc((100% - var(--container-height)) / 2);
+  height: var(--container-height);
+  /* Fix on screen, set z-index, and add transition for sliding effect */
+  position: fixed;
+  z-index: 10;
+  transition: right var(--transition-overlay);
+  /* Overflow */
+  overflow-x: hidden;
+  overflow-y: scroll
+}
+
+#myGroups-container.show {
+  right: 1em
+}
+
+#myGroups-container.hide {
+  right: calc(-1em - var(--container-width))
+}
+
+.myGroups-group {
+  height: 5em;
+  width: 100%;
+  border-radius: 10px;
+  color: white;
+  padding-top: .5em;
+  padding-left: .5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
