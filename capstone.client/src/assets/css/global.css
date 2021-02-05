@@ -1,6 +1,7 @@
 @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
 :root {
   --transition-overlay: .3s;
+  --nav-height: 5em;
 }
 
 /* Set height and width to 100% of display */
@@ -25,7 +26,6 @@ html, body, #app, main {
 #nav-bar {
   /* Changing font-size will affect height */
   font-size: 16px;
-  --nav-height: 5em;
   /* Usual */
   position: absolute;
   top: 0;
