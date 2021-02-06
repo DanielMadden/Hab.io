@@ -17,6 +17,7 @@ export class AccountController extends BaseController {
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
       .get('/:id/followees', this.getFolloweesByAccountId)
+      .put('/:id', this.edit)
   }
 
   async getUserAccount(req, res, next) {
@@ -67,6 +68,18 @@ export class AccountController extends BaseController {
   async getFolloweesByAccountId(req, res, next) {
     try {
       const data = await followService.getFollowsByAccountId({ followerId: req.params.id })
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async edit(req, res, next) {
+    try {
+      const accountUpdate = {}
+      accountUpdate.name = req.body.name
+      accountUpdate.picture = req.body.picture
+      const data = await accountService.edit(accountUpdate, req.userInfo.id)
       res.send(data)
     } catch (error) {
       next(error)

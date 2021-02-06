@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import BaseController from "../utils/BaseController"
+import BaseController from '../utils/BaseController'
 import { BadRequest } from '../utils/Errors'
 
 // Private Methods
@@ -48,6 +48,14 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+  // TODO review account edit security
+  async edit(accountUpdate, id) {
+    const account = await dbContext.Account.findOneAndUpdate({
+      _id: id
+    }, accountUpdate)
+    return account
+  }
+
   /**
    * Provided an array of user ids will return an array of user accounts with email picture and name
    * @param {String[]} ids Array of email addresses to lookup users by
