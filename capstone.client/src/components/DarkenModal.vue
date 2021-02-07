@@ -7,7 +7,12 @@ import { AppState } from '../AppState'
 export default {
   setup() {
     const darken = computed(() => AppState.darken)
-    const lighten = () => { AppState.darken = false; AppState.showMyGroups = false }
+    const lighten = () => {
+      AppState.darken = false
+      AppState.showMyGroups = false
+      AppState.showModal = false
+      AppState.showGroupInfo = false
+    }
     return { darken, lighten }
   }
 }

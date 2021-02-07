@@ -2,7 +2,9 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1>Logo</h1>
+      <h1 @click="travelHome">
+        Logo
+      </h1>
     </div>
     <div class="d-flex justify-content-end align-items-center">
       <button v-if="!user.isAuthenticated" @click="login">
@@ -30,15 +32,18 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import { useRouter } from 'vue-router'
 export default {
   setup() {
+    const router = useRouter()
     const account = computed(() => AppState.account)
     const user = computed(() => AppState.user)
     const login = () => { AuthService.loginWithPopup() }
     const logout = async() => { await AuthService.logout({ returnTo: window.location.origin }) }
     const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true }
+    const travelHome = () => { router.push('/') }
     return {
-      account, user, login, logout, showMyGroups
+      account, user, login, logout, showMyGroups, travelHome
     }
   }
 }

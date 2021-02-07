@@ -14,7 +14,7 @@ html, body, #app, main {
 
 /* Anything here will take up the full page minus the height of the navbar */
 
-#home {
+#home, #group-details {
   position: absolute;
   bottom: 0;
   width: 100%;

@@ -1,10 +1,9 @@
 @import "./global.css";
-:root {
+#myGroups-container {
+  /* Variables */
   --container-height: 90%;
   --container-width: 20em;
-}
-
-#myGroups-container {
+  /* Styling */
   background-color: white;
   border-radius: 10px;
   /* Adjusting font size will adjust right, width, and padding (em is dependent on font-size) */
