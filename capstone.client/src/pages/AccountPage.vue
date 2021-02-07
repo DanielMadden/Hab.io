@@ -5,20 +5,26 @@
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
           <div class="d-flex" id="social-stats">
-            <p class="px-1">
+            <p class="px-1" data-toggle="modal" data-target="#following">
+              <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
+                Launch
+              </button> -->
               Following <span class="font-weight-bold">100</span>
             </p>
-            <p class="px-1">
+            <AccountFollowingComponent />
+            <p class="px-1" data-toggle="modal" data-target="#followers">
               Followers <span class="font-weight-bold">100</span>
             </p>
-            <p class="px-1">
+            <AccountFollowersComponent />
+            <p class="px-1" data-toggle="modal" data-target="#groups">
               Groups <span class="font-weight-bold">100</span>
             </p>
+            <AccountGroupsComponent />
           </div>
           <div id="main-info">
             <div class="card card-1">
               <div class="card-body">
-                <p class="card-text mb-0">
+                <p class="card-text mb-0" contenteditable="true" @blur="editName()">
                   Name
                 </p>
                 <h3 class="card-title">
