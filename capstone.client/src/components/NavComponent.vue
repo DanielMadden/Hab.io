@@ -33,6 +33,7 @@ import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
+import { groupService } from '../services/GroupService'
 export default {
   setup() {
     const router = useRouter()
@@ -40,7 +41,8 @@ export default {
     const user = computed(() => AppState.user)
     const login = () => { AuthService.loginWithPopup() }
     const logout = async() => { await AuthService.logout({ returnTo: window.location.origin }) }
-    const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true }
+    const getMyGroups = () => { groupService.getAccountGroups(AppState.account.id, true) }
+    const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true; getMyGroups() }
     const travelHome = () => { router.push('/') }
     return {
       account, user, login, logout, showMyGroups, travelHome

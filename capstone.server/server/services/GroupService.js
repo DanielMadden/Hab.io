@@ -6,7 +6,7 @@ class GroupService {
   async getGroupsByAccountId(accountId) {
     const groupMembers = await dbContext.GroupMembers.find({ memberId: accountId })
     const groupIds = groupMembers.map(groupMember => groupMember.groupId)
-    return await dbContext.Groups.find({ groupId: { $in: groupIds } })
+    return await dbContext.Groups.find({ _id: { $in: groupIds } })
   }
 
   async find(query = {}) {

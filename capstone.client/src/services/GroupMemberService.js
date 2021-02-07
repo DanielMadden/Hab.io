@@ -11,8 +11,7 @@ class GroupMemberService {
   }
 
   async joinGroup(accountId, groupId) {
-    const res = await api.post(baseURL, { memberId: accountId, groupId: groupId })
-    console.log(res)
+    await api.post(baseURL, { memberId: accountId, groupId: groupId })
   }
 
   async leaveGroup(accountId, groupId) {

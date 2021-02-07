@@ -2,7 +2,7 @@ import { AppState } from '../AppState'
 import { api } from './AxiosService'
 
 const baseURL = '/api/groups/'
-const baseURLQuery = '/api/groups?'
+// const baseURLQuery = '/api/groups?'
 
 class GroupService {
   async getPublicGroups() {
@@ -11,7 +11,8 @@ class GroupService {
   }
 
   async getAccountGroups(accountId, myAccount = false) {
-    const res = await api.get(baseURLQuery + 'id=' + accountId)
+    const res = await api.get('account/' + accountId + '/groups')
+    console.log(res)
     myAccount ? AppState.myGroups = res.data : AppState.accountGroups = res.data
   }
 

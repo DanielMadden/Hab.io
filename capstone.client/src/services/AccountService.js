@@ -12,9 +12,9 @@ class AccountService {
     }
   }
 
-  async getGroups(id) {
-    console.log(id)
-  }
+  // async getGroups(id) {
+  //   console.log(id)
+  // }
 }
 
 export const accountService = new AccountService()
