@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import BaseController from "../utils/BaseController"
+import BaseController from '../utils/BaseController'
 import { BadRequest } from '../utils/Errors'
 
 // Private Methods
