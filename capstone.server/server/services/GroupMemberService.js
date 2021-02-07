@@ -11,6 +11,8 @@ class GroupMemberService {
   }
 
   async create(groupMember) {
+    const joined = await dbContext.GroupMembers.findOne({ groupId: groupMember.groupId, memberId: groupMember.memberId })
+    if (joined) return 'Member already joined this group'
     return await dbContext.GroupMembers.create(groupMember)
   }
 
