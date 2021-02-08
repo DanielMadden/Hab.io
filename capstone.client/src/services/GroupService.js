@@ -3,7 +3,7 @@ import GroupImage from '../models/GroupImage'
 import { api, imageApi } from './AxiosService'
 
 const baseURL = '/api/groups'
-const imageURL = '/search/photos/?client_id=RZut9BxYX0J7jAX600d6LQtht5hME7AR0RgV1mGoSkU&page=1&query='
+const imageURL = '/search/photos/?client_id=RZut9BxYX0J7jAX600d6LQtht5hME7AR0RgV1mGoSkU&page=1&per_page=6&query='
 // const baseURLQuery = '/api/groups?'
 
 class GroupService {
