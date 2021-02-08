@@ -4,7 +4,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const GroupMember = new Schema(
   {
-    groupId: { type: ObjectId, ref: 'Group', required: true },
+    groupId: { type: String, required: true },
+    group: { type: ObjectId, ref: 'Group', required: true },
     memberId: { type: String, ref: 'Account', required: true },
     status: { type: String, required: true }
   }, { timestamps: true, toJSON: { virtuals: true } }
