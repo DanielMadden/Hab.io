@@ -11,15 +11,15 @@
               <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
                 Launch
               </button> -->
-              Following <span class="font-weight-bold">100</span>
+              Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
             <AccountFollowingComponent />
             <p class="px-1" data-toggle="modal" data-target="#followers">
-              Followers <span class="font-weight-bold">100</span>
+              Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
             <AccountFollowersComponent />
             <p class="px-1" data-toggle="modal" data-target="#groups">
-              Groups <span class="font-weight-bold">100</span>
+              Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
             <AccountGroupsComponent />
           </div>
@@ -73,6 +73,10 @@
         </button>
         <BadgesModalComponent />
       </div>
+      <div class="row" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
+        <div class="col-12">
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,12 +92,17 @@ export default {
     const route = useRoute()
     onMounted(() => {
       accountService.getSelected(route.params.email)
-      // accountService.getGroups()
+      accountService.getGroups(route.params.email)
+      accountService.getFollowers(route.params.email)
+      accountService.getFollowing(route.params.email)
     })
     return {
       account: computed(() => AppState.activeAccount[0]),
       currentUser: computed(() => AppState.account),
       level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
+      followers: computed(() => AppState.accountFollowers),
+      following: computed(() => AppState.accountFollowing),
+      groups: computed(() => AppState.accountGroups),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       }
@@ -136,6 +145,9 @@ img {
   position: absolute;
   top: 4vh;
   left: 7vw;
+}
+#tasks-row {
+  height: 45vh
 }
 @import '../assets/css/global.css';
 </style>
