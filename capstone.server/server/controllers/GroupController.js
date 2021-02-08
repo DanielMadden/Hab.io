@@ -24,7 +24,7 @@ export class GroupController extends BaseController {
 
   async getAll(req, res, next) {
     try {
-      const data = await groupService.find(req.query)
+      const data = await groupService.getAll(req.query)
       res.send(data)
     } catch (error) {
       next(error)
