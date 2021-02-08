@@ -1,7 +1,5 @@
 <template lang="">
-  <div id="group-details"
-       :style="`background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
-  >
+  <div id="group-details">
     <!-- Hello group details:
     {{ group }}
     <div style="color:red">
@@ -9,6 +7,7 @@
     </div> -->
     <div id="group-habits"
          class="container-fluid dark-scrollbar"
+         :style="`background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
         <h1 id="group-name"
@@ -18,12 +17,17 @@
         </h1>
         <button id="add-group"
                 class="mr-3 d-flex justify-content-center align-items-center"
-                @click="addGroup"
+                @click="addHabit"
         >
           <h1 class="p-0 m-0">
             +
           </h1>
         </button>
+      </div>
+      <div class="row px-3 pb-3">
+        <div class="col-4 px-3" v-for="habit in habits" :key="habit.id">
+          <habit-component :habit="habit"></habit-component>
+        </div>
       </div>
     </div>
     <div id="group-sidebar">
@@ -32,8 +36,7 @@
            @mouseover="focus('members')"
            @mouseout="noFocus()"
       >
-        <profile-compact-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></profile-compact-component>
-        {{ groupMembers }}
+        <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
       </div>
       <div id="group-chat"
            class="group-sidebars"
@@ -50,15 +53,13 @@ import { useRoute } from 'vue-router'
 import { groupService } from '../services/GroupService'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
+import { habitService } from '../services/HabitService'
 export default {
   setup() {
     const route = useRoute()
-    onMounted(() => {
-      groupService.getGroup(route.params.id, true)
-      groupMemberService.getGroupMembers(route.params.id)
-    })
     const group = computed(() => AppState.activeGroup)
     const groupMembers = computed(() => AppState.activeGroupMembers)
+    const habits = computed(() => AppState.activeGroupHabits)
     const focus = (section) => {
       const sidebarStyle = document.querySelector('#group-details').style
       section === 'members' ? sidebarStyle.setProperty('--members-height', '75%') : sidebarStyle.setProperty('--members-height', '25%')
@@ -67,7 +68,17 @@ export default {
       const sidebarStyle = document.querySelector('#group-details').style
       sidebarStyle.setProperty('--members-height', '50%')
     }
-    return { group, groupMembers, focus, noFocus }
+    const addHabit = () => {
+      AppState.darken = true
+      AppState.showModal = true
+      AppState.showAddHabitForm = true
+    }
+    onMounted(() => {
+      groupService.getGroup(route.params.id, true)
+      groupMemberService.getGroupMembers(route.params.id)
+      habitService.getGroupHabits(route.params.id)
+    })
+    return { group, groupMembers, focus, noFocus, addHabit, habits }
   }
 }
 </script>

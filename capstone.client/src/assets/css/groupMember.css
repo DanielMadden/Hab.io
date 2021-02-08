@@ -1,0 +1,13 @@
+.group-member {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.group-member-image {
+  width: 3em;
+  height: 3em;
+}
+
+.group-member-text {
+  margin-left: 1em;
+}

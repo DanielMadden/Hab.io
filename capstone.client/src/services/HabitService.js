@@ -6,7 +6,7 @@ const baseURL = '/api/habits/'
 class HabitService {
   async getGroupHabits(groupId) {
     const res = await api.get('/api/groups/' + groupId + '/habits')
-    AppState.groupHabits = res.data
+    AppState.activeGroupHabits = res.data
   }
 
   async getAccountHabits(accountId) {
@@ -26,6 +26,12 @@ class HabitService {
 
   async editHabit(data, habitId) {
     const res = await api.put(baseURL + habitId, data)
+    this.getGroupHabits(res.data.groupId)
+  }
+
+  async completeHabit(habitId) {
+    const res = await api.put(baseURL + habitId + '/complete')
+    console.log(res)
     this.getGroupHabits(res.data.groupId)
   }
 

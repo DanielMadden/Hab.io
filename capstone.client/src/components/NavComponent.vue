@@ -2,8 +2,8 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1 @click="travelHome">
-        Logo
+      <h1 @click="travelHome" class="logo">
+        hab.io
       </h1>
     </div>
     <div class="d-flex justify-content-end align-items-center">
@@ -60,4 +60,14 @@ export default {
 </script>
 <style scoped>
 @import '../assets/css/global.css';
+
+@font-face {
+  font-family: "Pacifico";
+  src: local("Pacifico"),
+   url(../assets/font/Pacifico-Regular.ttf) format("truetype");
+}
+
+.logo{
+  font-family: "Pacifico";
+}
 </style>
