@@ -29,6 +29,15 @@ export class AccountController extends BaseController {
     }
   }
 
+  async getAccountByQuery(req, res, next) {
+    try {
+      const data = await accountService.getAccountByQuery(req.query)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async getAccounts(req, res, next) {
     try {
       const data = await accountService.getAccounts(req.body)
