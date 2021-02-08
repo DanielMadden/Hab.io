@@ -17,14 +17,15 @@ export const AppState = reactive({
   groupImages: [],
   // Active Variables
   activeGroup: {},
+  activeAccount: {},
   activeGroupHabits: [],
   activeGroupMessages: [],
   activeGroupMembers: [],
   activeGroupInfo: {}, // (when viewing group modal on home)
   activeHabit: {}, // (when viewing habit modal on groupdetails)
   // Visual Variables
-  darken: true,
+  darken: false,
   showMyGroups: false,
-  showModal: true,
-  showGroupInfo: true
+  showModal: false,
+  showGroupInfo: false
 })

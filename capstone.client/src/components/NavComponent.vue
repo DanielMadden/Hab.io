@@ -52,7 +52,7 @@ export default {
       showMyGroups,
       travelHome,
       travel() {
-        router.push({ path: '/account/' + account.value.name })
+        router.push({ path: '/account/' + account.value.email })
       }
     }
   }
