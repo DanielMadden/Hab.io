@@ -10,7 +10,7 @@
       >
     </div>
     <div class="search-results">
-      <AccountSearchResultComponent :v-for="profile in state.searchResults" :key="profile.id" :profile-prop="profile" />
+      <AccountSearchResultComponent :v-for="account in state.searchResults" :key="account.id" :account-prop="account" />
     </div>
     <div class="myModal-footer">
       <button id="myModal-button-join-group"
