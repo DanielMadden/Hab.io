@@ -5,15 +5,21 @@
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
           <div class="d-flex" id="social-stats">
-            <p class="px-1">
+            <p class="px-1" data-toggle="modal" data-target="#following">
+              <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
+                Launch
+              </button> -->
               Following <span class="font-weight-bold">100</span>
             </p>
-            <p class="px-1">
+            <AccountFollowingComponent />
+            <p class="px-1" data-toggle="modal" data-target="#followers">
               Followers <span class="font-weight-bold">100</span>
             </p>
-            <p class="px-1">
+            <AccountFollowersComponent />
+            <p class="px-1" data-toggle="modal" data-target="#groups">
               Groups <span class="font-weight-bold">100</span>
             </p>
+            <AccountGroupsComponent />
           </div>
           <div id="main-info">
             <div class="card card-1">
@@ -21,7 +27,7 @@
                 <p class="card-text mb-0">
                   Name
                 </p>
-                <h3 class="card-title">
+                <h3 class="card-title" contenteditable="true" @blur="editName()">
                   {{ account.name }}
                 </h3>
                 <p class="card-text mb-0 pt-1">
@@ -52,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row border-bottom" id="badges-row">
         <h4 class="pt-3">
           Badges
         </h4>
@@ -60,7 +66,7 @@
           <img :src="badge.imageUrl">
         </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modelId">
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modelId" id="see-badges">
           see all
         </button>
         <BadgesModalComponent />
@@ -70,14 +76,23 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
+import { accountService } from '../services/AccountService'
 export default {
   name: 'Account',
   setup() {
+    onMounted(() => {
+      try {
+        accountService.getGroups()
+      } catch (error) {
+        logger(error)
+      }
+    })
     return {
       account: computed(() => AppState.account),
-      level: computed(() => AppState.account.will / 100)
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will)))
     }
   }
 }
@@ -93,18 +108,25 @@ img {
 #main-info {
   position: absolute;
   left: 25vw;
-  top: 7vh
+  top: 5vh
 }
 #row-1 {
   height: 30vh
 }
 #account-stats {
   position: absolute;
-  top: 7vh
+  top: 5vh
 }
 #social-stats {
   position: absolute;
   top: 25vh;
+}
+#badges-row {
+  height: 25vh
+}
+#see-badges {
+  position: absolute;
+  right: 1vw;
 }
 @import '../assets/css/global.css';
 </style>

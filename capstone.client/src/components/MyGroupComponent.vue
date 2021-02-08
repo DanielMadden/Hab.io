@@ -1,20 +1,30 @@
 <template lang="">
   <div class="myGroups-group"
-       :style="`background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url('https://wallpaperaccess.com/full/30100.jpg') no-repeat center center /cover; overflow-y: hidden`"
+       :style="`background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
+       @click="travel"
   >
-    <h3>This is a group</h3>
+    <h3 class="myGroups-name">
+      {{ group.name }}
+    </h3>
   </div>
 </template>
 <script>
+import { useRouter } from 'vue-router'
+import { groupService } from '../services/GroupService'
 export default {
-  // props: {
-  //   group: {
-  //     type: Object,
-  //     required: true
-  //   }
-  // }
-  setup() {
-    return {}
+  props: {
+    group: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    const router = useRouter()
+    const travel = () => {
+      router.push('/group/' + props.group.id)
+      groupService.getGroup(props.group.id, true)
+    }
+    return { travel }
   }
 }
 </script>

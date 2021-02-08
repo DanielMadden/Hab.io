@@ -1,26 +1,31 @@
-<template>
-  <div id="group-main" class="container-fluid">
-    <div class="row">
-      <div class="col-8 bg-dark">
-      </div>
-      <div class="col-4">
-        <ul>
-          <li v-for="member in members" :key="member.id">
-            {{ member.name }}
-          </li>
-        </ul>
-      </div>
+<template lang="">
+  <div id="group-details">
+    Hello group details:
+    {{ group }}
+    <div style="color:red">
+      {{ groupMembers }}
     </div>
   </div>
 </template>
 <script>
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { groupService } from '../services/GroupService'
+import { AppState } from '../AppState'
+import { groupMemberService } from '../services/GroupMemberService'
 export default {
-
+  setup() {
+    const route = useRoute()
+    onMounted(() => {
+      groupService.getGroup(route.params.id, true)
+      groupMemberService.getGroupMembers(route.params.id)
+    })
+    const group = computed(() => AppState.activeGroup)
+    const groupMembers = computed(() => AppState.activeGroupMembers)
+    return { group, groupMembers }
+  }
 }
 </script>
-<style>
-@import '../assets/css/global.css';
-.row {
-  height: 100%;
-}
+<style lang="">
+
 </style>
