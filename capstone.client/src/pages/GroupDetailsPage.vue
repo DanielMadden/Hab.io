@@ -86,7 +86,7 @@ export default {
       groupMemberService.getGroupMembers(route.params.id)
       habitService.getGroupHabits(route.params.id)
     })
-    return { group, groupMembers, focus, noFocus, addHabit, habits }
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal }
   }
 }
 </script>
