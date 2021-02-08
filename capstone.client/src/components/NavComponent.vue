@@ -17,7 +17,7 @@
         </h4>
       </button>
       <img v-if="user.isAuthenticated"
-           @click="showGroups"
+           @click="travel"
            :src="user.picture"
            id="nav-profile-image"
            class="nav-item"
@@ -30,6 +30,7 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import { useRouter } from 'vue-router'
 export default {
   setup() {
     const account = computed(() => AppState.account)
@@ -37,8 +38,16 @@ export default {
     const login = () => { AuthService.loginWithPopup() }
     const logout = async() => { await AuthService.logout({ returnTo: window.location.origin }) }
     const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true }
+    const router = useRouter()
     return {
-      account, user, login, logout, showMyGroups
+      account,
+      user,
+      login,
+      logout,
+      showMyGroups,
+      travel() {
+        router.push({ path: '/account/' + account.value.name })
+      }
     }
   }
 }
