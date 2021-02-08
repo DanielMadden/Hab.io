@@ -27,5 +27,6 @@ export const AppState = reactive({
   darken: false,
   showMyGroups: false,
   showModal: false,
-  showGroupInfo: false
+  showGroupInfo: false,
+  showAddGroupForm: false
 })
