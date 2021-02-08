@@ -1,9 +1,9 @@
 #myModal-container {
   /* Variables */
-  --container-height: 90%;
+  --container-height: fit-content;
   --container-width: calc(25% + 15em);
   --footer-height: 4em;
-  --frame-height: calc(100% - var(--footer-height));
+  --frame-height: fit-content;
   --padding: 1em;
   /* Styling */
   background-color: white;

@@ -21,8 +21,6 @@
 </template>
 <script>
 import { reactive } from 'vue'
-import { logger } from '../utils/Logger'
-import { accountService } from '../services/AccountService'
 export default {
   setup() {
     const state = reactive({
