@@ -24,8 +24,7 @@ const routes = [
   {
     path: '/account/:email',
     name: 'Account',
-    component: loadPage('AccountPage'),
-    beforeEnter: authGuard
+    component: loadPage('AccountPage')
   }
 ]
 
