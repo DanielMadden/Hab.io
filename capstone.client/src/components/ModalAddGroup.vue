@@ -20,7 +20,7 @@
     <div class="myModal-footer">
       <button
       id="myModal-button-join-group"
-      class="myModal-button"
+      class="myModal-button disabledButton"
       disabled="true"
       type="submit"
       >
@@ -42,9 +42,6 @@ export default {
       imageUrl: '',
       private: false
     })
-    const state = reactive({
-      canSubmit: false
-    })
     const potentialImages = computed(() => AppState.groupImages)
     const groupInfo = computed(() => AppState.activeGroupInfo)
     const createGroup = () => {
@@ -54,20 +51,21 @@ export default {
     return {
       groupInfo,
       createGroup,
-      state,
       form,
       potentialImages,
       async getImages(e) {
         await groupService.getImagesForGroup(e.target.value)
         const elements = document.getElementsByClassName('imageResize')
-        elements[0].classList.add('highlightImage')
-        document.getElementById('myModal-button-join-group').disabled = false
+        if (elements.length > 0) {
+          elements[0].classList.add('highlightImage')
+          document.getElementById('myModal-button-join-group').disabled = false
+          document.getElementById('myModal-button-join-group').classList.remove('disabledButton')
+        }
       },
       highlightImage(e) {
         const imgs = e.target.parentNode.parentNode.parentNode.querySelectorAll('img')
         imgs.forEach(i => i.classList.remove('highlightImage'))
         e.target.classList.add('highlightImage')
-        console.log(e)
       }
     }
   }
@@ -85,5 +83,9 @@ export default {
   height: 266px;
   margin: auto;
   display: block;
+}
+
+.disabledButton {
+  background-color:#d2d2d2;
 }
 </style>
