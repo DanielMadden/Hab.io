@@ -32,7 +32,7 @@ export class AccountController extends BaseController {
 
   async getAccountsByQuery(req, res, next) {
     try {
-      const data = await accountService.getAccountByQuery(req.query)
+      const data = await accountService.getAccountsByQuery(req.query)
       res.send(data)
     } catch (error) {
       next(error)
