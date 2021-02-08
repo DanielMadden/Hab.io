@@ -36,12 +36,12 @@
   transition: all var(--transition-overlay);
 }
 
-#myModal-container.show {
+#myModal-screen.show {
   pointer-events: auto;
   opacity: 1
 }
 
-#myModal-container.hide {
+#myModal-screen.hide {
   pointer-events: none;
   opacity: 0
 }

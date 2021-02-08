@@ -1,8 +1,9 @@
 <template>
   <div id="myModal-screen"
        class="d-flex justify-content-center py-5"
+       :class="{'show': showModal, 'hide': !showModal}"
   >
-    <div id="myModal-container" :class="{'show': showModal, 'hide': !showModal}">
+    <div id="myModal-container">
       <!-- Insert all modal components here with their respective v-if's -->
       <modal-group-info v-if="modalChoice.groupInfo"></modal-group-info>
       <modal-add-group v-if="modalChoice.addGroup"></modal-add-group>
