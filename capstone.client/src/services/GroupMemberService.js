@@ -14,6 +14,10 @@ class GroupMemberService {
     await api.post(baseURL, { memberId: accountId, groupId: groupId })
   }
 
+  async sendGroupInvite(inviteeId, groupId) {
+    await api.post(baseURL, { memberId: inviteeId, groupId: groupId })
+  }
+
   async leaveGroup(accountId, groupId) {
     await api.delete(baseURLQuery + 'accountId=' + accountId + '&groupId=' + groupId)
   }
