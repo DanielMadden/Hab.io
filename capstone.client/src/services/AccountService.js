@@ -29,6 +29,8 @@ class AccountService {
     } catch (error) {
       logger.error(error)
     }
+  }
+
   async getGroups(email) {
     const account = await api.get('/account/query?email=' + email)
     const res = await api.get('/account/' + account.data.id + '/groups')
