@@ -12,7 +12,8 @@ export class AccountController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
-      .get('/query', this.getAccounts)
+      // .get('', this.getAccounts)
+      .get('/query', this.getAccountByQuery)
       .get('/:id/groups', this.getGroupsByAccountId)
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
