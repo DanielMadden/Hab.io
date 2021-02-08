@@ -5,6 +5,7 @@ import router from '../router'
 import { setBearer } from './AxiosService'
 import { accountService } from './AccountService'
 import { groupService } from './GroupService'
+import { groupMemberService } from './GroupMemberService'
 
 export const AuthService = initialize({
   domain,
@@ -25,4 +26,5 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
   AppState.user = AuthService.user
   // NOTE if there is something you want to do once the user is authenticated, place that here
   groupService.getAccountGroups(AppState.account.id, true)
+  groupMemberService.getGroupMembers(AppState.account.id)
 })
