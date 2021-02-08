@@ -12,6 +12,7 @@ export default {
       AppState.showMyGroups = false
       AppState.showModal = false
       AppState.showGroupInfo = false
+      AppState.showAddGroupForm = false
     }
     return { darken, lighten }
   }

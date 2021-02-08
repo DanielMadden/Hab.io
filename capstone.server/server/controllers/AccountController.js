@@ -87,8 +87,8 @@ export class AccountController extends BaseController {
   async edit(req, res, next) {
     try {
       const accountUpdate = {}
-      accountUpdate.name = req.body.name
-      accountUpdate.picture = req.body.picture
+      if (req.body.name) { accountUpdate.name = req.body.name }
+      if (req.body.picture) { accountUpdate.picture = req.body.picture }
       const data = await accountService.edit(accountUpdate, req.userInfo.id)
       res.send(data)
     } catch (error) {
