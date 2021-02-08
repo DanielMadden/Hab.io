@@ -9,6 +9,7 @@ export class GroupMemberController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
+      .post('/invite', this.inviteToPrivateGroup)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
   }
