@@ -21,6 +21,24 @@ class AccountService {
     }
   }
 
+  async getGroups(email) {
+    const account = await api.get('/account/query?email=' + email)
+    const res = await api.get('/account/' + account.data.id + '/groups')
+    AppState.accountGroups = res.data
+  }
+
+  async getFollowers(email) {
+    const account = await api.get('/account/query?email=' + email)
+    const res = await api.get('/account/' + account.data.id + '/followers')
+    AppState.accountFollowers = res.data
+  }
+
+  async getFollowing(email) {
+    const account = await api.get('/account/query?email=' + email)
+    const res = await api.get('/account/' + account.data.id + '/followees')
+    AppState.accountFollowing = res.data
+  }
+
   async getGroupMembersByAccountId(id) {
     try {
       const res = await api.get('/account/' + id + '/groupMembers')
@@ -38,9 +56,13 @@ class AccountService {
     }
   }
 
-  // async getGroups(id) {
-  //   console.log(id)
-  // }
+  async editProfile(body) {
+    try {
+      await api.put('/account/' + body.id, body)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 }
 
 export const accountService = new AccountService()
