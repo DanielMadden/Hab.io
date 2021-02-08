@@ -32,7 +32,7 @@ class GroupService {
   }
 
   async edit(update) {
-    const group = await dbContext.Groups.findOneAndUpdate({ _id: update.id }, update, { new: true }).populate('creator')
+    const group = await dbContext.Groups.findOneAndUpdate({ _id: update.id }, { imageUrl: update.imageUrl, name: update.name }, { new: true }).populate('creator')
     if (!group) {
       throw new BadRequest('You are not the user, or this is not a valid group')
     }
