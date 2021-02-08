@@ -5,6 +5,7 @@ import { habitService } from '../services/HabitService'
 import { followService } from '../services/FollowService'
 import BaseController from '../utils/BaseController'
 import { groupService } from '../services/GroupService'
+import { groupMemberService } from '../services/GroupMemberService'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -13,6 +14,7 @@ export class AccountController extends BaseController {
       .get('/query', this.getAccountsByQuery)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
+      .get('/:id/groupMembers', this.getGroupMembersByAccountId)
       // .get('', this.getAccounts)
       .get('/:id/groups', this.getGroupsByAccountId)
       .get('/:id/habits', this.getHabitsByAccountId)
@@ -50,7 +52,16 @@ export class AccountController extends BaseController {
 
   async getGroupsByAccountId(req, res, next) {
     try {
-      const data = await groupService.getGroupsByAccountId(req.params.id)
+      const data = await groupService.getGroupsByAccountId(req.userInfo.id)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getGroupMembersByAccountId(req, res, next) {
+    try {
+      const data = await groupMemberService.getGroupMembersByAccountId(req.userInfo.id)
       res.send(data)
     } catch (error) {
       next(error)
@@ -87,8 +98,8 @@ export class AccountController extends BaseController {
   async edit(req, res, next) {
     try {
       const accountUpdate = {}
-      accountUpdate.name = req.body.name
-      accountUpdate.picture = req.body.picture
+      if (req.body.name) { accountUpdate.name = req.body.name }
+      if (req.body.picture) { accountUpdate.picture = req.body.picture }
       const data = await accountService.edit(accountUpdate, req.userInfo.id)
       res.send(data)
     } catch (error) {

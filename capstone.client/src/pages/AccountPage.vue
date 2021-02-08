@@ -1,6 +1,6 @@
 <template>
   <div class="about" id="home">
-    <div class="container">
+    <div class="container" v-if="account">
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
@@ -27,11 +27,11 @@
                 <p class="card-text mb-0">
                   Name
                 </p>
-                <h3 class="card-title" contenteditable="true" @blur="editName()">
+                <h3 class="card-title" contenteditable="true" @blur="editName">
                   {{ account.name }}
                 </h3>
                 <p class="card-text mb-0 pt-1">
-                  email
+                  Email
                 </p>
                 <h3 class="card-title">
                   {{ account.email }}
@@ -85,12 +85,15 @@ export default {
   setup() {
     const route = useRoute()
     onMounted(() => {
-      accountService.getAccount(route.params.name)
+      accountService.getSelected(route.params.email)
       // accountService.getGroups()
     })
     return {
-      account: computed(() => AppState.account),
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will)))
+      account: computed(() => AppState.activeAccount[0]),
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
+      editName(e) {
+        accountService.edit(this.account.id, e.target.innerText)
+      }
     }
   }
 }

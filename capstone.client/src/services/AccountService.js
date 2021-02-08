@@ -12,10 +12,27 @@ class AccountService {
     }
   }
 
-  async getSelected(name) {
+  async getSelected(email) {
     try {
-      const res = await api.get('/')
+      const res = await api.get('/account/query?email=' + email)
       AppState.activeAccount = res.data
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  async getGroupMembersByAccountId(id) {
+    try {
+      const res = await api.get('/account/' + id + '/groupMembers')
+      AppState.myGroupMembers = res.data
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  async edit(id, name) {
+    try {
+      await api.put('/account/' + id, { name: name })
     } catch (error) {
       logger.error(error)
     }

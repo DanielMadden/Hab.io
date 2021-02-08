@@ -3,7 +3,7 @@ import { dbContext } from '../db/DbContext'
 
 class BadgeService {
   async getAll() {
-    return await dbContext.Badges
+    return await dbContext.Badges.find()
   }
 
   async create(body) {

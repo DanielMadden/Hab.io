@@ -23,6 +23,16 @@ export class GroupMemberController extends BaseController {
     }
   }
 
+  async inviteToPrivateGroup(req, res, next) {
+    try {
+      req.body.status = 'Pending'
+      const data = await groupMemberService.inviteToPrivateGroup(req.body, req.userInfo.id)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async edit(req, res, next) {
     try {
       const data = await groupMemberService.edit(req.params.id, req.body.status, req.userInfo.id)

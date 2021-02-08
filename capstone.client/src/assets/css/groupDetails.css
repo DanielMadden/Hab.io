@@ -1,0 +1,35 @@
+#group-details {
+  --sidebar-width: 25em;
+  --members-height: 50%;
+}
+
+#group-habits {
+  position: absolute;
+  left: 0;
+  width: calc(100% - var(--sidebar-width));
+  height: 100%;
+}
+
+#group-sidebar {
+  position: absolute;
+  right: 0;
+  width: var(--sidebar-width);
+  height: 100%;
+}
+
+#group-members {
+  position: absolute;
+  top: 0;
+  height: var(--members-height);
+  width: 100%;
+}
+
+#group-chat {
+  /* Top and height is dependent on the height of #group-members */
+  position: absolute;
+  top: var(--members-height);
+  height: calc(100% - var(--members-height));
+  width: 100%;
+  /* Styling */
+  background-color: gray
+}

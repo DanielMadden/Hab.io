@@ -25,4 +25,5 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
   AppState.user = AuthService.user
   // NOTE if there is something you want to do once the user is authenticated, place that here
   groupService.getAccountGroups(AppState.account.id, true)
+  accountService.getGroupMembersByAccountId(AppState.account.id)
 })
