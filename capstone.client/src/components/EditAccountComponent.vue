@@ -7,7 +7,7 @@
 
     <!-- Modal -->
     <div class="modal fade"
-         id="modelId"
+         id="edit-modal"
          tabindex="-1"
          role="dialog"
          aria-labelledby="modelTitleId"

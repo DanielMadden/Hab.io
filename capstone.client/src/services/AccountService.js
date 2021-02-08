@@ -49,6 +49,12 @@ class AccountService {
     AppState.accountFollowing = res.data
   }
 
+  async getHabits(email) {
+    const account = await api.get('/account/query?email=' + email)
+    const res = await api.get('/account/' + account.data.id + '/habits')
+    AppState.accountHabits = res.data
+  }
+
   async getGroupMembersByAccountId(id) {
     try {
       const res = await api.get('/account/' + id + '/groupMembers')

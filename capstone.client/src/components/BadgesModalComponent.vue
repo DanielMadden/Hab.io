@@ -18,7 +18,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body d-flex justify-content-around">
             <div v-for="badge in badges" :key="badge.name">
               <img :src="badge.imageUrl">
             </div>
