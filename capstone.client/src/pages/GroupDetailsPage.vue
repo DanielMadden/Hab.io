@@ -1,9 +1,23 @@
 <template lang="">
   <div id="group-details">
-    Hello group details:
+    <!-- Hello group details:
     {{ group }}
     <div style="color:red">
       {{ groupMembers }}
+    </div> -->
+    <div id="group-habits"
+         :style="`background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
+    >
+    </div>
+    <div id="group-sidebar">
+      <div id="group-members"
+           @mouseover="focus('members')"
+           @mouseout="noFocus()"
+      ></div>
+      <div id="group-chat"
+           @mouseover="focus('chat')"
+           @mouseout="noFocus()"
+      ></div>
     </div>
   </div>
 </template>
@@ -22,10 +36,14 @@ export default {
     })
     const group = computed(() => AppState.activeGroup)
     const groupMembers = computed(() => AppState.activeGroupMembers)
-    return { group, groupMembers }
+    const focus = (section) => {
+      const css = document.querySelector('#group-details').style
+      section === 'members' ? css.setProperty('--members-height', '75%') : css.setProperty('--members-height', '25%')
+    }
+    return { group, groupMembers, focus }
   }
 }
 </script>
-<style lang="">
-
+<style>
+@import "../assets/css/groupDetails.css";
 </style>
