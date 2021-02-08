@@ -1,32 +1,33 @@
 <template>
   <div class="myModal-content">
-    <form id="formatForm"  @submit.prevent="createGroup">
-    <div class="myModal-frame dark-scrollbar">
-      <input type="text" v-model="form.name" @blur="getImages($event)" required="true"/>
-      <input type="text" v-model="form.description" required="true" />
-      <input type="checkbox" v-model="form.private" />
-      <div class="container">
-        <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
-          <div class="col justify-content-center" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
-            <img
-            class="imageResize"
-            :src="img.imageURL"
-            :alt="img.name"
-            v-on:click="highlightImage($event)" />
+    <form id="formatForm" @submit.prevent="createGroup">
+      <div class="myModal-frame dark-scrollbar">
+        <input type="text" v-model="form.name" @blur="getImages($event)" required="true" />
+        <input type="text" v-model="form.description" required="true" />
+        <input type="checkbox" v-model="form.private" />
+        <div class="container">
+          <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
+            <div class="col justify-content-center" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
+              <img
+                class="imageResize"
+                :src="img.imageURL"
+                :alt="img.name"
+                @click="highlightImage($event)"
+              />
+            </div>
           </div>
         </div>
-    </div>
-    </div>
-    <div class="myModal-footer">
-      <button
-      id="myModal-button-join-group"
-      class="myModal-button disabledButton"
-      disabled="true"
-      type="submit"
-      >
-        Add Group
-      </button>
-    </div>
+      </div>
+      <div class="myModal-footer">
+        <button
+          id="myModal-button-join-group"
+          class="myModal-button disabledButton"
+          disabled="true"
+          type="submit"
+        >
+          Add Group
+        </button>
+      </div>
     </form>
   </div>
 </template>

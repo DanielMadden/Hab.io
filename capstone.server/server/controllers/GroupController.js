@@ -14,9 +14,9 @@ export class GroupController extends BaseController {
       .get('/:id', this.getById)
       .get('/:id/groupMembers', this.getGroupMembersByGroupId) // TODO: This should use auth and check if the caller belongs to the group
       .get('/:id/activeGroupMember', this.getActiveGroupMember) // TODO: This should use auth and check if the caller belongs to the group
+      .get('/:id/habits', this.getHabitsByGroupId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/:id/messages', this.getMessagesByGroupId)
-      .get('/:id/habits', this.getHabitsByGroupId)
       .post('', this.create)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
@@ -70,7 +70,8 @@ export class GroupController extends BaseController {
 
   async getHabitsByGroupId(req, res, next) {
     try {
-      const data = await habitService.getHabitsByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
+      // const data = await habitService.getHabitsByGroupId({ groupId: req.params.id }, req.userInfo.id, req.params.id)
+      const data = await habitService.getHabitsByGroupId({ groupId: req.params.id })
       res.send(data)
     } catch (error) {
       next(error)

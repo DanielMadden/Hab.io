@@ -9,7 +9,8 @@ const Habits = new Schema(
     days: { type: [String], enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] },
     frequency: { type: Number, required: true },
     difficulty: { type: Number, required: true },
-    completed: { type: [String] }
+    completed: { type: [String] },
+    desription: { type: String, default: 'No description provided' }
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
