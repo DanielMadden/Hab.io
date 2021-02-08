@@ -7,26 +7,27 @@ export class GroupMemberController extends BaseController {
   constructor() {
     super('api/groupMembers')
     this.router
-      .get('/:id', this.getOne)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
+      .post('/invite', this.inviteToPrivateGroup)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
-  }
-
-  async getOne(req, res, next) {
-    try {
-      const data = await groupMemberService.getOne(req.params.id)
-      res.send(data)
-    } catch (error) {
-      next(error)
-    }
   }
 
   async create(req, res, next) {
     try {
       req.body.status = 'Member'
       const data = await groupMemberService.create(req.body)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async inviteToPrivateGroup(req, res, next) {
+    try {
+      req.body.status = 'Pending'
+      const data = await groupMemberService.inviteToPrivateGroup(req.body, req.userInfo.id)
       res.send(data)
     } catch (error) {
       next(error)
