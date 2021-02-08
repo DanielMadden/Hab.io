@@ -20,7 +20,7 @@
       </button>
       <img v-if="user.isAuthenticated"
            @click="travel"
-           :src="user.picture"
+           :src="account.picture"
            id="nav-profile-image"
            class="nav-item"
       />

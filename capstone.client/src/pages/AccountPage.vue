@@ -4,6 +4,8 @@
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
+          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#modelId"></i>
+          <EditAccountComponent />
           <div class="d-flex" id="social-stats">
             <p class="px-1" data-toggle="modal" data-target="#following">
               <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
@@ -27,7 +29,7 @@
                 <p class="card-text mb-0">
                   Name
                 </p>
-                <h3 class="card-title" contenteditable="true" @blur="editName">
+                <h3 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
                   {{ account.name }}
                 </h3>
                 <p class="card-text mb-0 pt-1">
@@ -90,6 +92,7 @@ export default {
     })
     return {
       account: computed(() => AppState.activeAccount[0]),
+      currentUser: computed(() => AppState.account),
       level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
@@ -128,6 +131,11 @@ img {
 #see-badges {
   position: absolute;
   right: 1vw;
+}
+.fa-user-edit {
+  position: absolute;
+  top: 4vh;
+  left: 7vw;
 }
 @import '../assets/css/global.css';
 </style>
