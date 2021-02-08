@@ -17,6 +17,7 @@ export const AppState = reactive({
   groupImages: [],
   // Active Variables
   activeGroup: {},
+  activeAccount: {},
   activeGroupHabits: [],
   activeGroupMessages: [],
   activeGroupMembers: [],

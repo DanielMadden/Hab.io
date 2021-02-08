@@ -4,6 +4,7 @@
       <input type="text" v-model="form.name" @blur="getImages($event)" />
       <input type="text" v-model="form.description" />
       <input type="text" v-model="form.imageUrl" />
+      <input type="checkbox" v-model="form.private" />
       {{ form }}
       <img v-for="img in potentialImages" :key="img.name" :src="img.imageURL" :alt="img.name" />
     </div>

@@ -56,6 +56,12 @@ class AccountService {
     return account
   }
 
+  async getAccountsByQuery(query = {}) {
+    console.log(query)
+    const accounts = await dbContext.Account.find(query)
+    return accounts
+  }
+
   /**
    * Provided an array of user ids will return an array of user accounts with email picture and name
    * @param {String[]} ids Array of email addresses to lookup users by

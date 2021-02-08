@@ -77,18 +77,16 @@
 
 <script>
 import { computed, onMounted } from 'vue'
-import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
+import { useRoute } from 'vue-router'
 import { accountService } from '../services/AccountService'
 export default {
   name: 'Account',
   setup() {
+    const route = useRoute()
     onMounted(() => {
-      try {
-        accountService.getGroups()
-      } catch (error) {
-        logger(error)
-      }
+      accountService.getAccount(route.params.name)
+      // accountService.getGroups()
     })
     return {
       account: computed(() => AppState.account),

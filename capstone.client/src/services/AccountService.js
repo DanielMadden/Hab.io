@@ -12,6 +12,15 @@ class AccountService {
     }
   }
 
+  async getSelected(name) {
+    try {
+      const res = await api.get('/')
+      AppState.activeAccount = res.data
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   // async getGroups(id) {
   //   console.log(id)
   // }

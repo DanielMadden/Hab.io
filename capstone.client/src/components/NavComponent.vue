@@ -19,7 +19,7 @@
         </h4>
       </button>
       <img v-if="user.isAuthenticated"
-           @click="showGroups"
+           @click="travel"
            :src="user.picture"
            id="nav-profile-image"
            class="nav-item"
@@ -45,7 +45,15 @@ export default {
     const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true; getMyGroups() }
     const travelHome = () => { router.push('/') }
     return {
-      account, user, login, logout, showMyGroups, travelHome
+      account,
+      user,
+      login,
+      logout,
+      showMyGroups,
+      travelHome,
+      travel() {
+        router.push({ path: '/account/' + account.value.email })
+      }
     }
   }
 }

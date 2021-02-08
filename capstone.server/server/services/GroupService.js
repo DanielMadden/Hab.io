@@ -9,8 +9,8 @@ class GroupService {
     return await dbContext.Groups.find({ _id: { $in: groupIds } })
   }
 
-  async find(query = {}) {
-    const groups = await dbContext.Groups.find(query).populate('creator')
+  async getAll(query = {}) {
+    const groups = await dbContext.Groups.find({ ...query, private: false }).populate('creator')
     return groups
   }
 
