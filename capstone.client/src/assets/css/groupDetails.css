@@ -1,6 +1,7 @@
 #group-details {
   --sidebar-width: 25em;
   --members-height: 50%;
+  --transition-time: .3s;
 }
 
 #group-habits {
@@ -10,6 +11,10 @@
   height: 100%;
 }
 
+#group-name {
+  color: white;
+}
+
 #group-sidebar {
   position: absolute;
   right: 0;
@@ -17,11 +22,21 @@
   height: 100%;
 }
 
+.group-sidebars {
+  transition: all var(--transition-time)
+}
+
 #group-members {
   position: absolute;
   top: 0;
   height: var(--members-height);
   width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+#group-members:hover {
+  overflow: auto;
 }
 
 #group-chat {
@@ -31,5 +46,5 @@
   height: calc(100% - var(--members-height));
   width: 100%;
   /* Styling */
-  background-color: gray
+  background-color: rgba(0, 0, 0, 0.8)
 }
