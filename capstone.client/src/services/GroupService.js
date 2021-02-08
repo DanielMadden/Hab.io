@@ -14,7 +14,6 @@ class GroupService {
 
   async getAccountGroups(accountId, myAccount = false) {
     const res = await api.get('account/' + accountId + '/groups')
-    console.log(res)
     myAccount ? AppState.myGroups = res.data : AppState.accountGroups = res.data
   }
 

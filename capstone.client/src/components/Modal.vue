@@ -1,10 +1,7 @@
 <template>
   <div id="myModal-container" :class="{'show': showModal, 'hide': !showModal}">
-    <!-- <div id="modal-frame"> -->
+    <!-- Insert all modal components here with their respective v-if's -->
     <modal-group-info v-if="showGroupInfo"></modal-group-info>
-    <!-- </div> -->
-    <!-- <div id="modal-footer">
-    </div> -->
   </div>
 </template>
 <script>

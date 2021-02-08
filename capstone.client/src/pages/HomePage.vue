@@ -1,15 +1,15 @@
 <template>
   <div
     id="home"
-    class="container-fluid"
+    class="container-fluid dark-scrollbar"
   >
     <div class="row px-3 pt-3">
-      <h1 class="px-3 pt-3">
+      <h1 class="page-title px-3 pt-3">
         Explore
       </h1>
     </div>
     <div class="row px-3 pb-3">
-      <div class="col-3 px-3" v-for="group in groups" :key="group.id">
+      <div class="col-4 px-3" v-for="group in groups" :key="group.id">
         <group-component :group="group"></group-component>
       </div>
     </div>
@@ -32,13 +32,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-// .home {
-//   text-align: center;
-//   user-select: none;
-//   > img {
-//     height: 200px;
-//     width: 200px;
-//   }
-// }
+<style scoped>
+@import "../assets/css/global.css";
 </style>

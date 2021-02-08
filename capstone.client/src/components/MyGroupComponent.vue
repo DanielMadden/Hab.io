@@ -1,11 +1,16 @@
 <template lang="">
   <div class="myGroups-group"
-       :style="`background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
+       :style="`background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
+       @click="travel"
   >
-    <h3>{{ group.name }}</h3>
+    <h3 class="myGroups-name">
+      {{ group.name }}
+    </h3>
   </div>
 </template>
 <script>
+import { useRouter } from 'vue-router'
+import { groupService } from '../services/GroupService'
 export default {
   props: {
     group: {
@@ -13,8 +18,13 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const router = useRouter()
+    const travel = () => {
+      router.push('/group/' + props.group.id)
+      groupService.getGroup(props.group.id, true)
+    }
+    return { travel }
   }
 }
 </script>

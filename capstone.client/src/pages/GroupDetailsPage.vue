@@ -19,6 +19,7 @@ export default {
     onMounted(() => {
       groupService.getGroup(route.params.id, true)
       groupMemberService.getGroupMembers(route.params.id)
+      console.log('mounted')
     })
     const group = computed(() => AppState.activeGroup)
     const groupMembers = computed(() => AppState.activeGroupMembers)

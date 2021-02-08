@@ -1,13 +1,59 @@
 @import "./global.css";
-:root {}
+/* :root {} */
+
+.group {
+  /* Variables */
+  --transition-time: .3s;
+  --padding: 1em;
+}
 
 .group {
   height: 12em;
   width: 100%;
   border-radius: 10px;
   color: white;
-  padding-top: .5em;
-  padding-left: .5em;
   margin-top: 1em;
   margin-bottom: 1em;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-time) ease-in-out
+}
+
+.group-content {
+  padding: var(--padding);
+  position: absolute;
+}
+
+.group-darken {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity var(--transition-time)
+}
+
+.group-name {
+  font-weight: 300;
+  font-size: 35px;
+}
+
+.group-description {
+  font-weight: 100;
+  opacity: 0;
+  transition: all var(--transition-time)
+}
+
+.group:hover {
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
+  transform: translate3d(-5px, -5px, 0px);
+}
+
+.group:hover .group-darken {
+  opacity: 1
+}
+
+.group:hover .group-content .group-description {
+  opacity: 1
 }
