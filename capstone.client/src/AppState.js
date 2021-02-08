@@ -11,6 +11,7 @@ export const AppState = reactive({
   accountBadges: [],
   accountHabits: [],
   accountGroups: [],
+  accountSearchResults: [],
   // Group Variables
   myGroups: [],
   myGroupMembers: [],

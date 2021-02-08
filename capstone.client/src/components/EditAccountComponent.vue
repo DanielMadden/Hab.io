@@ -28,7 +28,9 @@
               <input type="text" placeholder="Name" v-model="state.account.name">
               <input type="text" placeholder="Profile Image" v-model="state.account.picture">
               <input type="text" placeholder="Background Image" v-model="state.account.backgroundImage">
-              <button type="submit" class="btn btn-dark"></button>
+              <button type="submit" class="btn btn-dark">
+                Submit Changes
+              </button>
             </form>
           </div>
           <div class="modal-footer">
@@ -41,20 +43,16 @@
 <script>
 import { reactive, computed } from 'vue'
 import { AppState } from '../AppState'
-// import { accountService } from '../services/AccountService'
+import { accountService } from '../services/AccountService'
 export default {
   setup() {
     const state = reactive({
-      account: computed(() => AppState.account)
-      // newName: '',
-      // newProfileImage: '',
-      // newBackgroundImage: ''
+      account: computed(() => AppState.activeAccount[0])
     })
     return {
       state,
       editProfile() {
-        // accountService.editProfile({ name: state.newName, picture: state.newProfileImage, backgroundImage: state.newBackgroundImage })
-        console.log(state.account)
+        accountService.editProfile(state.account)
       }
     }
   }
