@@ -37,6 +37,9 @@
            @mouseout="noFocus()"
       >
         <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
+        <button type="button" class="btn btn-dark" @click="inviteModal">
+          Invite
+        </button>
       </div>
       <div id="group-chat"
            class="group-sidebars"
@@ -67,6 +70,11 @@ export default {
     const noFocus = () => {
       const sidebarStyle = document.querySelector('#group-details').style
       sidebarStyle.setProperty('--members-height', '50%')
+    }
+    const inviteModal = () => {
+      AppState.darken = true
+      AppState.showModal = true
+      AppState.showInviteModal = true
     }
     const addHabit = () => {
       AppState.darken = true
