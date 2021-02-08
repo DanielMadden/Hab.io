@@ -21,6 +21,15 @@ class AccountService {
     }
   }
 
+  async getGroupMembersByAccountId(id) {
+    try {
+      const res = await api.get('/account/' + id + '/groupMembers')
+      AppState.myGroupMembers = res.data
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   async edit(id, name) {
     try {
       await api.put('/account/' + id, { name: name })
