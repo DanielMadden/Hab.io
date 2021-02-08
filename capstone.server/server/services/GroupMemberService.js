@@ -2,6 +2,10 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class GroupMemberService {
+  getOne(id) {
+    throw new Error('Method not implemented.')
+  }
+
   async getActiveGroupMember(groupId, accountId) {
     return dbContext.GroupMembers.find({ groupId: groupId, memberId: accountId }).populate('memberId')
   }
