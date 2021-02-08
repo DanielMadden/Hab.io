@@ -1,8 +1,10 @@
 import { AppState } from '../AppState'
-import { api } from './AxiosService'
+import GroupImage from '../models/GroupImage'
+import { api, imageApi } from './AxiosService'
 
 const baseURL = '/api/groups/'
-const baseURLQuery = '/api/groups?'
+const imageURL = '/search/photos/?client_id=RZut9BxYX0J7jAX600d6LQtht5hME7AR0RgV1mGoSkU&page=1&query='
+// const baseURLQuery = '/api/groups?'
 
 class GroupService {
   async getPublicGroups() {
@@ -11,7 +13,7 @@ class GroupService {
   }
 
   async getAccountGroups(accountId, myAccount = false) {
-    const res = await api.get(baseURLQuery + 'id=' + accountId)
+    const res = await api.get('account/' + accountId + '/groups')
     myAccount ? AppState.myGroups = res.data : AppState.accountGroups = res.data
   }
 
@@ -31,6 +33,11 @@ class GroupService {
 
   async deleteGroup(groupId) {
     await api.delete(baseURL + groupId)
+  }
+
+  async getImagesForGroup(groupName) {
+    const res = await imageApi.get(imageURL + groupName)
+    AppState.groupImages = res.data.results.map(i => new GroupImage(i))
   }
 }
 

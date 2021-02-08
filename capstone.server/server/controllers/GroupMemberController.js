@@ -16,7 +16,7 @@ export class GroupMemberController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.status = 'Member'
-      const data = groupMemberService.create(req.body)
+      const data = await groupMemberService.create(req.body)
       res.send(data)
     } catch (error) {
       next(error)

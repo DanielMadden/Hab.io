@@ -4,8 +4,9 @@
     <nav-component></nav-component>
   </header>
   <main>
-    <darken-component></darken-component>
-    <my-groups-component></my-groups-component>
+    <darken-modal></darken-modal>
+    <modal-my-groups></modal-my-groups>
+    <modal></modal>
     <router-view v-slot="{ Component }">
       <transition name="route" mode="out-in">
         <component :is="Component" />
@@ -23,9 +24,12 @@
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import NavComponent from './components/NavComponent.vue'
-import MyGroupsComponent from './components/MyGroupsComponent.vue'
+import ModalMyGroups from './components/ModalMyGroups.vue'
+import ModalGroupInfo from './components/ModalGroupInfo.vue'
+import Modal from './components/Modal.vue'
+import DarkenModal from './components/DarkenModal.vue'
 export default {
-  components: { NavComponent, MyGroupsComponent },
+  components: { NavComponent, DarkenModal, ModalMyGroups, ModalGroupInfo, Modal },
   name: 'App',
   setup() {
     const appState = computed(() => AppState)

@@ -1,17 +1,17 @@
 @import "./global.css";
-:root {
+#myGroups-container {
+  /* Variables */
   --container-height: 90%;
   --container-width: 20em;
-}
-
-#myGroups-container {
+  /* Styling */
   background-color: white;
   border-radius: 10px;
   /* Adjusting font size will adjust right, width, and padding (em is dependent on font-size) */
   font-size: 20px;
   width: var(--container-width);
   padding-top: 1em;
-  padding-right: calc(1em - var(--scrollbar-padding));
+  /* padding-right: calc(1em - var(--scrollbar-padding)); */
+  padding-right: 1em;
   padding-left: 1em;
   /* Calculate top variable to vertically center */
   top: calc((100% - var(--container-height)) / 2);
@@ -22,7 +22,7 @@
   transition: right var(--transition-overlay);
   /* Overflow */
   overflow-x: hidden;
-  overflow-y: scroll
+  overflow-y: auto;
 }
 
 #myGroups-container.show {
@@ -34,12 +34,25 @@
 }
 
 .myGroups-group {
+  --padding: 1em;
+  --transition-time: .3s;
   height: 5em;
   width: 100%;
   border-radius: 10px;
   color: white;
-  padding-top: .5em;
-  padding-left: .5em;
+  padding: var(--padding);
   margin-top: 1em;
   margin-bottom: 1em;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-time) ease-in-out
+}
+
+.myGroups-name {
+  font-weight: 300;
+}
+
+.myGroups-group:hover {
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
+  transform: translate3d(-5px, -5px, 0px);
 }
