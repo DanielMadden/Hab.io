@@ -9,7 +9,7 @@ const imageURL = '/search/photos/?client_id=RZut9BxYX0J7jAX600d6LQtht5hME7AR0RgV
 class GroupService {
   async getPublicGroups() {
     const res = await api.get(baseURL)
-    AppState.publicGroups = res.data
+    AppState.publicGroups = res.data.filter(group => group.private === false)
   }
 
   async getAccountGroups(accountId, myAccount = false) {
