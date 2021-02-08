@@ -4,6 +4,7 @@
       <input type="text" v-model="form.name" />
       <input type="text" v-model="form.description" />
       <input type="text" v-model="form.imageUrl" />
+      <input type="checkbox" v-model="form.private" />
       {{ form }}
     </div>
     <div class="myModal-footer">
