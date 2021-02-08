@@ -7,10 +7,20 @@ export class GroupMemberController extends BaseController {
   constructor() {
     super('api/groupMembers')
     this.router
+      .get('/:id', this.getOne)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
+  }
+
+  async getOne(req, res, next) {
+    try {
+      const data = await groupMemberService.getOne(req.params.id)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async create(req, res, next) {
