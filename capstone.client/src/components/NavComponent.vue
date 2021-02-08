@@ -7,11 +7,15 @@
       </h1>
     </div>
     <div class="d-flex justify-content-end align-items-center">
-      <button v-if="!user.isAuthenticated" @click="login">
-        Log In
+      <button v-if="!user.isAuthenticated" @click="login" class="nav-item nav-button">
+        <h4 class="px-3 py-0 m-0">
+          Log In
+        </h4>
       </button>
-      <button v-if="user.isAuthenticated" @click="logout">
-        Log Out
+      <button v-if="user.isAuthenticated" @click="logout" class="nav-item nav-button">
+        <h4 class="px-3 py-0 m-0">
+          Log Out
+        </h4>
       </button>
       <button v-if="user.isAuthenticated" @click="showMyGroups" class="nav-item nav-button">
         <h4 class="px-3 py-0 m-0">
