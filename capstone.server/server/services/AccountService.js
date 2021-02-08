@@ -56,7 +56,8 @@ class AccountService {
     return account
   }
 
-  async getAccountByQuery(query = {}) {
+  async getAccountsByQuery(query = {}) {
+    console.log(query)
     const accounts = await dbContext.Account.find(query)
     return accounts
   }
