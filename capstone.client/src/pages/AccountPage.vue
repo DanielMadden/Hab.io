@@ -4,7 +4,7 @@
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
-          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#modelId"></i>
+          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal"></i>
           <EditAccountComponent />
           <div class="d-flex" id="social-stats">
             <p class="px-1" data-toggle="modal" data-target="#following">
@@ -95,6 +95,7 @@ export default {
       accountService.getGroups(route.params.email)
       accountService.getFollowers(route.params.email)
       accountService.getFollowing(route.params.email)
+      accountService.getHabits(route.params.email)
     })
     return {
       account: computed(() => AppState.activeAccount[0]),
@@ -135,11 +136,12 @@ img {
   top: 25vh;
 }
 #badges-row {
-  height: 25vh
+  height: 20vh
 }
 #see-badges {
   position: absolute;
-  right: 1vw;
+  right: 8vw;
+  top: 45vh
 }
 .fa-user-edit {
   position: absolute;
@@ -147,7 +149,7 @@ img {
   left: 7vw;
 }
 #tasks-row {
-  height: 45vh
+  min-height: 36.5vh
 }
 @import '../assets/css/global.css';
 </style>
