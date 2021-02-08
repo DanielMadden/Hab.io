@@ -10,10 +10,10 @@ export class AccountController extends BaseController {
   constructor() {
     super('account')
     this.router
+      .get('/query', this.getAccountsByQuery)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       // .get('', this.getAccounts)
-      .get('/query', this.getAccountByQuery)
       .get('/:id/groups', this.getGroupsByAccountId)
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
@@ -30,7 +30,7 @@ export class AccountController extends BaseController {
     }
   }
 
-  async getAccountByQuery(req, res, next) {
+  async getAccountsByQuery(req, res, next) {
     try {
       const data = await accountService.getAccountByQuery(req.query)
       res.send(data)
