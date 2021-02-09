@@ -53,6 +53,7 @@ class AccountService {
     const account = await api.get('/account/query?email=' + email)
     const res = await api.get('/account/' + account.data.id + '/habits')
     AppState.accountHabits = res.data
+    console.log(await api.get('/account/' + account.data.id + '/habits'))
   }
 
   async getGroupMembersByAccountId(id) {

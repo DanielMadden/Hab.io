@@ -19,6 +19,7 @@
             </button>
           </div>
           <div class="modal-body">
+            {{ followers }}
           </div>
         </div>
       </div>
@@ -27,7 +28,12 @@
 </template>
 <script>
 export default {
-
+  props: {
+    followers: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 <style scoped>
