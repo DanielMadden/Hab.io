@@ -35,8 +35,13 @@
 import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { groupService } from '../services/GroupService'
+import router from '../router'
+import { logger } from '../utils/Logger'
 export default {
   setup() {
+    const state = reactive({
+      activeGroup: computed(() => AppState.activeGroup)
+    })
     const form = reactive({
       name: '',
       description: '',
@@ -46,10 +51,19 @@ export default {
     const potentialImages = computed(() => AppState.groupImages)
     const groupInfo = computed(() => AppState.activeGroupInfo)
     const createGroup = () => {
-      form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
-      groupService.createGroup(form)
+      try {
+        form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
+        groupService.createGroup(form)
+        AppState.darken = false
+        AppState.showModal = false
+        AppState.showAddGroupForm = false
+        router.push({ name: 'Group', params: { id: state.activeGroup.id } })
+      } catch (error) {
+        logger.error(error)
+      }
     }
     return {
+      state,
       groupInfo,
       createGroup,
       form,

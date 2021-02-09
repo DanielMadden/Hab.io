@@ -24,7 +24,8 @@ class GroupService {
   // api/group/:id/groupmembers
 
   async createGroup(data) {
-    await api.post(baseURL, data)
+    const res = await api.post(baseURL, data)
+    AppState.activeGroup = res.data
   }
 
   async editGroup(data, groupId) {
