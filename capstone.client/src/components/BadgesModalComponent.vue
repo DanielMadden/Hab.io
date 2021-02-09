@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <!-- Modal -->
+  <!-- <div>
+    Modal
     <div class="modal fade"
          id="modelId"
          tabindex="-1"
@@ -25,6 +25,15 @@
           </div>
         </div>
       </div>
+    </div>
+  </div> -->
+  <div class="myModal-content">
+    <div class="myModal-frame dark-scrollbar d-flex justify-content-around">
+      <div v-for="badge in badges" :key="badge.name">
+        <img :src="badge.imageUrl">
+      </div>
+    </div>
+    <div class="myModal-footer">
     </div>
   </div>
 </template>

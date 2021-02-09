@@ -61,7 +61,13 @@
           <img :src="badge.imageUrl">
         </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modelId" id="see-badges">
+        <button type="button"
+                class="btn btn-secondary"
+                data-toggle="modal"
+                data-target="#modelId"
+                id="see-badges"
+                @click="toggleBadges"
+        >
           see all
         </button>
         <Modal />
