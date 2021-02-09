@@ -10,6 +10,7 @@
 </template>
 <script>
 import { useRouter } from 'vue-router'
+import { AppState } from '../AppState'
 import { groupService } from '../services/GroupService'
 import { habitService } from '../services/HabitService'
 export default {
@@ -22,6 +23,8 @@ export default {
   setup(props) {
     const router = useRouter()
     const travel = () => {
+      AppState.showMyGroups = false
+      AppState.darken = false
       router.push('/group/' + props.group.id)
       groupService.getGroup(props.group.id, true)
       habitService.getGroupHabits(props.group.id)
