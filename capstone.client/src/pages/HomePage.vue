@@ -27,6 +27,7 @@
 <script>
 import { computed, onMounted } from 'vue'
 import { groupService } from '../services/GroupService'
+import { badgeService } from '../services/BadgeService'
 import { AppState } from '../AppState'
 import GroupComponent from '../components/GroupComponent.vue'
 export default {
@@ -34,6 +35,7 @@ export default {
   name: 'Home',
   setup() {
     onMounted(() => {
+      badgeService.getBadges()
       groupService.getPublicGroups()
     })
     const groups = computed(() => AppState.publicGroups)

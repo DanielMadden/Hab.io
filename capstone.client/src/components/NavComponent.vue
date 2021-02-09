@@ -38,7 +38,6 @@ import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
-import { badgeService } from '../services/BadgeService'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 
@@ -50,10 +49,8 @@ export default {
     watch(() => state.checkAchievement,
       (val, prevVal) => {
         if (val === true) {
-          badgeService.getBadges()
-          badgeService.getAccountBadges(AppState.account.id)
           console.log(AppState.badges)
-          console.log(AppState.accountBadges)
+          console.log(AppState.account.badges)
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
