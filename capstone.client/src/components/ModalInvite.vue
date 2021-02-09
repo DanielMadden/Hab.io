@@ -1,26 +1,38 @@
 <template>
   <div class="myModal-content">
     <div class="myModal-frame dark-scrollbar">
-      <input type="text"
-             placeholder="Search by name or email"
-             name="invitees"
-             id="invitees"
-             v-model="state.query"
-      >
-      <div class="search-results">
-        <!-- {{ searchResults }} -->
-        <!-- <div v-if="searchResults.length > 0"> -->
-        <account-search-result-component v-for="searchResult in searchResults" :key="searchResult.id" :search-result="searchResult"></account-search-result-component>
-      <!-- </div> -->
+      <div class="row d-flex">
+        <div class="col-12 text-center">
+          <h1>Search for users</h1>
+          <span>{{ state.accountSelectedInvitees }}</span>
+        </div>
+        <div class="col py-1 d-flex justify-content-center border-bottom">
+          <input type="text"
+                 placeholder="Search by name or email"
+                 name="invitees"
+                 id="invitees"
+                 v-model="state.query"
+                 @change="getAccounts"
+          >
+        </div>
+        <div class="col-12 py-1">
+          <div class="search-results">
+            <!-- {{ searchResults }} -->
+            <!-- <div v-if="searchResults.length > 0"> -->
+            <AccountSearchResultComponent v-for="searchResult in searchResults" :key="searchResult.id" :search-result="searchResult">
+            </AccountSearchResultComponent>
+            <!-- </div> -->
+          </div>
+        </div>
+        <div class="myModal-footer">
+          <button id="myModal-button-join-group"
+                  class="myModal-button"
+                  @click="sendInvites"
+          >
+            Invite Selected
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="myModal-footer">
-      <button id="myModal-button-join-group"
-              class="myModal-button"
-              @click="sendInvites"
-      >
-        Invite Selected
-      </button>
     </div>
   </div>
 </template>
@@ -35,7 +47,8 @@ export default {
     const state = reactive({
       query: '',
       selectedInvitees: [],
-      activeGroup: computed(() => AppState.activeGroup)
+      activeGroup: computed(() => AppState.activeGroup),
+      accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees)
 
     })
     watchEffect(() => accountService.getAccountsByQuery(state.query))
@@ -43,13 +56,13 @@ export default {
     return {
       searchResults,
       state,
-      // async getAccounts() {
-      //   try {
-      //     await accountService.getAccountsByQuery(state.query)
-      //   } catch (error) {
-      //     logger.error(error)
-      //   }
-      // },
+      async getAccounts() {
+        try {
+          await accountService.getAccountsByQuery(state.query)
+        } catch (error) {
+          logger.error(error)
+        }
+      },
       async sendInvites() {
         state.selectedInvitees.forEach(invitee => {
           this.sendInvite(invitee.id, state.activeGroup.id)
