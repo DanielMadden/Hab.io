@@ -21,14 +21,28 @@
   </div>
 </template>
 <script>
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
+import router from '../router'
+import { logger } from '../utils/Logger'
 export default {
   setup() {
+    const state = reactive({
+    })
     const groupInfo = computed(() => AppState.activeGroupInfo)
-    const joinGroup = () => { groupMemberService.joinGroup(AppState.account.id, AppState.activeGroupInfo.id) }
-    return { groupInfo, joinGroup }
+    const joinGroup = async() => {
+      try {
+        const newGroupMemeber = await groupMemberService.joinGroup(AppState.account.id, AppState.activeGroupInfo.id)
+        AppState.darken = false
+        AppState.showModal = false
+        AppState.showAddHabitForm = false
+        router.push({ name: 'Group', params: { id: newGroupMemeber.groupId } })
+      } catch (error) {
+        logger.error(error)
+      }
+    }
+    return { state, groupInfo, joinGroup }
   }
 }
 </script>

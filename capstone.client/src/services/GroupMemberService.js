@@ -11,7 +11,8 @@ class GroupMemberService {
   }
 
   async joinGroup(accountId, groupId) {
-    await api.post(baseURL, { memberId: accountId, groupId: groupId })
+    const res = await api.post(baseURL, { memberId: accountId, groupId: groupId })
+    return res.data
   }
 
   async sendGroupInvite(inviteeId, groupId) {
