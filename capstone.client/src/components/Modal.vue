@@ -15,6 +15,7 @@
       <account-groups-component v-if="modalChoice.accountGroups"></account-groups-component>
       <badges-modal-component v-if="modalChoice.badges"></badges-modal-component>
       <edit-account-component v-if="modalChoice.editAccount"></edit-account-component>
+      <modal-habit-info v-if="modalChoice.habitInfo"></modal-habit-info>
     </div>
   </div>
 </template>
@@ -40,15 +41,18 @@ export default {
       followers: computed(() => AppState.showFollowers),
       accountGroups: computed(() => AppState.showAccountGroups),
       editAccount: computed(() => AppState.showEditAccount),
-      badges: computed(() => AppState.showBadges)
+      badges: computed(() => AppState.showBadges),
+      habitInfo: computed(() => AppState.showHabitInfo)
     })
     const close = () => {
       AppState.darken = false
       AppState.showModal = false
       AppState.showMyGroups = false
+      AppState.showGroupInfo = false
       AppState.showAddGroupForm = false
       AppState.showAddHabitForm = false
       AppState.showInviteModal = false
+      AppState.showHabitInfo = false
     }
     return {
       showModal,
