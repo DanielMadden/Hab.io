@@ -73,5 +73,6 @@ export default {
 
 .logo{
   font-family: "Pacifico";
+  cursor: pointer;
 }
 </style>
