@@ -57,8 +57,11 @@
         <h4 class="pt-3">
           Badges
         </h4>
-        <div v-for="badge in account.badges" :key="badge.name">
-          <img :src="badge.imageUrl">
+        <div v-for="badge in state.account.badges" :key="badge.name">
+          <img
+                :src="badge.imageUrl"
+                :alt="badge.name"
+              />
         </div>
         <!-- Button trigger modal -->
         <button type="button"
@@ -91,7 +94,8 @@ export default {
   setup() {
     const route = useRoute()
     const state = reactive({
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will)))
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will))),
+      account: computed(() => AppState.account)
     })
     onMounted(() => {
       accountService.getSelected(route.params.email)
