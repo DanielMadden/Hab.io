@@ -7,9 +7,9 @@
         <input type="checkbox" v-model="form.private" />
         <div class="container">
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
-            <div class="col justify-content-center" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
+            <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
               <img
-                class="imageResize"
+                class="imageResize rounded-lg img-fluid"
                 :src="img.imageURL"
                 :alt="img.name"
                 @click="highlightImage($event)"
@@ -94,8 +94,8 @@ export default {
 }
 
 .imageResize{
-  width: 90%;
-  height: 266px;
+  width: 100%;
+  height: 200px;
   margin: auto;
   display: block;
 }
