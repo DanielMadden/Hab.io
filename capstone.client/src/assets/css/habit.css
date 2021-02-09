@@ -23,6 +23,9 @@
   font-weight: 300;
   font-size: 35px;
 }
+.habit-checkbox.completed{
+  cursor: no-drop;
+}
 
 .habit-checkbox.completed+.habit-name {
   text-decoration: line-through;
