@@ -40,6 +40,7 @@ import { useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import { accountService } from '../services/AccountService'
 
 export default {
   setup() {
@@ -49,24 +50,30 @@ export default {
     watch(() => state.checkAchievement,
       (val, prevVal) => {
         if (val === true) {
-          console.log(AppState.badges)
-          console.log(AppState.account.badges)
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+          if (!AppState.account.badges.some(e => e.name === AppState.achievementName)) {
+            AppState.account.badges.push(AppState.badges.find(b => b.name === AppState.achievementName))
+            accountService.editBadges(AppState.account.id, AppState.account.badges)
+            AppState.checkAchievement = false
 
-          Toast.fire({
-            icon: 'success',
-            title: 'Achievement Unlocked'
-          })
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 6000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: AppState.achievementName
+            })
+          } else {
+            console.log('already have badge')
+          }
         }
       }
     )
