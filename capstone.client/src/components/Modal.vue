@@ -10,6 +10,7 @@
       <modal-add-group v-if="modalChoice.addGroup"></modal-add-group>
       <modal-add-habit v-if="modalChoice.addHabit"></modal-add-habit>
       <modal-invite v-if="modalChoice.invite"></modal-invite>
+      <modal-habit-info v-if="modalChoice.habitInfo"></modal-habit-info>
     </div>
   </div>
 </template>
@@ -26,15 +27,18 @@ export default {
       groupInfo: computed(() => AppState.showGroupInfo),
       addGroup: computed(() => AppState.showAddGroupForm),
       addHabit: computed(() => AppState.showAddHabitForm),
-      invite: computed(() => AppState.showInviteModal)
+      invite: computed(() => AppState.showInviteModal),
+      habitInfo: computed(() => AppState.showHabitInfo)
     })
     const close = () => {
       AppState.darken = false
       AppState.showModal = false
       AppState.showMyGroups = false
+      AppState.showGroupInfo = false
       AppState.showAddGroupForm = false
       AppState.showAddHabitForm = false
       AppState.showInviteModal = false
+      AppState.showHabitInfo = false
     }
     return {
       showModal,
