@@ -53,23 +53,25 @@
           </div>
         </div>
       </div>
-      <div class="row border-bottom" id="badges-row">
-        <h4 class="pt-3">
-          Badges
-        </h4>
-        <div v-for="badge in account.badges" :key="badge.name">
-          <img :src="badge.imageUrl">
+      <div class="row" id="badges-row">
+        <div class="col-12 d-flex justify-content-between">
+          <h4 class="pt-3">
+            Badges
+          </h4>
+          <div v-for="badge in account.badges" :key="badge.name">
+            <img :src="badge.imageUrl">
+          </div>
+          <!-- Button trigger modal -->
+          <button type="button"
+                  class="btn btn-secondary mt-3"
+                  data-toggle="modal"
+                  data-target="#modelId"
+                  id="see-badges"
+                  @click="toggleBadges"
+          >
+            see all
+          </button>
         </div>
-        <!-- Button trigger modal -->
-        <button type="button"
-                class="btn btn-secondary"
-                data-toggle="modal"
-                data-target="#modelId"
-                id="see-badges"
-                @click="toggleBadges"
-        >
-          see all
-        </button>
         <Modal />
       </div>
       <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
@@ -169,9 +171,7 @@ img {
   height: 20vh
 }
 #see-badges {
-  position: absolute;
-  right: 8vw;
-  top: 45vh
+  height: 4vh;
 }
 .fa-user-edit {
   position: absolute;
@@ -179,7 +179,12 @@ img {
   left: 7vw;
 }
 #tasks-row {
-  min-height: 36.5vh
+  position: absolute;
+  margin: 0;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  min-height: 40vh
 }
 @import '../assets/css/global.css';
 </style>
