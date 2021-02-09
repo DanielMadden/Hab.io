@@ -1,14 +1,14 @@
 <template lang="">
   <div class="habit">
     <h1 class="habit-name">
-      <div class="habit-checkbox" @click="complete">
+      <span class="habit-checkbox" @click="complete">
         <i class="far fa-check-square"
            v-if="status.done"
         ></i>
         <i class="far fa-square"
            v-if="!status.done"
         ></i>
-      </div>
+      </span>
       {{ habit.name }}
     </h1>
   </div>

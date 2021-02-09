@@ -31,7 +31,6 @@ class HabitService {
 
   async completeHabit(habitId) {
     const res = await api.put(baseURL + habitId + '/complete')
-    console.log(res)
     this.getGroupHabits(res.data.groupId)
   }
 

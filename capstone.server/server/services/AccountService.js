@@ -46,6 +46,10 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+  async getAccountByEmail(email) {
+    return await dbContext.Account.findOne({ email: email })
+  }
+
   // TODO review account edit security
   async edit(accountUpdate, id) {
     const account = await dbContext.Account.findOneAndUpdate({
@@ -54,9 +58,21 @@ class AccountService {
     return account
   }
 
-  async getAccountsByQuery(query = {}) {
-    console.log(query)
-    const accounts = await dbContext.Account.find(query)
+  async getAccountsByQuery(name, email) {
+    const accounts = await dbContext.Account.aggregate([
+      {
+        $match: {
+          $or: [
+            { name: { $regex: name, $options: 'i' } },
+            { email: { $regex: email, $options: 'i' } }
+          ]
+        }
+      }
+    ])
+      .collation({ locale: 'en_US', strength: 1 })
+      .limit(20)
+      .exec()
+    console.log(accounts)
     return accounts
   }
 

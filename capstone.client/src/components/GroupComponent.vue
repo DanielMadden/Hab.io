@@ -10,7 +10,6 @@
       </h3>
       <p class="group-description m-0 p-0">
         {{ group.description }}
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Gravida neque convallis a cras. Aliquet lectus proin nibh nisl condimentum. Orci ac auctor augue mauris. Et netus et malesuada fames ac turpis. Neque egestas congue quisque egestas. Enim eu turpis egestas pretium aenean. Malesuada fames ac turpis egestas maecenas pharetra convallis posuere morbi. Sed pulvinar proin gravida hendrerit lectus a. Quam viverra orci sagittis eu volutpat odio facilisis mauris sit. Elementum pulvinar etiam non quam lacus. Arcu cursus euismod quis viverra. Massa massa ultricies mi quis. Suspendisse potenti nullam ac tortor.
       </p>
     </div>
   </div>

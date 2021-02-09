@@ -47,7 +47,7 @@ import { accountService } from '../services/AccountService'
 export default {
   setup() {
     const state = reactive({
-      account: computed(() => AppState.activeAccount[0])
+      account: computed(() => AppState.activeAccount)
     })
     return {
       state,

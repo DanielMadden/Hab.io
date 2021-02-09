@@ -1,9 +1,16 @@
 <template>
-  <div id="myModal-container" :class="{'show': showModal, 'hide': !showModal}">
-    <!-- Insert all modal components here with their respective v-if's -->
-    <modal-group-info v-if="modalChoice.groupInfo"></modal-group-info>
-    <modal-add-group v-if="modalChoice.addGroup"></modal-add-group>
-    <modal-add-habit v-if="modalChoice.addHabit"></modal-add-habit>
+  <div id="myModal-screen"
+       class="d-flex justify-content-center py-5"
+       :class="{'show': showModal, 'hide': !showModal}"
+  >
+    <div id="myModal-clickoff" @click="close"></div>
+    <div id="myModal-container">
+      <!-- Insert all modal components here with their respective v-if's -->
+      <modal-group-info v-if="modalChoice.groupInfo"></modal-group-info>
+      <modal-add-group v-if="modalChoice.addGroup"></modal-add-group>
+      <modal-add-habit v-if="modalChoice.addHabit"></modal-add-habit>
+      <modal-invite v-if="modalChoice.invite"></modal-invite>
+    </div>
   </div>
 </template>
 <script>
@@ -18,11 +25,21 @@ export default {
     const modalChoice = reactive({
       groupInfo: computed(() => AppState.showGroupInfo),
       addGroup: computed(() => AppState.showAddGroupForm),
-      addHabit: computed(() => AppState.showAddHabitForm)
+      addHabit: computed(() => AppState.showAddHabitForm),
+      invite: computed(() => AppState.showInviteModal)
     })
+    const close = () => {
+      AppState.darken = false
+      AppState.showModal = false
+      AppState.showMyGroups = false
+      AppState.showAddGroupForm = false
+      AppState.showAddHabitForm = false
+      AppState.showInviteModal = false
+    }
     return {
       showModal,
-      modalChoice
+      modalChoice,
+      close
     }
   }
 }

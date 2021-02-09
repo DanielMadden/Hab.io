@@ -29,11 +29,12 @@ class HabitService {
 
   async complete(habitId, userId) {
     const habit = await dbContext.Habits.findById(habitId)
-    const member = await dbContext.GroupMembers.find({ memberId: userId, groupId: habit.groupId })
+    const member = await dbContext.GroupMembers.findOne({ memberId: userId, groupId: habit.groupId })
     if (member.status === 'Moderator' || member.status === 'Member') {
-      return await dbContext.Habits.findByIdAndUpdate(habitId, { $push: { completed: userId } })
-    }
-    return 'Not Authorized'
+      if (!habit.completed.includes(userId)) {
+        return await dbContext.Habits.findByIdAndUpdate(habitId, { $push: { completed: userId } }, { new: true })
+      } return 'Already completed'
+    } return 'Not Authorized to complete'
   }
 
   async delete(habitId, userId) {
