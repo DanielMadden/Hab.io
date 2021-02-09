@@ -7,6 +7,15 @@
   position: fixed;
   z-index: 10;
   overflow-y: auto;
+  transition: all var(--transition-overlay);
+}
+
+#myModal-clickoff {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 #myModal-container {
@@ -33,7 +42,6 @@
   /* Fix on screen, set z-index, and add transition for sliding effect */
   /* position: fixed; */
   z-index: 10;
-  transition: all var(--transition-overlay);
 }
 
 #myModal-screen.show {
