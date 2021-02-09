@@ -4,7 +4,6 @@
       <div class="row d-flex">
         <div class="col-12 text-center">
           <h1>Search for users</h1>
-          <span>{{ state.accountSelectedInvitees }}</span>
         </div>
         <div class="col py-1 d-flex justify-content-center border-bottom">
           <input type="text"
@@ -17,11 +16,8 @@
         </div>
         <div class="col-12 py-1">
           <div class="search-results">
-            <!-- {{ searchResults }} -->
-            <!-- <div v-if="searchResults.length > 0"> -->
             <AccountSearchResultComponent v-for="searchResult in searchResults" :key="searchResult.id" :search-result="searchResult">
             </AccountSearchResultComponent>
-            <!-- </div> -->
           </div>
         </div>
         <div class="myModal-footer">
