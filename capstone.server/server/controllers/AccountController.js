@@ -113,6 +113,7 @@ export class AccountController extends BaseController {
       if (req.body.name) { accountUpdate.name = req.body.name }
       if (req.body.picture) { accountUpdate.picture = req.body.picture }
       if (req.body.backgroundImage) { accountUpdate.backgroundImage = req.body.backgroundImage }
+      if (req.body.badges) { accountUpdate.badges = req.body.badges }
       const data = await accountService.edit(accountUpdate, req.userInfo.id)
       res.send(data)
     } catch (error) {

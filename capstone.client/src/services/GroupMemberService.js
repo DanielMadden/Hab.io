@@ -11,7 +11,10 @@ class GroupMemberService {
   }
 
   async joinGroup(accountId, groupId) {
-    await api.post(baseURL, { memberId: accountId, groupId: groupId })
+    const res = await api.post(baseURL, { memberId: accountId, groupId: groupId })
+    AppState.achievementName = 'Goal Setting'
+    AppState.checkAchievement = true
+    return res.data
   }
 
   async sendGroupInvite(inviteeId, groupId) {

@@ -74,6 +74,14 @@ class AccountService {
     }
   }
 
+  async editBadges(id, badges) {
+    try {
+      await api.put('/account/' + id, { badges: badges })
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   async editProfile(body) {
     try {
       await api.put('/account/' + body.id, body)
