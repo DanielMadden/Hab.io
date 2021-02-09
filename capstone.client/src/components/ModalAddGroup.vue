@@ -2,9 +2,27 @@
   <div class="myModal-content">
     <form id="formatForm" @submit.prevent="createGroup">
       <div class="myModal-frame dark-scrollbar">
-        <input type="text" v-model="form.name" @blur="getImages($event)" required="true" />
-        <input type="text" v-model="form.description" required="true" />
-        <input type="checkbox" v-model="form.private" />
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1> Create New Group</h1>
+          </div>
+          <div class="col-6">
+            <input placeholder="Group name"
+                   type="text"
+                   @blur="getImages($event)"
+                   required="true"
+                   v-model="form.name"
+            /> <br>
+            <small class="text-muted">Select an available image</small>
+          </div>
+          <div class="col-6">
+            <input type="text" placeholder="Group description" v-model="form.description" required="true" /> <br>
+            <input type="checkbox" id="private-checkbox" v-model="form.private" />
+            <label class="form-check-label" for="private-checkbox">Private</label>
+          </div>
+          <div class="col">
+          </div>
+        </div>
         <div class="container">
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
             <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
