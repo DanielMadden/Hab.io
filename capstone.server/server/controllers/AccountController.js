@@ -12,6 +12,7 @@ export class AccountController extends BaseController {
     super('account')
     this.router
       .get('/query', this.getAccountsByQuery)
+      .get('/:id', this.getAccountById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/:id/groupMembers', this.getGroupMembersByAccountId)
@@ -34,7 +35,9 @@ export class AccountController extends BaseController {
 
   async getAccountsByQuery(req, res, next) {
     try {
-      const data = await accountService.getAccountsByQuery(req.query)
+      const name = req.query.search
+      const email = req.query.search
+      const data = await accountService.getAccountsByQuery(name, email)
       res.send(data)
     } catch (error) {
       next(error)
@@ -44,6 +47,15 @@ export class AccountController extends BaseController {
   async getAccounts(req, res, next) {
     try {
       const data = await accountService.getAccounts(req.body)
+      res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAccountById(req, res, next) {
+    try {
+      const data = await accountService.getAccountById(req.params.id)
       res.send(data)
     } catch (error) {
       next(error)
