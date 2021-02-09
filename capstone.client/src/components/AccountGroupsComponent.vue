@@ -27,7 +27,7 @@
   </div> -->
   <div class="myModal-content">
     <div class="myModal-frame dark-scrollbar">
-      {{ groups }}
+      <my-group-component v-for="group in groups" :key="group.id" :group="group" />
     </div>
     <div class="myModal-footer">
     </div>

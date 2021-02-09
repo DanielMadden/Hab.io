@@ -36,6 +36,9 @@ export default {
     const habit = computed(() => AppState.activeHabit)
     const completed = computed(() => habit.value.completed.includes(AppState.account.id))
     const complete = () => {
+      // Check for achievement
+      AppState.achievementName = 'Ever Journey Begins With a Single Step'
+      AppState.checkAchievement = true
       window.event.stopPropagation()
       if (!completed.value) {
         habitService.completeHabit(habit.value.id, habit.value.groupId)

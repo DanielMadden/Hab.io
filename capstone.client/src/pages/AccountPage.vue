@@ -3,8 +3,7 @@
     <div class="container" v-if="account">
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
-          <img :src="account.picture" class="rounded-circle">
-          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal" @click="toggleEdit()"></i>
+          <img :src="account.picture" class="rounded-circle profile-image">
           <div class="d-flex" id="social-stats">
             <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
@@ -19,15 +18,16 @@
           <div id="main-info">
             <div class="card card-1">
               <div class="card-body">
-                <p class="card-text mb-0">
-                  Name
-                </p>
+                <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal" @click="toggleEdit()"></i>
+                <small class="card-text mb-0">
+                  <u>Name</u>
+                </small>
                 <h3 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
                   {{ account.name }}
                 </h3>
-                <p class="card-text mb-0 pt-1">
-                  Email
-                </p>
+                <small class="card-text mb-0 pt-1">
+                  <u>Email</u>
+                </small>
                 <h3 class="card-title">
                   {{ account.email }}
                 </h3>
@@ -58,12 +58,11 @@
           <h4 class="pt-3">
             Badges
           </h4>
-          <div v-for="badge in state.account.badges" :key="badge.name">
-          <img
-                :src="badge.imageUrl"
-                :alt="badge.name"
-              />
-          </div>
+          <!-- <div v-for="badge in badges" :key="badge.name">
+            <img
+              :src="badge.imageUrl"
+              :alt="badge.name"
+            /> -->
           <!-- Button trigger modal -->
           <button type="button"
                   class="btn btn-secondary mt-3"
@@ -75,12 +74,18 @@
             see all
           </button>
         </div>
-        <Modal />
-      </div>
-      <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
-        <div class="col-4" v-for="habit in habits" :key="habit.id">
-          <HabitComponent :habit="habit" />
+        <div v-for="badge in badges" :key="badge.name">
+          <img
+            :src="badge.imageUrl"
+            :alt="badge.name"
+          />
         </div>
+      </div>
+      <Modal />
+    </div>
+    <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
+      <div class="col-4" v-for="habit in habits" :key="habit.id">
+        <HabitComponent :habit="habit" />
       </div>
     </div>
   </div>
@@ -115,6 +120,7 @@ export default {
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),
       habits: computed(() => AppState.accountHabits),
+      badges: computed(() => AppState.activeAccount.badges),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       },
@@ -149,7 +155,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.profile-image {
   position: absolute;
   top: 3vh;
   left: 5vw;
@@ -179,14 +185,13 @@ img {
 }
 .fa-user-edit {
   position: absolute;
-  top: 4vh;
-  left: 7vw;
+  top: 1vh;
+  right: 1vw;
 }
 #tasks-row {
   position: absolute;
   margin: 0;
-  bottom: 0px;
-  left: 0px;
+  top: 55vh;
   width: 100%;
   min-height: 40vh
 }

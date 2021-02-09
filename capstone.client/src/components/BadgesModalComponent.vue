@@ -28,12 +28,10 @@
     </div>
   </div> -->
   <div class="myModal-content">
-    <div class="myModal-frame dark-scrollbar d-flex justify-content-around">
+    <div class="myModal-frame dark-scrollbar d-flex justify-content-around align-items-center">
       <div v-for="badge in badges" :key="badge.name">
-        <img :src="badge.imageUrl">
+        <img :src="badge.imageUrl" :title="badge.description">
       </div>
-    </div>
-    <div class="myModal-footer">
     </div>
   </div>
 </template>
