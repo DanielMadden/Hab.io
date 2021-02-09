@@ -2,7 +2,7 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1 @click="travelHome" class="logo">
+      <h1 @click="travelHome" class="logo hoverable">
         hab.io
       </h1>
     </div>
@@ -26,7 +26,7 @@
            @click="travel"
            :src="account.picture"
            id="nav-profile-image"
-           class="nav-item"
+           class="nav-item hoverable"
       />
     </div>
     <!-- </div> -->
@@ -104,8 +104,11 @@ export default {
    url(../assets/font/Pacifico-Regular.ttf) format("truetype");
 }
 
+.hoverable{
+  cursor: pointer;
+}
+
 .logo{
   font-family: "Pacifico";
-  cursor: pointer;
 }
 </style>
