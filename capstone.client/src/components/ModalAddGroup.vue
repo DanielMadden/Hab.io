@@ -2,21 +2,25 @@
   <div class="myModal-content">
     <form id="formatForm" @submit.prevent="createGroup">
       <div class="myModal-frame dark-scrollbar">
-        <div class="row">
+        <div class="row d-flex">
           <div class="col-12 text-center">
             <h1> Create New Group</h1>
           </div>
-          <div class="col-6">
+          <div class="col-6 my-1">
             <input placeholder="Group name"
                    type="text"
-                   @blur="getImages($event)"
                    required="true"
                    v-model="form.name"
             /> <br>
+          </div>
+          <div class="col-6 my-1">
+            <input type="text" placeholder="Group description" v-model="form.description" required="true" />
+          </div>
+          <div class="col-6 my-1">
+            <input type="text" placeholder="Image search" @blur="getImages($event)" required="true" /> <br>
             <small class="text-muted">Select an available image</small>
           </div>
-          <div class="col-6">
-            <input type="text" placeholder="Group description" v-model="form.description" required="true" /> <br>
+          <div class="col-6 my-1">
             <input type="checkbox" id="private-checkbox" v-model="form.private" />
             <label class="form-check-label" for="private-checkbox">Private</label>
           </div>
@@ -66,13 +70,14 @@ export default {
     })
     const potentialImages = computed(() => AppState.groupImages)
     const groupInfo = computed(() => AppState.activeGroupInfo)
-    const createGroup = () => {
+    const createGroup = async() => {
       try {
         form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
-        groupService.createGroup(form)
+        await groupService.createGroup(form)
         AppState.darken = false
         AppState.showModal = false
         AppState.showAddGroupForm = false
+        logger.log('right before route push' + state.activeGroup.id)
         router.push({ name: 'Group', params: { id: state.activeGroup.id } })
       } catch (error) {
         logger.error(error)
