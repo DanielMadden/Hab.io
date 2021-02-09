@@ -33,5 +33,11 @@ export const AppState = reactive({
   showAddGroupForm: false,
   showAddHabitForm: false,
   showInviteModal: false,
+  showFollowing: false,
+  showFollowers: false,
+  showAccountGroups: false,
+  showBadges: false,
+  showEditAccount: false,
+  checkAchievement: false,
   showHabitInfo: false
 })

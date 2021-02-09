@@ -33,13 +33,46 @@
   </div>
 </template>
 <script>
-import { computed } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
+import { badgeService } from '../services/BadgeService'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
+
 export default {
   setup() {
+    const state = reactive({
+      checkAchievement: computed(() => AppState.checkAchievement)
+    })
+    watch(() => state.checkAchievement,
+      (val, prevVal) => {
+        if (val === true) {
+          badgeService.getBadges()
+          badgeService.getAccountBadges(AppState.account.id)
+          console.log(AppState.badges)
+          console.log(AppState.accountBadges)
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 6000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Achievement Unlocked'
+          })
+        }
+      }
+    )
     const router = useRouter()
     const account = computed(() => AppState.account)
     const user = computed(() => AppState.user)
