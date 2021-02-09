@@ -33,7 +33,9 @@ export default {
   components: { GroupComponent },
   name: 'Home',
   setup() {
-    onMounted(() => { groupService.getPublicGroups() })
+    onMounted(() => {
+      groupService.getPublicGroups()
+    })
     const groups = computed(() => AppState.publicGroups)
     const addGroup = () => {
       AppState.darken = true

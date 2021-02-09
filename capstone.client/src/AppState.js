@@ -32,5 +32,6 @@ export const AppState = reactive({
   showGroupInfo: false,
   showAddGroupForm: false,
   showAddHabitForm: false,
-  showInviteModal: false
+  showInviteModal: false,
+  checkAchievement: false
 })
