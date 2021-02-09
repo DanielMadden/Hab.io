@@ -4,24 +4,17 @@
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
           <img :src="account.picture" class="rounded-circle">
-          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal"></i>
-          <EditAccountComponent />
+          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal" @click="toggleEdit()"></i>
           <div class="d-flex" id="social-stats">
-            <p class="px-1" data-toggle="modal" data-target="#following">
-              <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
-                Launch
-              </button> -->
+            <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
-            <AccountFollowingComponent :following="following" />
-            <p class="px-1" data-toggle="modal" data-target="#followers">
+            <p class="px-1" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <AccountFollowersComponent :followers="followers" />
             <p class="px-1" data-toggle="modal" data-target="#groups">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
-            <AccountGroupsComponent :groups="groups" />
           </div>
           <div id="main-info">
             <div class="card card-1">
@@ -71,11 +64,11 @@
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modelId" id="see-badges">
           see all
         </button>
-        <BadgesModalComponent />
+        <Modal />
       </div>
-      <div class="row" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
-        <div class="col-12">
-          {{ habits }}
+      <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
+        <div class="col-10 offset-1">
+          <HabitComponent v-for="habit in habits" :key="habit.id" :habit="habit" />
         </div>
       </div>
     </div>
@@ -108,6 +101,31 @@ export default {
       habits: computed(() => AppState.accountHabits),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
+      },
+      toggleFollowers() {
+        AppState.showFollowers = true
+        AppState.showModal = true
+        AppState.darken = true
+      },
+      toggleFollowing() {
+        AppState.showFollowing = true
+        AppState.showModal = true
+        AppState.darken = true
+      },
+      toggleGroups() {
+        AppState.showAccountGroups = true
+        AppState.showModal = true
+        AppState.darken = true
+      },
+      toggleBadges() {
+        AppState.showBadges = true
+        AppState.showModal = true
+        AppState.darken = true
+      },
+      toggleEdit() {
+        AppState.showEditAccount = true
+        AppState.showModal = true
+        AppState.darken = true
       }
     }
   }
