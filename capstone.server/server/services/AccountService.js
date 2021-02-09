@@ -46,6 +46,10 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+  async getAccountById(id) {
+    return await dbContext.Account.findById(id)
+  }
+
   // TODO review account edit security
   async edit(accountUpdate, id) {
     const account = await dbContext.Account.findOneAndUpdate({
@@ -54,9 +58,8 @@ class AccountService {
     return account
   }
 
-  async getAccountsByQuery(query = {}) {
-    console.log(query)
-    const accounts = await dbContext.Account.find(query)
+  async getAccountsByQuery(name, email) {
+    const accounts = await dbContext.Account.find({ $or: [{ name: name }, { email: email }] })
     return accounts
   }
 
