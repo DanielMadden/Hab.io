@@ -2,7 +2,7 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1 @click="travelHome" class="logo">
+      <h1 @click="travelHome" class="logo hoverable">
         hab.io
       </h1>
     </div>
@@ -26,7 +26,7 @@
            @click="travel"
            :src="account.picture"
            id="nav-profile-image"
-           class="nav-item"
+           class="nav-item hoverable"
       />
     </div>
     <!-- </div> -->
@@ -38,7 +38,6 @@ import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
-import { badgeService } from '../services/BadgeService'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 
@@ -50,10 +49,8 @@ export default {
     watch(() => state.checkAchievement,
       (val, prevVal) => {
         if (val === true) {
-          badgeService.getBadges()
-          badgeService.getAccountBadges(AppState.account.id)
           console.log(AppState.badges)
-          console.log(AppState.accountBadges)
+          console.log(AppState.account.badges)
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -104,8 +101,11 @@ export default {
    url(../assets/font/Pacifico-Regular.ttf) format("truetype");
 }
 
+.hoverable{
+  cursor: pointer;
+}
+
 .logo{
   font-family: "Pacifico";
-  cursor: pointer;
 }
 </style>

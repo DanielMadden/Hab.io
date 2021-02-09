@@ -20,8 +20,6 @@
             <input type="checkbox" id="private-checkbox" v-model="form.private" />
             <label class="form-check-label" for="private-checkbox">Private</label>
           </div>
-          <div class="col">
-          </div>
         </div>
         <div class="container">
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
