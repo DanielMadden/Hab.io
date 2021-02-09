@@ -71,8 +71,6 @@ export default {
               icon: 'success',
               title: AppState.achievementName
             })
-          } else {
-            console.log('already have badge')
           }
         }
       }
