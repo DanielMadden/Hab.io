@@ -17,7 +17,7 @@
         {{ habit.name }}
       </span>
     </h1>
-    <span class="habit-completed-count">{{ habit.completed.length }} completed today</span>
+    <span class="habit-completed-count">{{ habit.completed.length }} members completed today</span>
   </div>
 </template>
 <script>

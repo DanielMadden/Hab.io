@@ -1,6 +1,6 @@
 <template>
   <div class="row group-member">
-    <div class="col  d-flex">
+    <div class="col d-flex">
       <div
         class="group-member-image"
         :style="`background: linear-gradient( rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('${groupMember.memberId.picture}') no-repeat center center /cover; overflow-y: hidden`"
@@ -10,7 +10,7 @@
         <span>{{ groupMember.status }}</span>
       </div>
     </div>
-    <!-- TODO Display level instead of will -->
+    <!-- TODO Display level instead of will or possibly remove entirely if modal transition is implemented-->
     <div class="col d-flex justify-content-end align-items-center">
       <span>Will - {{ groupMember.memberId.will }}</span>
     </div>
