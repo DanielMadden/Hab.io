@@ -13,15 +13,15 @@
               </button> -->
               Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
-            <AccountFollowingComponent />
+            <AccountFollowingComponent :following="following" />
             <p class="px-1" data-toggle="modal" data-target="#followers">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <AccountFollowersComponent />
+            <AccountFollowersComponent :followers="followers" />
             <p class="px-1" data-toggle="modal" data-target="#groups">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
-            <AccountGroupsComponent />
+            <AccountGroupsComponent :groups="groups" />
           </div>
           <div id="main-info">
             <div class="card card-1">
@@ -75,6 +75,7 @@
       </div>
       <div class="row" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
         <div class="col-12">
+          {{ habits }}
         </div>
       </div>
     </div>
@@ -104,6 +105,7 @@ export default {
       followers: computed(() => AppState.accountFollowers),
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),
+      habits: computed(() => AppState.accountHabits),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       }
