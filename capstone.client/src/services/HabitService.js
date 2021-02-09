@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
 const baseURL = '/api/habits/'
@@ -16,6 +17,7 @@ class HabitService {
 
   async getHabit(habitId) {
     const res = await api.get(baseURL + habitId)
+    console.log(res)
     AppState.activeHabit = res.data
   }
 
@@ -29,9 +31,10 @@ class HabitService {
     this.getGroupHabits(res.data.groupId)
   }
 
-  async completeHabit(habitId) {
+  async completeHabit(habitId, groupId) {
     const res = await api.put(baseURL + habitId + '/complete')
-    this.getGroupHabits(res.data.groupId)
+    logger.log(res)
+    this.getGroupHabits(groupId)
   }
 
   async deleteHabit(habitId) {
