@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <!-- Button trigger modal
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
-      Launch
-    </button> -->
-
-    <!-- Modal -->
-    <div class="modal fade"
+  <!-- <div> -->
+  <!-- <div class="modal fade"
          id="edit-modal"
          tabindex="-1"
          role="dialog"
@@ -38,26 +32,85 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="myModal-content">
+    <div class="myModal-frame dark-scrollbar d-flex justify-content-around flex-column">
+      <form @submit.prevent="editProfile" class="my-2">
+        <input class="my-1" type="text" placeholder="Name" v-model="state.account.name"><br>
+        <input class="my-1" type="text" placeholder="Profile Image" v-model="state.account.picture"><br>
+        <!-- <input class="my-1" type="text" placeholder="Custom Background Image" v-model="state.account.backgroundImage"><br> -->
+        <input type="text" placeholder="Image search" @blur="getImages($event)" required="true" /> <br>
+        <small class="text-muted">Select an available image</small>
+        <div class="container">
+          <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
+            <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
+              <img
+                class="imageResize rounded-lg img-fluid"
+                :src="img.imageURL"
+                :alt="img.name"
+                @click="highlightImage($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark" id="submit">
+          Submit Changes
+        </button>
+      </form>
+    </div>
+    <div class="myModal-footer">
+    </div>
   </div>
 </template>
 <script>
 import { reactive, computed } from 'vue'
 import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService'
+import { groupService } from '../services/GroupService'
 export default {
   setup() {
     const state = reactive({
       account: computed(() => AppState.activeAccount)
     })
+    const potentialImages = computed(() => AppState.groupImages)
     return {
       state,
       editProfile() {
+        state.account.backgroundImage = document.getElementsByClassName('highlightImage')[0].currentSrc
         accountService.editProfile(state.account)
+      },
+      potentialImages,
+      async getImages(e) {
+        await groupService.getImagesForGroup(e.target.value)
+        const elements = document.getElementsByClassName('imageResize')
+        if (elements.length > 0) {
+          elements[0].classList.add('highlightImage')
+          document.getElementById('submit').disabled = false
+          document.getElementById('submit').classList.remove('disabledButton')
+        }
+      },
+      highlightImage(e) {
+        const imgs = e.target.parentNode.parentNode.parentNode.querySelectorAll('img')
+        imgs.forEach(i => i.classList.remove('highlightImage'))
+        e.target.classList.add('highlightImage')
       }
     }
   }
 }
 </script>
 <style scoped>
-
+@import "../assets/css/modals.css";
+.highlightImage {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 3px solid rgba(81, 203, 238, 1);
+}
+.disabledButton {
+  background-color:#d2d2d2;
+}
+.imageResize{
+  width: 100%;
+  height: 200px;
+  margin: auto;
+  display: block;
+}
 </style>
