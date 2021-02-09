@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <!-- Modal -->
+  <!-- <div>
+    Modal
     <div class="modal fade"
          id="following"
          tabindex="-1"
@@ -24,14 +24,22 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="myModal-content">
+    <div class="myModal-frame dark-scrollbar">
+      {{ following }}
+    </div>
+    <div class="myModal-footer">
+    </div>
   </div>
 </template>
 <script>
+import { AppState } from '../AppState'
+import { computed } from 'vue'
 export default {
-  props: {
-    following: {
-      type: Array,
-      required: true
+  setup() {
+    return {
+      following: computed(() => AppState.accountFollowing)
     }
   }
 }

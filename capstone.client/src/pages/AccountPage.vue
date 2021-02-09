@@ -12,7 +12,7 @@
             <p class="px-1" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#groups">
+            <p class="px-1" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
           </div>
@@ -43,7 +43,7 @@
                   Will: {{ account.will }}
                 </h3>
                 <h3 class="card-title">
-                  Level: {{ level }}
+                  Level: {{ state.level }}
                 </h3>
                 <h3 class="card-title">
                   Title: in progress
@@ -67,8 +67,8 @@
         <Modal />
       </div>
       <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
-        <div class="col-10 offset-1">
-          <HabitComponent v-for="habit in habits" :key="habit.id" :habit="habit" />
+        <div class="col-4" v-for="habit in habits" :key="habit.id">
+          <HabitComponent :habit="habit" />
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { accountService } from '../services/AccountService'
@@ -84,6 +84,9 @@ export default {
   name: 'Account',
   setup() {
     const route = useRoute()
+    const state = reactive({
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will)))
+    })
     onMounted(() => {
       accountService.getSelected(route.params.email)
       accountService.getGroups(route.params.email)
@@ -92,9 +95,10 @@ export default {
       accountService.getHabits(route.params.email)
     })
     return {
+      state,
       account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
+      // level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       followers: computed(() => AppState.accountFollowers),
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),

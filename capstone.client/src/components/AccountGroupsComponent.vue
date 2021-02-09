@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <!-- Modal -->
+  <!-- <div>
+    Modal
     <div class="modal fade"
          id="groups"
          tabindex="-1"
@@ -24,14 +24,22 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="myModal-content">
+    <div class="myModal-frame dark-scrollbar">
+      {{ groups }}
+    </div>
+    <div class="myModal-footer">
+    </div>
   </div>
 </template>
 <script>
+import { computed } from 'vue'
+import { AppState } from '../AppState'
 export default {
-  props: {
-    groups: {
-      type: Array,
-      required: true
+  setup() {
+    return {
+      groups: computed(() => AppState.accountGroups)
     }
   }
 }
