@@ -191,8 +191,7 @@ export default {
 #tasks-row {
   position: absolute;
   margin: 0;
-  bottom: 0px;
-  left: 0px;
+  top: 55vh;
   width: 100%;
   min-height: 40vh
 }
