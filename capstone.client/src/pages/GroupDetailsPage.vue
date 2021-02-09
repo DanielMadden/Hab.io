@@ -7,7 +7,7 @@
     </div> -->
     <div id="group-habits"
          class="container-fluid dark-scrollbar"
-         :style="`background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
+         :style="`background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
         <h1 id="group-name"
@@ -15,7 +15,7 @@
         >
           {{ group.name }}
         </h1>
-        <button id="add-group"
+        <button id="add-habit"
                 class="mr-3 d-flex justify-content-center align-items-center"
                 @click="addHabit"
         >

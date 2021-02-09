@@ -1,17 +1,23 @@
 <template lang="">
   <div class="habit" @click="openHabit">
-    <h1 class="habit-name">
-      <span class="habit-checkbox" @click="complete">
+    <h1 class="habit-header">
+      <span class="habit-checkbox pr-3"
+            @click="complete"
+            :class="{'completed': completed}"
+      >
         <i class="far fa-check-square"
-           v-if="status.done"
+           v-if="completed"
         ></i>
         <i class="far fa-square"
-           v-if="!status.done"
+           v-if="!completed"
         ></i>
         <!-- {{ completed }} -->
       </span>
-      {{ habit.name }}
+      <span class="habit-name">
+        {{ habit.name }}
+      </span>
     </h1>
+    <span class="habit-completed-count">{{ habit.completed.length }} completed today</span>
   </div>
 </template>
 <script>
@@ -28,11 +34,14 @@ export default {
   setup(props) {
   // props.
     const status = reactive({
-      done: false
+      localCompleted: props.habit.completed.includes(AppState.account.id)
     })
+    const completed = computed(() => props.habit.completed.includes(AppState.account.id))
     const complete = () => {
       window.event.stopPropagation()
-      habitService.completeHabit(props.habit.id, props.habit.groupId)
+      if (!completed.value) {
+        habitService.completeHabit(props.habit.id, props.habit.groupId)
+      }
     }
     const openHabit = () => {
       AppState.activeHabit = props.habit
@@ -41,11 +50,11 @@ export default {
       AppState.showModal = true
       AppState.showHabitInfo = true
     }
-    const completed = computed(() => props.habit.completed.includes(AppState.account.id))
     return { complete, status, openHabit, completed }
   }
 }
 </script>
 <style scoped>
 @import "../assets/css/habit.css";
+@import "../assets/css/global.css"
 </style>

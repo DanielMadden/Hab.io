@@ -11,6 +11,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
+import { habitService } from '../services/HabitService'
 export default {
   props: {
     group: {
@@ -23,6 +24,7 @@ export default {
     const travel = () => {
       router.push('/group/' + props.group.id)
       groupService.getGroup(props.group.id, true)
+      habitService.getGroupHabits(props.group.id)
     }
     return { travel }
   }

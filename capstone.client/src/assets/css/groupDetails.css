@@ -15,6 +15,20 @@
   color: white;
 }
 
+#add-habit {
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 3.5em;
+  height: 3.5em;
+  transition: all .2s
+}
+
+#add-habit:hover {
+  background-color: rgba(255, 255, 255, 0.1)
+}
+
 #group-sidebar {
   position: absolute;
   right: 0;

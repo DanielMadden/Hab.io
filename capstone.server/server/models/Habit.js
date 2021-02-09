@@ -10,7 +10,7 @@ const Habits = new Schema(
     frequency: { type: Number, required: true },
     difficulty: { type: Number, required: true },
     completed: { type: [String] },
-    desription: { type: String, default: 'No description provided' }
+    description: { type: String, default: 'No description provided' }
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
