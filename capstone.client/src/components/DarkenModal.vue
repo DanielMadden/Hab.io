@@ -10,9 +10,9 @@ export default {
     const lighten = () => {
       AppState.darken = false
       AppState.showMyGroups = false
-      AppState.showModal = false
-      AppState.showGroupInfo = false
-      AppState.showAddGroupForm = false
+      // AppState.showModal = false
+      // AppState.showGroupInfo = false
+      // AppState.showAddGroupForm = false
     }
     return { darken, lighten }
   }

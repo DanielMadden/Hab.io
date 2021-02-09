@@ -3,7 +3,7 @@ import { BadRequest } from '../utils/Errors'
 
 class HabitService {
   async getById(habitId) {
-    return await dbContext.Habits.find({ id: habitId })
+    return await dbContext.Habits.findById(habitId)
   }
 
   async getHabitsByAccountId(accountId) {
@@ -14,7 +14,6 @@ class HabitService {
   }
 
   async create(habit) {
-    console.log(habit)
     return await dbContext.Habits.create(habit)
   }
 
