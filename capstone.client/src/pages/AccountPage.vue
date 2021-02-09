@@ -98,7 +98,7 @@ export default {
       accountService.getHabits(route.params.email)
     })
     return {
-      account: computed(() => AppState.activeAccount[0]),
+      account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
       level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       followers: computed(() => AppState.accountFollowers),

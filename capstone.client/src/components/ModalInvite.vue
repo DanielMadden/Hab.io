@@ -6,11 +6,13 @@
              name="invitees"
              id="invitees"
              v-model="state.query"
-             @change="getAccounts"
       >
-    </div>
-    <div class="search-results">
-      <AccountSearchResultComponent :v-for="account in state.searchResults" :key="account.id" :account-prop="account" />
+      <div class="search-results">
+        <!-- {{ searchResults }} -->
+        <!-- <div v-if="searchResults.length > 0"> -->
+        <account-search-result-component v-for="searchResult in searchResults" :key="searchResult.id" :search-result="searchResult"></account-search-result-component>
+      <!-- </div> -->
+      </div>
     </div>
     <div class="myModal-footer">
       <button id="myModal-button-join-group"
@@ -23,7 +25,7 @@
   </div>
 </template>
 <script>
-import { computed, reactive } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { logger } from '../utils/Logger'
 import { accountService } from '../services/AccountService'
 import { groupMemberService } from '../services/GroupMemberService'
@@ -32,21 +34,22 @@ export default {
   setup() {
     const state = reactive({
       query: '',
-      searchResults: computed(() => AppState.accountSearchResults),
       selectedInvitees: [],
       activeGroup: computed(() => AppState.activeGroup)
 
     })
+    watchEffect(() => accountService.getAccountsByQuery(state.query))
+    const searchResults = computed(() => AppState.accountSearchResults)
     return {
-
+      searchResults,
       state,
-      async getAccounts() {
-        try {
-          await accountService.getAccountsByQuery(state.query)
-        } catch (error) {
-          logger.error(error)
-        }
-      },
+      // async getAccounts() {
+      //   try {
+      //     await accountService.getAccountsByQuery(state.query)
+      //   } catch (error) {
+      //     logger.error(error)
+      //   }
+      // },
       async sendInvites() {
         state.selectedInvitees.forEach(invitee => {
           this.sendInvite(invitee.id, state.activeGroup.id)

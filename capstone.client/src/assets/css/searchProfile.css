@@ -1,0 +1,13 @@
+.search-profile {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.search-profile-image {
+  width: 3em;
+  height: 3em;
+}
+
+.search-profile-text {
+  margin-left: 1em;
+}

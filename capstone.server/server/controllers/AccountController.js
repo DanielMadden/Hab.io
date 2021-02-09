@@ -12,15 +12,15 @@ export class AccountController extends BaseController {
     super('account')
     this.router
       .get('/query', this.getAccountsByQuery)
-      .get('/:id', this.getAccountById)
-      .use(Auth0Provider.getAuthorizedUserInfo)
-      .get('', this.getUserAccount)
-      .get('/:id/groupMembers', this.getGroupMembersByAccountId)
-      // .get('', this.getAccounts)
+      .get('/email', this.getAccountByEmail)
       .get('/:id/groups', this.getGroupsByAccountId)
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
       .get('/:id/followees', this.getFolloweesByAccountId)
+      .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('', this.getUserAccount)
+      .get('/:id/groupMembers', this.getGroupMembersByAccountId)
+      // .get('', this.getAccounts)
       .put('/:id', this.edit)
   }
 
@@ -53,9 +53,9 @@ export class AccountController extends BaseController {
     }
   }
 
-  async getAccountById(req, res, next) {
+  async getAccountByEmail(req, res, next) {
     try {
-      const data = await accountService.getAccountById(req.params.id)
+      const data = await accountService.getAccountByEmail(req.query.email)
       res.send(data)
     } catch (error) {
       next(error)
@@ -64,7 +64,7 @@ export class AccountController extends BaseController {
 
   async getGroupsByAccountId(req, res, next) {
     try {
-      const data = await groupService.getGroupsByAccountId(req.userInfo.id)
+      const data = await groupService.getGroupsByAccountId(req.params.id)
       res.send(data)
     } catch (error) {
       next(error)

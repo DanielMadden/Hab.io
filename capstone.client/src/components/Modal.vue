@@ -9,6 +9,7 @@
       <modal-group-info v-if="modalChoice.groupInfo"></modal-group-info>
       <modal-add-group v-if="modalChoice.addGroup"></modal-add-group>
       <modal-add-habit v-if="modalChoice.addHabit"></modal-add-habit>
+      <modal-invite v-if="modalChoice.invite"></modal-invite>
     </div>
   </div>
 </template>
@@ -24,7 +25,8 @@ export default {
     const modalChoice = reactive({
       groupInfo: computed(() => AppState.showGroupInfo),
       addGroup: computed(() => AppState.showAddGroupForm),
-      addHabit: computed(() => AppState.showAddHabitForm)
+      addHabit: computed(() => AppState.showAddHabitForm),
+      invite: computed(() => AppState.showInviteModal)
     })
     const close = () => {
       AppState.darken = false

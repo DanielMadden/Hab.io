@@ -1,20 +1,18 @@
 <template>
-  <div class="account-compact d-flex">
+  <div class="search-profile d-flex">
     <div
-      class="account-compact-image"
-      :style="`background: linear-gradient( rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('${accountProp.memberId.picture}') no-repeat center center /cover; overflow-y: hidden`"
+      class="search-profile-image"
+      :style="`background: linear-gradient( rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('${searchResult.picture}') no-repeat center center /cover; overflow-y: hidden`"
     ></div>
-    <div class="account-compact-text d-flex flex-column">
-      <span>{{ accountProp.memberId.name }}</span>
-      <span v-if="accountProp.status === 'Moderator'">Moderator</span>
-      <span v-if="accountProp.status === 'Member'">Member</span>
+    <div class="searc-profile-text d-flex flex-column">
+      <span>{{ searchResult.name }}</span>
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    accountProp: {
+    searchResult: {
       type: Object,
       required: true
     }
@@ -22,5 +20,5 @@ export default {
 }
 </script>
 <style scoped>
-@import "../assets/css/groupMember.css";
+@import "../assets/css/searchProfile.css";
 </style>

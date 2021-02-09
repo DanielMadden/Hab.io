@@ -2,6 +2,8 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
+const emailQueryURL = '/account/email?email='
+
 class AccountService {
   async getAccount() {
     try {
@@ -14,7 +16,7 @@ class AccountService {
 
   async getSelected(email) {
     try {
-      const res = await api.get('/account/query?email=' + email)
+      const res = await api.get(emailQueryURL + email)
       AppState.activeAccount = res.data
     } catch (error) {
       logger.error(error)
@@ -32,25 +34,25 @@ class AccountService {
   }
 
   async getGroups(email) {
-    const account = await api.get('/account/query?email=' + email)
+    const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/groups')
     AppState.accountGroups = res.data
   }
 
   async getFollowers(email) {
-    const account = await api.get('/account/query?email=' + email)
+    const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/followers')
     AppState.accountFollowers = res.data
   }
 
   async getFollowing(email) {
-    const account = await api.get('/account/query?email=' + email)
+    const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/followees')
     AppState.accountFollowing = res.data
   }
 
   async getHabits(email) {
-    const account = await api.get('/account/query?email=' + email)
+    const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/habits')
     AppState.accountHabits = res.data
   }
