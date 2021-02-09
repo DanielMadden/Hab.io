@@ -26,4 +26,9 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
   // NOTE if there is something you want to do once the user is authenticated, place that here
   groupService.getAccountGroups(AppState.account.id, true)
   accountService.getGroupMembersByAccountId(AppState.account.id)
+  // Check for achievement
+  if (new Date() < new Date('2021-04-01')) {
+    AppState.achievementName = 'Early Bird Gets the Worm'
+    AppState.checkAchievement = true
+  }
 })
