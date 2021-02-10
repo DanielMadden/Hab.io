@@ -195,7 +195,7 @@ export default {
   top: 2vh;
   left: 2vw;
   font-size: 40px;
-  z-index: 50;
+  cursor: pointer;
 }
 #badges-row {
   height: 20vh
