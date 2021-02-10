@@ -86,7 +86,11 @@
       </div>
       <Modal />
     </div>
-    <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
+    <div class="row d-flex"
+         id="tasks-row"
+         :style="`background: url('${account.backgroundImage}');
+  background-size: cover; `"
+    >
       <div class="col-4" v-for="habit in habits" :key="habit.id">
         <HabitComponent :habit="habit" />
       </div>
@@ -167,7 +171,7 @@ export default {
 
 <style scoped>
 .profile-image {
-  height: 15vh;
+  height: 18vh;
   width: auto
 }
 #main-info {
@@ -205,7 +209,8 @@ export default {
   margin: 0;
   top: 55vh;
   width: 100%;
-  min-height: 40vh
+  min-height: 40vh;
+
 }
 @import '../assets/css/global.css';
 </style>
