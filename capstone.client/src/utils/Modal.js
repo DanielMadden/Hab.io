@@ -9,4 +9,9 @@ export const closeModals = () => {
   AppState.showAddHabitForm = false
   AppState.showInviteModal = false
   AppState.showHabitInfo = false
+  AppState.showFollowing = false
+  AppState.showFollowers = false
+  AppState.showBadges = false
+  AppState.showAccountGroups = false
+  AppState.showEditAccount = false
 }

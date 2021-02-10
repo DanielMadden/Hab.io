@@ -11,8 +11,10 @@
 <script>
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
+import { groupMemberService } from '../services/GroupMemberService'
 import { groupService } from '../services/GroupService'
 import { habitService } from '../services/HabitService'
+import { messageService } from '../services/MessageService'
 export default {
   props: {
     group: {
@@ -26,8 +28,14 @@ export default {
       AppState.showMyGroups = false
       AppState.darken = false
       router.push('/group/' + props.group.id)
+      AppState.activeGroup = {}
+      AppState.activeGroupHabits = []
+      AppState.activeGroupMembers = []
+      AppState.activeGroupMessages = []
       groupService.getGroup(props.group.id, true)
       habitService.getGroupHabits(props.group.id)
+      groupMemberService.getGroupMembers(props.group.id)
+      messageService.getGroupMessages(props.group.id)
     }
     return { travel }
   }
