@@ -115,4 +115,8 @@ export default {
 .logo{
   font-family: "Pacifico";
 }
+#nav-bar {
+  background-image: url(https://cutewallpaper.org/21/black-texture-wallpaper/Black-Scratched-Paint-Texture-Wallpaper-42274-Baltana.jpg);
+  background-size: cover;
+}
 </style>

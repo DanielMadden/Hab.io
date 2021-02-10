@@ -42,15 +42,12 @@
           <div id="account-stats">
             <div class="card">
               <div class="card-body">
-                <h3 class="card-title">
+                <h2 class="card-title">
                   Will: {{ will }}
-                </h3>
-                <h3 class="card-title">
+                </h2>
+                <h2 class="card-title">
                   Level: {{ state.level }}
-                </h3>
-                <h3 class="card-title">
-                  Title: in progress
-                </h3>
+                </h2>
               </div>
             </div>
           </div>
