@@ -84,7 +84,6 @@
           />
         </div>
       </div>
-      <Modal />
     </div>
     <div class="row d-flex"
          id="tasks-row"
