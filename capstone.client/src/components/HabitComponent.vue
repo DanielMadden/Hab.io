@@ -41,9 +41,6 @@ export default {
       // Check for achievement
       AppState.achievementName = 'Ever Journey Begins With a Single Step'
       AppState.checkAchievement = true
-      console.log('hi')
-      console.log(AppState.achievementName)
-      console.log(AppState.checkAchievement)
       if (!completed.value) {
         habitService.completeHabit(props.habit.id, props.habit.groupId)
       }
