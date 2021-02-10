@@ -1,0 +1,33 @@
+.message-row {
+  font-size: 14px;
+  position: relative;
+  padding-top: .25em;
+  padding-bottom: .25em;
+  padding-right: 1em;
+  padding-left: 1em;
+  cursor: default;
+}
+
+.message-name {
+  color: white
+}
+
+.message {
+  height: fit-content;
+  width: fit-content;
+  max-width: 80%;
+  padding: .5em;
+  border-radius: 10px;
+}
+
+.message.self {
+  background-color: black;
+  color: white;
+  box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.3);
+}
+
+.message.other {
+  background-color: white;
+  color: black;
+  box-shadow: 2px 2px 3px 1px rgba(255, 255, 255, 0.3);
+}

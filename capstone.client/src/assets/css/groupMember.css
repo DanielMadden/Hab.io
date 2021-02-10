@@ -1,13 +1,29 @@
 .group-member {
   width: 100%;
   margin-bottom: 1em;
+  background-color: white;
+  padding: 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 4px 4px 3px 2px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-time) ease-in-out
+}
+
+.group-member:hover {
+  box-shadow: 5px 5px 8px 3px rgba(0, 0, 0, 0.4);
+  transform: translate3d(-5px, -5px, 0px);
 }
 
 .group-member-image {
   width: 3em;
   height: 3em;
+  border-radius: 100%;
 }
 
 .group-member-text {
   margin-left: 1em;
+}
+
+.group-member-role {
+  color: gray;
 }

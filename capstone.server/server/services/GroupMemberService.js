@@ -7,7 +7,9 @@ class GroupMemberService {
   }
 
   async getActiveGroupMember(groupId, accountId) {
-    return dbContext.GroupMembers.find({ groupId: groupId, memberId: accountId }).populate('memberId')
+    const groupMember = await dbContext.GroupMembers.find({ groupId: groupId, memberId: accountId }).populate('memberId')
+    if (!groupMember) return 'No relationship'
+    return groupMember
   }
 
   async getGroupMembersByGroupId(groupId) {

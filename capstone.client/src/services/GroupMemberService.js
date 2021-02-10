@@ -10,6 +10,12 @@ class GroupMemberService {
     AppState.activeGroupMembers = res.data
   }
 
+  async getActiveGroupMember(groupId) {
+    const res = await api.get('/api/groups/' + groupId + '/activeGroupMember')
+    AppState.activeGroupMember = res.data
+    console.log(AppState.activeGroupMember)
+  }
+
   async joinGroup(accountId, groupId) {
     await api.post(baseURL, { memberId: accountId, groupId: groupId })
   }
