@@ -17,6 +17,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
+import { groupMemberService } from '../services/GroupMemberService'
 import { groupService } from '../services/GroupService'
 export default {
   props: {
@@ -30,6 +31,7 @@ export default {
     const showGroupInfo = () => {
       AppState.activeGroupInfo = props.group
       groupService.getGroup(props.group.id, false)
+      groupMemberService.getActiveGroupMember(props.group.id)
       AppState.darken = true
       AppState.showModal = true
       AppState.showGroupInfo = true

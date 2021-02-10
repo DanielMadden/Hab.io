@@ -11,9 +11,11 @@
       </p>
     </div>
     <div class="myModal-footer">
-      <button id="myModal-button-join-group"
-              class="myModal-button"
-              @click="joinGroup"
+      <button
+        v-if="!state.activeGroupInfoGroupMember"
+        id="myModal-button-join-group"
+        class="myModal-button"
+        @click="joinGroup"
       >
         Join Group
       </button>
@@ -21,7 +23,7 @@
   </div>
 </template>
 <script>
-import { computed, reactive } from 'vue'
+import { computed, onBeforeMount, onBeforeUnmount, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
 import router from '../router'
@@ -30,6 +32,16 @@ import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
+      activeGroupInfoGroupMember: computed(() => AppState.activeGroupInfoGroupMember)
+    })
+    onBeforeMount(() => {
+      AppState.activeGroupInfoGroupMember = AppState.myGroupMembers.find(groupMember => groupMember.groupId.id === groupInfo.value.id)
+      logger.log(groupInfo.value.id)
+      logger.log(AppState.myGroupMembers)
+      logger.log(AppState.activeGroupInfoGroupMember)
+    })
+    onBeforeUnmount(() => {
+      AppState.activeGroupInfoGroupMember = null
     })
     const groupInfo = computed(() => AppState.activeGroupInfo)
     const joinGroup = async() => {
