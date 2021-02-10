@@ -7,7 +7,8 @@ const HabitHistory = new Schema(
     habitId: { type: ObjectId, ref: 'Habit', required: true },
     accountId: { type: String, ref: 'Account', required: true },
     month: { type: Number, required: true },
-    day: { type: Number, required: true }
+    day: { type: Number, required: true },
+    will: { type: Number, required: true, default: 10 }
   }, { timestamps: true, toJSON: { virtuals: true } }
 )
 

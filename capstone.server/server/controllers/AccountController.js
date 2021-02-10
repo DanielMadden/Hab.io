@@ -6,6 +6,7 @@ import { followService } from '../services/FollowService'
 import BaseController from '../utils/BaseController'
 import { groupService } from '../services/GroupService'
 import { groupMemberService } from '../services/GroupMemberService'
+import { habitHistoryService } from '../services/HabitHistoryService'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -17,6 +18,7 @@ export class AccountController extends BaseController {
       .get('/:id/habits', this.getHabitsByAccountId)
       .get('/:id/followers', this.getFollowersByAccountId)
       .get('/:id/followees', this.getFolloweesByAccountId)
+      .get('/:id/will', this.getWillByAccountId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/:id/groupMembers', this.getGroupMembersByAccountId)
@@ -102,6 +104,15 @@ export class AccountController extends BaseController {
     try {
       const data = await followService.getFollowsByAccountId({ followerId: req.params.id })
       res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getWillByAccountId(req, res, next) {
+    try {
+      const will = await habitHistoryService.getWillByAccountId(req.params.id)
+      res.send(`${will}`)
     } catch (error) {
       next(error)
     }
