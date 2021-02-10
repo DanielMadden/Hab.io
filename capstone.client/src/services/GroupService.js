@@ -1,5 +1,6 @@
 import { AppState } from '../AppState'
 import GroupImage from '../models/GroupImage'
+import { logger } from '../utils/Logger'
 import { api, imageApi } from './AxiosService'
 
 const baseURL = '/api/groups/'
@@ -25,6 +26,7 @@ class GroupService {
 
   async createGroup(data) {
     const res = await api.post(baseURL, data)
+    logger.log('api response data before setting to appstate' + res.data)
     AppState.activeGroup = res.data
   }
 

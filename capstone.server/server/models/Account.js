@@ -10,7 +10,11 @@ const Account = new Schema(
     name: { type: String },
     picture: { type: String },
     backgroundImage: { type: String },
-    badges: { type: [ObjectId], ref: 'Badge' },
+    badges: [{
+      name: String,
+      imageUrl: String,
+      description: String
+    }],
     will: { type: Number, default: 0 }
     // NOTE If you wish to add additional public properties for Accounts do so here
   },

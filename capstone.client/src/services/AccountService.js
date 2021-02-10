@@ -55,7 +55,6 @@ class AccountService {
     const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/habits')
     AppState.accountHabits = res.data
-    console.log(await api.get('/account/' + account.data.id + '/habits'))
   }
 
   async getGroupMembersByAccountId(id) {
@@ -70,6 +69,14 @@ class AccountService {
   async edit(id, name) {
     try {
       await api.put('/account/' + id, { name: name })
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  async editBadges(id, badges) {
+    try {
+      await api.put('/account/' + id, { badges: badges })
     } catch (error) {
       logger.error(error)
     }

@@ -12,6 +12,7 @@ export const AppState = reactive({
   accountHabits: [],
   accountGroups: [],
   accountSearchResults: [],
+  accountSelectedInvitees: [],
   // Group Variables
   myGroups: [],
   myGroupMembers: [],
@@ -40,5 +41,6 @@ export const AppState = reactive({
   showBadges: false,
   showEditAccount: false,
   checkAchievement: false,
-  showHabitInfo: false
+  showHabitInfo: false,
+  achievementName: null
 })

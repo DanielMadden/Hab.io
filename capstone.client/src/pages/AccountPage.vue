@@ -3,8 +3,7 @@
     <div class="container" v-if="account">
       <div class="row border-bottom" id="row-1">
         <div class="col-6">
-          <img :src="account.picture" class="rounded-circle">
-          <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal" @click="toggleEdit()"></i>
+          <img :src="account.picture" class="rounded-circle profile-image">
           <div class="d-flex" id="social-stats">
             <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
@@ -12,22 +11,23 @@
             <p class="px-1" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#groups">
+            <p class="px-1" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
           </div>
           <div id="main-info">
             <div class="card card-1">
               <div class="card-body">
-                <p class="card-text mb-0">
-                  Name
-                </p>
+                <i class="fas fa-user-edit" v-if="account.id === currentUser.id" data-toggle="modal" data-target="#edit-modal" @click="toggleEdit()"></i>
+                <small class="card-text mb-0">
+                  <u>Name</u>
+                </small>
                 <h3 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
                   {{ account.name }}
                 </h3>
-                <p class="card-text mb-0 pt-1">
-                  Email
-                </p>
+                <small class="card-text mb-0 pt-1">
+                  <u>Email</u>
+                </small>
                 <h3 class="card-title">
                   {{ account.email }}
                 </h3>
@@ -43,7 +43,7 @@
                   Will: {{ account.will }}
                 </h3>
                 <h3 class="card-title">
-                  Level: {{ level }}
+                  Level: {{ state.level }}
                 </h3>
                 <h3 class="card-title">
                   Title: in progress
@@ -53,30 +53,46 @@
           </div>
         </div>
       </div>
-      <div class="row border-bottom" id="badges-row">
-        <h4 class="pt-3">
-          Badges
-        </h4>
-        <div v-for="badge in account.badges" :key="badge.name">
-          <img :src="badge.imageUrl">
+      <div class="row" id="badges-row">
+        <div class="col-12 d-flex justify-content-between">
+          <h4 class="pt-3">
+            Badges
+          </h4>
+          <!-- <div v-for="badge in badges" :key="badge.name">
+            <img
+              :src="badge.imageUrl"
+              :alt="badge.name"
+            /> -->
+          <!-- Button trigger modal -->
+          <button type="button"
+                  class="btn btn-secondary mt-3"
+                  data-toggle="modal"
+                  data-target="#modelId"
+                  id="see-badges"
+                  @click="toggleBadges"
+          >
+            see all
+          </button>
         </div>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modelId" id="see-badges">
-          see all
-        </button>
-        <Modal />
+        <div v-for="badge in badges" :key="badge.name">
+          <img
+            :src="badge.imageUrl"
+            :alt="badge.name"
+          />
+        </div>
       </div>
-      <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
-        <div class="col-10 offset-1">
-          <HabitComponent v-for="habit in habits" :key="habit.id" :habit="habit" />
-        </div>
+      <Modal />
+    </div>
+    <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
+      <div class="col-4" v-for="habit in habits" :key="habit.id">
+        <HabitComponent :habit="habit" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { accountService } from '../services/AccountService'
@@ -84,6 +100,10 @@ export default {
   name: 'Account',
   setup() {
     const route = useRoute()
+    const state = reactive({
+      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will))),
+      account: computed(() => AppState.account)
+    })
     onMounted(() => {
       accountService.getSelected(route.params.email)
       accountService.getGroups(route.params.email)
@@ -92,13 +112,15 @@ export default {
       accountService.getHabits(route.params.email)
     })
     return {
+      state,
       account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
+      // level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       followers: computed(() => AppState.accountFollowers),
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),
       habits: computed(() => AppState.accountHabits),
+      badges: computed(() => AppState.activeAccount.badges),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       },
@@ -133,7 +155,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.profile-image {
   position: absolute;
   top: 3vh;
   left: 5vw;
@@ -159,17 +181,19 @@ img {
   height: 20vh
 }
 #see-badges {
-  position: absolute;
-  right: 8vw;
-  top: 45vh
+  height: 4vh;
 }
 .fa-user-edit {
   position: absolute;
-  top: 4vh;
-  left: 7vw;
+  top: 1vh;
+  right: 1vw;
 }
 #tasks-row {
-  min-height: 36.5vh
+  position: absolute;
+  margin: 0;
+  top: 55vh;
+  width: 100%;
+  min-height: 40vh
 }
 @import '../assets/css/global.css';
 </style>
