@@ -6,13 +6,13 @@
           <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
           <div class="d-flex justify-content-center pt-2" id="social-stats">
-            <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
           </div>
@@ -42,15 +42,12 @@
           <div id="account-stats">
             <div class="card">
               <div class="card-body">
-                <h3 class="card-title">
+                <h2 class="card-title">
                   Will: {{ will }}
-                </h3>
-                <h3 class="card-title">
+                </h2>
+                <h2 class="card-title">
                   Level: {{ state.level }}
-                </h3>
-                <h3 class="card-title">
-                  Title: in progress
-                </h3>
+                </h2>
               </div>
             </div>
           </div>
@@ -167,6 +164,10 @@ export default {
 </script>
 
 <style scoped>
+.clickable {
+  cursor: pointer;
+}
+
 .profile-image {
   height: 18vh;
   width: auto
@@ -191,7 +192,7 @@ export default {
   top: 2vh;
   left: 2vw;
   font-size: 40px;
-  z-index: 50;
+  cursor: pointer;
 }
 #badges-row {
   height: 20vh
