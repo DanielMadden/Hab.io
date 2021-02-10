@@ -42,6 +42,11 @@ class GroupService {
     const res = await imageApi.get(imageURL + groupName)
     AppState.groupImages = res.data.results.map(i => new GroupImage(i))
   }
+
+  async getImagesForAccount(groupName) {
+    const res = await imageApi.get(imageURL + groupName)
+    AppState.accountImages = res.data.results.map(i => new GroupImage(i))
+  }
 }
 
 export const groupService = new GroupService()

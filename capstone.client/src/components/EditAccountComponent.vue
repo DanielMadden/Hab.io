@@ -45,7 +45,7 @@
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
             <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
               <img
-                class="imageResize rounded-lg img-fluid"
+                class="imageResizeAccount rounded-lg img-fluid"
                 :src="img.imageURL"
                 :alt="img.name"
                 @click="highlightImage($event)"
@@ -72,30 +72,31 @@ export default {
     const state = reactive({
       account: computed(() => AppState.activeAccount)
     })
-    const potentialImages = computed(() => AppState.groupImages)
+    const potentialImages = computed(() => AppState.accountImages)
     return {
       state,
       editProfile() {
         AppState.showBadges = false
         AppState.showModal = false
         AppState.darken = false
-        state.account.backgroundImage = document.getElementsByClassName('highlightImage')[0].currentSrc
+        AppState.accountImages = []
+        state.account.backgroundImage = document.getElementsByClassName('highlightImageAccount')[0].currentSrc
         accountService.editProfile(state.account)
       },
       potentialImages,
       async getImages(e) {
-        await groupService.getImagesForGroup(e.target.value)
-        const elements = document.getElementsByClassName('imageResize')
+        await groupService.getImagesForAccount(e.target.value)
+        const elements = document.getElementsByClassName('imageResizeAccount')
         if (elements.length > 0) {
-          elements[0].classList.add('highlightImage')
+          elements[0].classList.add('highlightImageAccount')
           document.getElementById('submit').disabled = false
           document.getElementById('submit').classList.remove('disabledButton')
         }
       },
       highlightImage(e) {
         const imgs = e.target.parentNode.parentNode.parentNode.querySelectorAll('img')
-        imgs.forEach(i => i.classList.remove('highlightImage'))
-        e.target.classList.add('highlightImage')
+        imgs.forEach(i => i.classList.remove('highlightImageAccount'))
+        e.target.classList.add('highlightImageAccount')
       }
     }
   }
@@ -103,14 +104,14 @@ export default {
 </script>
 <style scoped>
 @import "../assets/css/modals.css";
-.highlightImage {
+.highlightImageAccount {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 3px solid rgba(81, 203, 238, 1);
 }
 .disabledButton {
   background-color:#d2d2d2;
 }
-.imageResize{
+.imageResizeAccount{
   width: 100%;
   height: 200px;
   margin: auto;
