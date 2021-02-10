@@ -26,6 +26,7 @@ import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
 import router from '../router'
 import { logger } from '../utils/Logger'
+import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
@@ -34,9 +35,7 @@ export default {
     const joinGroup = async() => {
       try {
         const newGroupMemeber = await groupMemberService.joinGroup(AppState.account.id, AppState.activeGroupInfo.id)
-        AppState.darken = false
-        AppState.showModal = false
-        AppState.showAddHabitForm = false
+        closeModals()
         router.push({ name: 'Group', params: { id: newGroupMemeber.groupId } })
       } catch (error) {
         logger.error(error)

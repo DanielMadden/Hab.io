@@ -2,7 +2,7 @@
   <div class="habit" @click="openHabit">
     <h1 class="habit-header">
       <span class="habit-checkbox pr-3"
-            @click="complete"
+            @click="clickTest"
             :class="{'completed': completed}"
       >
         <i class="far fa-check-square"
@@ -24,6 +24,7 @@
 import { computed, reactive } from 'vue'
 import { habitService } from '../services/HabitService'
 import { AppState } from '../AppState'
+import { habitHistoryService } from '../services/HabitHistoryService'
 export default {
   props: {
     habit: {
@@ -45,6 +46,9 @@ export default {
         habitService.completeHabit(props.habit.id, props.habit.groupId)
       }
     }
+    const clickTest = () => {
+      habitHistoryService.create(props.habit.id)
+    }
     const openHabit = () => {
       AppState.activeHabit = props.habit
       habitService.getHabit(props.habit.id)
@@ -52,11 +56,11 @@ export default {
       AppState.showModal = true
       AppState.showHabitInfo = true
     }
-    return { complete, status, openHabit, completed }
+    return { complete, status, openHabit, completed, clickTest }
   }
 }
 </script>
 <style scoped>
 @import "../assets/css/habit.css";
-@import "../assets/css/global.css"
+@import "../assets/css/global.css";
 </style>
