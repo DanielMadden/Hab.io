@@ -1,6 +1,6 @@
 <template>
   <div class="about" id="home">
-    <div class="container" v-if="account">
+    <div class="container-fluid" v-if="account">
       <div class="row border-bottom" id="row-1">
         <div class="col-4 d-flex justify-content-center flex-column text-center align-items-center">
           <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
@@ -43,7 +43,7 @@
             <div class="card">
               <div class="card-body">
                 <h3 class="card-title">
-                  Will: {{ account.will }}
+                  Will: {{ will }}
                 </h3>
                 <h3 class="card-title">
                   Level: {{ state.level }}
@@ -57,31 +57,16 @@
         </div>
       </div>
       <div class="row" id="badges-row">
-        <div class="col-12 d-flex justify-content-between">
-          <h4 class="pt-3">
-            Badges
-          </h4>
-          <!-- <div v-for="badge in badges" :key="badge.name">
+        <div class="col-12 d-flex justify-content-around mt-1">
+          <div v-for="badge in allBadges" :key="badge.name">
             <img
               :src="badge.imageUrl"
               :alt="badge.name"
-            /> -->
-          <!-- Button trigger modal -->
-          <button type="button"
-                  class="btn btn-secondary mt-3"
-                  data-toggle="modal"
-                  data-target="#modelId"
-                  id="see-badges"
-                  @click="toggleBadges"
-          >
-            see all
-          </button>
-        </div>
-        <div v-for="badge in badges" :key="badge.name">
-          <img
-            :src="badge.imageUrl"
-            :alt="badge.name"
-          />
+              :title="`${badge.name}: ${badge.description}`"
+              class="gray"
+              :id="badge.name"
+            />
+          </div>
         </div>
       </div>
       <Modal />
@@ -103,12 +88,19 @@ import { computed, onMounted, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { accountService } from '../services/AccountService'
+import { badgeService } from '../services/BadgeService'
 export default {
   name: 'Account',
   setup() {
+    // const allBadges = computed(() => AppState.badges)
+    function checkBadges() {
+      for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
+        document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+      }
+    }
     const route = useRoute()
     const state = reactive({
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will))),
+      level: computed(() => Math.floor(0.03 * Math.sqrt(AppState.activeAccount.will))),
       account: computed(() => AppState.user),
       follower: computed(() => AppState.account),
       followee: computed(() => AppState.activeAccount)
@@ -119,9 +111,19 @@ export default {
       accountService.getFollowers(route.params.email)
       accountService.getFollowing(route.params.email)
       accountService.getHabits(route.params.email)
+      accountService.getWill(route.params.email)
+      badgeService.getBadges()
+      const waitForBadges = setInterval(() => {
+        if (AppState.badges.length > 0) {
+          checkBadges()
+          clearInterval(waitForBadges)
+        }
+      }, 10)
     })
     return {
+      checkBadges,
       state,
+      will: computed(() => AppState.activeAccountWill),
       account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
       // level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
@@ -130,6 +132,7 @@ export default {
       groups: computed(() => AppState.accountGroups),
       habits: computed(() => AppState.accountHabits),
       badges: computed(() => AppState.activeAccount.badges),
+      allBadges: computed(() => AppState.badges),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       },
@@ -145,11 +148,6 @@ export default {
       },
       toggleGroups() {
         AppState.showAccountGroups = true
-        AppState.showModal = true
-        AppState.darken = true
-      },
-      toggleBadges() {
-        AppState.showBadges = true
         AppState.showModal = true
         AppState.darken = true
       },
@@ -186,6 +184,9 @@ export default {
 #social-stats {
 
 }
+.gray {
+  filter: grayscale(100%)
+}
 .fa-user-plus {
   position: absolute;
   top: 2vh;
@@ -196,9 +197,6 @@ export default {
 #badges-row {
   height: 20vh
 }
-#see-badges {
-  height: 4vh;
-}
 .fa-user-edit {
   position: absolute;
   top: 1vh;
@@ -207,9 +205,9 @@ export default {
 #tasks-row {
   position: absolute;
   margin: 0;
-  top: 55vh;
+  top: 42vh;
   width: 100%;
-  min-height: 40vh;
+  min-height: 49.7vh;
 
 }
 @import '../assets/css/global.css';
