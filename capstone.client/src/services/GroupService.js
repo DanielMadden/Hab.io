@@ -32,6 +32,7 @@ class GroupService {
 
   async editGroup(data, groupId) {
     await api.put(baseURL + groupId, data)
+    this.getGroup(groupId, true)
   }
 
   async deleteGroup(groupId) {

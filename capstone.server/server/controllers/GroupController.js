@@ -89,8 +89,11 @@ export class GroupController extends BaseController {
 
   async edit(req, res, next) {
     try {
-      req.body.id = req.params.id
-      const data = await groupService.edit(req.body)
+      const update = {}
+      if (req.body.name) update.name = req.body.name
+      if (req.body.description) update.description = req.body.description
+      if (req.imageUrl) update.imageUrl = req.body.imageUrl
+      const data = await groupService.edit(req.params.id, update)
       res.send(data)
     } catch (error) {
       next(error)

@@ -16,14 +16,24 @@
         >
           {{ group.name }}
         </h1>
-        <button id="add-habit"
-                class="mr-3 d-flex justify-content-center align-items-center"
-                @click="addHabit"
-        >
-          <h1 class="p-0 m-0">
-            +
-          </h1>
-        </button>
+        <div id="group-buttons" class="d-flex">
+          <button id="open-group-settings"
+                  class="group-buttons mr-3 d-flex justify-content-center align-items-center"
+                  @click="openGroupSettings"
+          >
+            <h3 class="group-button-text p-0 m-0">
+              <i class="fas fa-cog"></i>
+            </h3>
+          </button>
+          <button id="add-habit"
+                  class="group-buttons mr-3 d-flex justify-content-center align-items-center"
+                  @click="addHabit"
+          >
+            <h1 class="group-button-text p-0 m-0">
+              +
+            </h1>
+          </button>
+        </div>
       </div>
       <div class="row px-3 pb-3">
         <div class="col-4 px-3" v-for="habit in habits" :key="habit.id">
@@ -133,6 +143,11 @@ export default {
       AppState.showModal = true
       AppState.showAddHabitForm = true
     }
+    const openGroupSettings = () => {
+      AppState.darken = true
+      AppState.showModal = true
+      AppState.showGroupSettings = true
+    }
     onMounted(() => {
       groupService.getGroup(route.params.id, true)
       groupMemberService.getGroupMembers(route.params.id)
@@ -145,7 +160,7 @@ export default {
         }
       }, 10)
     })
-    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember }
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings }
   }
 }
 </script>

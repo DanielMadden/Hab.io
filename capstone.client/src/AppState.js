@@ -45,5 +45,6 @@ export const AppState = reactive({
   showEditAccount: false,
   checkAchievement: false,
   showHabitInfo: false,
+  showGroupSettings: false,
   achievementName: null
 })

@@ -6,10 +6,10 @@
             :class="{'completed': completed}"
       >
         <i class="far fa-check-square"
-           v-if="completed"
+           v-if="completed || state.temp"
         ></i>
         <i class="far fa-square"
-           v-if="!completed"
+           v-else-if="!completed"
         ></i>
       </span>
       <span class="habit-name">
@@ -34,18 +34,23 @@ export default {
   setup(props) {
   // props.
     const state = reactive({
-      today: []
+      today: [],
+      temp: 0
     })
     const completed = computed(() => state.today.filter(history => history.accountId === AppState.account.id).length)
     onMounted(async() => {
       state.today = await habitHistoryService.getToday(props.habit.id)
     })
-    const complete = () => {
+    const complete = async() => {
+      window.event.stopPropagation()
       // Check for achievement
       AppState.achievementName = 'Ever Journey Begins With a Single Step'
       AppState.checkAchievement = true
       if (!completed.value) {
-        habitHistoryService.create(props.habit.id)
+        state.temp = 1
+        await habitHistoryService.create(props.habit.id)
+        state.today = await habitHistoryService.getToday(props.habit.id)
+        state.temp = 0
       }
     }
     const openHabit = () => {

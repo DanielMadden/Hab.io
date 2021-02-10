@@ -14,4 +14,5 @@ export const closeModals = () => {
   AppState.showBadges = false
   AppState.showAccountGroups = false
   AppState.showEditAccount = false
+  AppState.showGroupSettings = false
 }
