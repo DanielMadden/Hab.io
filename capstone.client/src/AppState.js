@@ -28,6 +28,7 @@ export const AppState = reactive({
   activeGroupMember: {}, // (for relationship between user and currently viewed group)
   activeGroupInfo: {}, // (when viewing group modal on home)
   activeHabit: {}, // (when viewing habit modal on groupdetails)
+  activeHabitToday: [], // (don't ask.)
   // Visual Variables
   darken: false,
   showMyGroups: false,
