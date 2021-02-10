@@ -1,5 +1,6 @@
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
+import { accountService } from './AccountService'
 import { api } from './AxiosService'
 
 const baseURL = '/api/habits/'
@@ -35,6 +36,7 @@ class HabitService {
     const res = await api.put(baseURL + habitId + '/complete')
     logger.log(res)
     this.getGroupHabits(groupId)
+    accountService.getHabits(AppState.account.email)
   }
 
   async deleteHabit(habitId) {

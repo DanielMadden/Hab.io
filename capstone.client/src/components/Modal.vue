@@ -3,7 +3,7 @@
        class="d-flex justify-content-center py-5"
        :class="{'show': showModal, 'hide': !showModal}"
   >
-    <div id="myModal-clickoff" @click="close"></div>
+    <div id="myModal-clickoff" @click="closeModals"></div>
     <div id="myModal-container">
       <!-- Insert all modal components here with their respective v-if's -->
       <modal-group-info v-if="modalChoice.groupInfo"></modal-group-info>
@@ -28,6 +28,7 @@ import AccountFollowersComponent from './AccountFollowersComponent.vue'
 import AccountGroupsComponent from './AccountGroupsComponent.vue'
 import BadgesModalComponent from './BadgesModalComponent.vue'
 import EditAccountComponent from './EditAccountComponent.vue'
+import { closeModals } from '../utils/Modal'
 export default {
   components: { ModalGroupInfo, ModalAddGroup, AccountFollowersComponent, AccountGroupsComponent, BadgesModalComponent, EditAccountComponent },
   setup() {
@@ -44,25 +45,11 @@ export default {
       badges: computed(() => AppState.showBadges),
       habitInfo: computed(() => AppState.showHabitInfo)
     })
-    const close = () => {
-      AppState.darken = false
-      AppState.showModal = false
-      AppState.showMyGroups = false
-      AppState.showGroupInfo = false
-      AppState.showAddGroupForm = false
-      AppState.showAddHabitForm = false
-      AppState.showInviteModal = false
-      AppState.showHabitInfo = false
-      AppState.showFollowing = false
-      AppState.showFollowers = false
-      AppState.showBadges = false
-      AppState.showAccountGroups = false
-      AppState.showEditAccount = false
-    }
+    // const close = closeModals()
     return {
       showModal,
       modalChoice,
-      close
+      closeModals
     }
   }
 }

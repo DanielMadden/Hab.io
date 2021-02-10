@@ -5,8 +5,10 @@ const baseURL = '/api/messages'
 
 class MessageService {
   async getGroupMessages(groupId) {
+    console.log('getting group messages...')
     const res = await api.get('/api/groups/' + groupId + '/messages')
-    AppState.groupMessages = res.data
+    AppState.activeGroupMessages = res.data
+    console.log(AppState.activeGroupMessages)
   }
 
   async sendMessage(data) {

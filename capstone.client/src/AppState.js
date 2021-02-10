@@ -12,6 +12,7 @@ export const AppState = reactive({
   accountHabits: [],
   accountGroups: [],
   accountSearchResults: [],
+  accountSelectedInvitees: [],
   // Group Variables
   myGroups: [],
   myGroupMembers: [],
@@ -23,6 +24,7 @@ export const AppState = reactive({
   activeGroupHabits: [],
   activeGroupMessages: [],
   activeGroupMembers: [],
+  activeGroupMember: {}, // (for relationship between user and currently viewed group)
   activeGroupInfo: {}, // (when viewing group modal on home)
   activeHabit: {}, // (when viewing habit modal on groupdetails)
   // Visual Variables

@@ -19,6 +19,11 @@
   background-color: white;
 }
 
+.habit:hover {
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
+  transform: translate3d(-5px, -5px, 0px);
+}
+
 .habit-header {
   font-weight: 300;
   font-size: 35px;

@@ -72,9 +72,8 @@ class AccountService {
       }
     ])
       .collation({ locale: 'en_US', strength: 1 })
-      .limit(20)
+      .limit(8)
       .exec()
-    console.log(accounts)
     return accounts
   }
 

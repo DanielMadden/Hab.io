@@ -51,8 +51,6 @@ export default {
       (val, prevVal) => {
         if (val === true) {
           if (!AppState.account.badges.some(e => e.name === AppState.achievementName)) {
-            console.log(AppState.achievementName)
-            console.log(AppState.badges)
             AppState.account.badges.push(AppState.badges.find(b => b.name === AppState.achievementName))
             accountService.editBadges(AppState.account.id, AppState.account.badges)
             AppState.checkAchievement = false
@@ -61,7 +59,7 @@ export default {
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
-              timer: 6000,
+              timer: 5000,
               timerProgressBar: true,
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
