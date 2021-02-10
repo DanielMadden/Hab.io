@@ -5,6 +5,7 @@ import { groupMemberService } from '../services/GroupMemberService'
 class GroupService {
   async getGroupsByAccountId(accountId) {
     const groupMembers = await dbContext.GroupMembers.find({ memberId: accountId })
+    // const noPending = groupMembers.filter(groupMember => groupMember.status !== 'Pending')
     const groupIds = groupMembers.map(groupMember => groupMember.groupId)
     return await dbContext.Groups.find({ _id: { $in: groupIds } })
   }

@@ -10,7 +10,7 @@
     <h1 class="pb-1">
       My Groups
     </h1>
-    <my-group-component v-for="group in myGroups" :key="group.id" :group="group"></my-group-component>
+    <my-group-component v-for="groupMember in myGroups" :key="groupMember.id" :group="groupMember.groupId"></my-group-component>
   </div>
 </template>
 <script>
@@ -19,7 +19,7 @@ import { AppState } from '../AppState'
 // import { groupService } from '../services/GroupService'
 export default {
   setup() {
-    const myGroups = computed(() => AppState.myGroups.filter(groupMember => groupMember.status !== 'Pending'))
+    const myGroups = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status !== 'Pending'))
     const pendingGroups = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status === 'Pending'))
     const show = computed(() => AppState.showMyGroups)
     // onMounted(() => {  })
