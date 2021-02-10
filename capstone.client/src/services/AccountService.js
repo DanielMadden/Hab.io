@@ -49,6 +49,7 @@ class AccountService {
     const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/followees')
     AppState.accountFollowing = res.data
+    console.log(AppState.accountFollowing)
   }
 
   async followUser(body) {

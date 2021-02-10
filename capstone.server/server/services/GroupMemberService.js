@@ -23,9 +23,10 @@ class GroupMemberService {
   }
 
   async inviteToPrivateGroup(groupMember, inviterId) {
-    const inviter = await dbContext.GroupMembers.findById(inviterId)
+    const inviter = await dbContext.GroupMembers.findOne({ memberId: inviterId, groupId: groupMember.groupId })
     if (inviter.status === 'Moderator') {
-      return await dbContext.GroupMembers.create(groupMember)
+      const res = await dbContext.GroupMembers.create(groupMember)
+      return res
     }
   }
 

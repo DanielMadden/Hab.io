@@ -27,7 +27,7 @@
   </div> -->
   <div class="myModal-content">
     <div class="myModal-frame dark-scrollbar">
-      {{ followers }}
+      <FollowerComponent v-for="follow in followers" :key="follow.id" :follow="follow" />
     </div>
     <div class="myModal-footer">
     </div>

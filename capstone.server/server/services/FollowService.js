@@ -11,7 +11,7 @@ class FollowService {
   }
 
   async getFollowsByAccountId(query) {
-    const follows = await dbContext.Follows.find(query)
+    const follows = await dbContext.Follows.find(query).populate('followerId').populate('followeeId')
     if (!follows) {
       throw new BadRequest('Invalid Id')
     }

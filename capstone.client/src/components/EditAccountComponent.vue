@@ -76,6 +76,9 @@ export default {
     return {
       state,
       editProfile() {
+        AppState.showBadges = false
+        AppState.showModal = false
+        AppState.darken = false
         state.account.backgroundImage = document.getElementsByClassName('highlightImage')[0].currentSrc
         accountService.editProfile(state.account)
       },

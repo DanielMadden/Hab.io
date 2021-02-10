@@ -25,7 +25,7 @@
             <label class="form-check-label" for="private-checkbox">Private</label>
           </div>
         </div>
-        <div class="container">
+        <div id="potentialImgs" class="container">
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
             <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
               <img
@@ -77,6 +77,7 @@ export default {
         AppState.darken = false
         AppState.showModal = false
         AppState.showAddGroupForm = false
+        AppState.groupImages = []
         logger.log('right before route push' + state.activeGroup.id)
         router.push({ name: 'Group', params: { id: state.activeGroup.id } })
       } catch (error) {
