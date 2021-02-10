@@ -51,6 +51,11 @@ class AccountService {
     AppState.accountFollowing = res.data
   }
 
+  async followUser(body) {
+    const res = await api.post('api/follows', body)
+    AppState.accountFollowers.push(res.data)
+  }
+
   async getHabits(email) {
     const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/habits')

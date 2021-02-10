@@ -2,9 +2,10 @@
   <div class="about" id="home">
     <div class="container" v-if="account">
       <div class="row border-bottom" id="row-1">
-        <div class="col-6">
+        <div class="col-4 d-flex justify-content-center flex-column text-center align-items-center">
+          <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
-          <div class="d-flex" id="social-stats">
+          <div class="d-flex justify-content-center pt-2" id="social-stats">
             <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
@@ -15,6 +16,8 @@
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
           </div>
+        </div>
+        <div class="col-4 d-flex justify-content-center align-items-center">
           <div id="main-info">
             <div class="card card-1">
               <div class="card-body">
@@ -35,7 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="col-6 d-flex justify-content-center">
+        <div class="col-4 d-flex justify-content-center align-items-center">
           <div id="account-stats">
             <div class="card">
               <div class="card-body">
@@ -102,7 +105,9 @@ export default {
     const route = useRoute()
     const state = reactive({
       level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will))),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.user),
+      follower: computed(() => AppState.account),
+      followee: computed(() => AppState.activeAccount)
     })
     onMounted(() => {
       accountService.getSelected(route.params.email)
@@ -148,6 +153,12 @@ export default {
         AppState.showEditAccount = true
         AppState.showModal = true
         AppState.darken = true
+      },
+      followUser() {
+        const test = AppState.accountFollowers.find(f => f.followerId === AppState.account.id)
+        if (!test) {
+          accountService.followUser({ followerId: state.follower.id, followeeId: state.followee.id })
+        }
       }
     }
   }
@@ -156,26 +167,27 @@ export default {
 
 <style scoped>
 .profile-image {
-  position: absolute;
-  top: 3vh;
-  left: 5vw;
-  height: 20vh
+  height: 15vh;
+  width: auto
 }
 #main-info {
-  position: absolute;
-  left: 25vw;
-  top: 5vh
+
 }
 #row-1 {
   height: 30vh
 }
 #account-stats {
-  position: absolute;
-  top: 5vh
+
 }
 #social-stats {
+
+}
+.fa-user-plus {
   position: absolute;
-  top: 25vh;
+  top: 2vh;
+  left: 2vw;
+  font-size: 40px;
+  z-index: 50;
 }
 #badges-row {
   height: 20vh
