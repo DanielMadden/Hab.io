@@ -16,7 +16,7 @@
         </div>
         <div class="col-12 py-1">
           <div class="search-results">
-            <AccountSearchResultComponent v-for="searchResult in searchResults" :key="searchResult.id" :search-result="searchResult">
+            <AccountSearchResultComponent v-for="searchResult in state.searchResults" :key="searchResult.id" :search-result="searchResult">
             </AccountSearchResultComponent>
           </div>
         </div>
@@ -44,13 +44,13 @@ export default {
       query: '',
       selectedInvitees: [],
       activeGroup: computed(() => AppState.activeGroup),
-      accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees)
+      activeGroupMembers: computed(() => AppState.activeGroupMembers),
+      accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees),
+      searchResults: computed(() => AppState.accountSearchResults.filter(account => !(state.activeGroupMembers.some(groupMember => groupMember.memberId === account.id))))
 
     })
     watchEffect(() => accountService.getAccountsByQuery(state.query))
-    const searchResults = computed(() => AppState.accountSearchResults)
     return {
-      searchResults,
       state,
       async getAccounts() {
         try {
