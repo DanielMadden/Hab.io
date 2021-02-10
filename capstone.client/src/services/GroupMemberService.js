@@ -1,8 +1,8 @@
 import { AppState } from '../AppState'
 import { api } from './AxiosService'
 
-const baseURL = '/api/groupmembers/'
-const baseURLQuery = '/api/groupmembers?'
+const baseURL = '/api/groupMembers/'
+const baseURLQuery = '/api/groupMembers?'
 
 class GroupMemberService {
   async getGroupMembers(groupId) {
@@ -13,7 +13,6 @@ class GroupMemberService {
   async getActiveGroupMember(groupId) {
     const res = await api.get('/api/groups/' + groupId + '/activeGroupMember')
     AppState.activeGroupMember = res.data
-    console.log(AppState.activeGroupMember)
   }
 
   async joinGroup(accountId, groupId) {
@@ -25,7 +24,8 @@ class GroupMemberService {
   }
 
   async sendGroupInvite(inviteeId, groupId) {
-    await api.post(baseURL, { memberId: inviteeId, groupId: groupId })
+    const res = await api.post(baseURL + 'invite', { memberId: inviteeId, groupId: groupId })
+    return res.data
   }
 
   async leaveGroup(accountId, groupId) {

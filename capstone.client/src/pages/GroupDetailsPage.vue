@@ -125,6 +125,8 @@ export default {
       AppState.darken = true
       AppState.showModal = true
       AppState.showInviteModal = true
+      AppState.accountSearchResults = []
+      AppState.accountSelectedInvitees = []
     }
     const addHabit = () => {
       AppState.darken = true
