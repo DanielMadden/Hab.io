@@ -1,21 +1,23 @@
 import { dbContext } from '../db/DbContext'
 
 class HabitHistoryService {
-  // async getToday(habitId) {
-  //   await dbContext.HabitHistory.find
-  // }
+  async getToday(habitId) {
+    const today = new Date()
+    const search = {
+      habitId: habitId,
+      month: today.getMonth(),
+      day: today.getDate()
+    }
+    return await dbContext.HabitHistory.find(search).populate('account')
+  }
 
   async create(data) {
     const today = new Date()
     data.month = today.getMonth()
     data.day = today.getDate()
-    console.log(data)
     const existing = await dbContext.HabitHistory.findOne(data)
-    console.log(existing)
     if (existing == null) {
-      console.log('none existing, making a new one!')
       const newHabitHistory = await dbContext.HabitHistory.create(data)
-      console.log(newHabitHistory)
       return newHabitHistory
     } else return 'Already completed today'
   }

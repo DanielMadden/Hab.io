@@ -12,39 +12,35 @@
           <i class="far fa-square"
              v-if="!completed"
           ></i>
-        <!-- {{ completed }} -->
         </span>
         <span class="habit-name">
           {{ habit.name }}
         </span>
       </h1>
-      <p class="m-0 p-0">
-        {{ habit.description }}
-      </p>
     </div>
     <div class="myModal-footer">
-      {{ habit.completed.length }} completed today
+      <span class="habit-completed-count">{{ today.length }} members completed today</span>
     </div>
   </div>
 </template>
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-import { habitService } from '../services/HabitService'
+import { habitHistoryService } from '../services/HabitHistoryService'
 export default {
   setup() {
     const habit = computed(() => AppState.activeHabit)
-    const completed = computed(() => habit.value.completed.includes(AppState.account.id))
+    const today = computed(() => AppState.activeHabitToday)
+    const completed = computed(() => today.value.filter(history => history.accountId === AppState.account.id).length)
     const complete = () => {
       // Check for achievement
       AppState.achievementName = 'Ever Journey Begins With a Single Step'
       AppState.checkAchievement = true
-      window.event.stopPropagation()
       if (!completed.value) {
-        habitService.completeHabit(habit.value.id, habit.value.groupId)
+        habitHistoryService.create(habit.value.id)
       }
     }
-    return { habit, completed, complete }
+    return { habit, completed, complete, today }
   }
 }
 </script>

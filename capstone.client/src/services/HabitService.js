@@ -2,6 +2,7 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
 import { api } from './AxiosService'
+import { habitHistoryService } from './HabitHistoryService'
 
 const baseURL = '/api/habits/'
 
@@ -18,8 +19,11 @@ class HabitService {
 
   async getHabit(habitId) {
     const res = await api.get(baseURL + habitId)
-    console.log(res)
     AppState.activeHabit = res.data
+  }
+
+  async getHabitToday(habitId) {
+    AppState.activeHabitToday = await habitHistoryService.getToday(habitId)
   }
 
   async createHabit(data) {
