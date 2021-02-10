@@ -13,6 +13,7 @@ export const AppState = reactive({
   accountGroups: [],
   accountSearchResults: [],
   accountSelectedInvitees: [],
+  accountImages: [],
   // Group Variables
   myGroups: [],
   myGroupMembers: [],
