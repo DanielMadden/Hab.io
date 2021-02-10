@@ -3,10 +3,10 @@
        class="fancy-scrollbar dark-scrollbar"
        :class="{'show': show, 'hide': !show}"
   >
-    <h1 v-if="myGroupMembers[0]" class="pb-1">
+    <h1 v-if="pendingGroups[0]" class="pb-1">
       Pending Invites
     </h1>
-    <my-group-component v-for="groupMember in myGroupMembers" :key="groupMember.id" :group="groupMember.groupId"></my-group-component>
+    <my-group-component v-for="groupMember in pendingGroups" :key="groupMember.id" :group="groupMember.groupId"></my-group-component>
     <h1 class="pb-1">
       My Groups
     </h1>
@@ -19,12 +19,12 @@ import { AppState } from '../AppState'
 // import { groupService } from '../services/GroupService'
 export default {
   setup() {
-    const myGroups = computed(() => AppState.myGroups)
-    const myGroupMembers = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status === 'Pending'))
+    const myGroups = computed(() => AppState.myGroups.filter(groupMember => groupMember.status !== 'Pending'))
+    const pendingGroups = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status === 'Pending'))
     const show = computed(() => AppState.showMyGroups)
     // onMounted(() => {  })
     return {
-      myGroups, myGroupMembers, show
+      myGroups, pendingGroups, show
     }
   }
 }

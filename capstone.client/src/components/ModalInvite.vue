@@ -37,6 +37,7 @@ import { logger } from '../utils/Logger'
 import { accountService } from '../services/AccountService'
 import { groupMemberService } from '../services/GroupMemberService'
 import { AppState } from '../AppState'
+import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
@@ -53,6 +54,7 @@ export default {
       state.selectedInvitees.forEach(invitee => {
         sendInvite(invitee._id, state.activeGroup.id)
       })
+      closeModals()
     }
     async function sendInvite(inviteeId, groupId) {
       try {

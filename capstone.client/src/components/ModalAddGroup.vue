@@ -57,6 +57,7 @@ import { AppState } from '../AppState'
 import { groupService } from '../services/GroupService'
 import router from '../router'
 import { logger } from '../utils/Logger'
+import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
@@ -74,9 +75,7 @@ export default {
       try {
         form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
         await groupService.createGroup(form)
-        AppState.darken = false
-        AppState.showModal = false
-        AppState.showAddGroupForm = false
+        closeModals()
         AppState.groupImages = []
         logger.log('right before route push' + state.activeGroup.id)
         router.push({ name: 'Group', params: { id: state.activeGroup.id } })
