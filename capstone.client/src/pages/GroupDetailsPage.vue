@@ -2,23 +2,49 @@
   <div id="group-details"
        :style="`background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
   >
+    <div id="tab-bar" class="container-fluid p-0">
+      <div id="tab-bar-row" class="row">
+        <div id="tab-bar-members"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'members'}"
+             @click="selectTab('members')"
+        >
+          <i class="fas fa-users"></i>
+        </div>
+        <div id="tab-bar-habits"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'habits'}"
+             @click="selectTab('habits')"
+        >
+          <i class="fas fa-check-double"></i>
+        </div>
+        <div id="tab-bar-chat"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'chat'}"
+             @click="selectTab('chat')"
+        >
+          <i class="fas fa-comments"></i>
+        </div>
+      </div>
+    </div>
     <!-- Hello group details:
     {{ group }}
     <div style="color:red">
       {{ groupMembers }}
     </div> -->
     <div id="group-habits"
-         class="container-fluid dark-scrollbar"
+         class="container-fluid dark-scrollbar tab-section"
+         :class="{'selected': state.tabSelect == 'habits'}"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
         <h1 id="group-name"
-            class="page-title px-3 pt-3"
+            class="page-title px-md-3 pt-3"
         >
           {{ group.name }}
         </h1>
-        <div id="group-buttons" class="d-flex">
+        <div id="group-buttons" class="d-flex justify-content-between justify-content-md-end">
           <button id="open-group-settings"
-                  class="group-buttons mr-3 d-flex justify-content-center align-items-center"
+                  class="group-button mr-3 d-flex justify-content-center align-items-center"
                   @click="openGroupSettings"
           >
             <h3 class="group-button-text p-0 m-0">
@@ -26,7 +52,7 @@
             </h3>
           </button>
           <button id="add-habit"
-                  class="group-buttons mr-3 d-flex justify-content-center align-items-center"
+                  class="group-button mr-3 d-flex justify-content-center align-items-center"
                   @click="addHabit"
           >
             <h1 class="group-button-text p-0 m-0">
@@ -35,15 +61,16 @@
           </button>
         </div>
       </div>
-      <div class="row px-3 pb-3">
-        <div class="col-4 px-3" v-for="habit in habits" :key="habit.id">
+      <div id="habit-section" class="row px-0 px-md-3 pb-3">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 px-3" v-for="habit in habits" :key="habit.id">
           <habit-component :habit="habit"></habit-component>
         </div>
       </div>
     </div>
     <div id="group-sidebar">
       <div id="group-members"
-           class="group-sidebars d-flex flex-column p-3"
+           class="group-sidebars d-flex flex-column p-3 tab-section"
+           :class="{'selected': state.tabSelect == 'members'}"
            @mouseover="focus('members')"
            @mouseout="noFocus()"
       >
@@ -53,7 +80,8 @@
         </button>
       </div>
       <div id="group-chat"
-           class="group-sidebars"
+           class="group-sidebars tab-section"
+           :class="{'selected': state.tabSelect == 'chat'}"
            @mouseover="focus('chat')"
            @mouseout="noFocus()"
            v-if="authenticated"
@@ -73,6 +101,7 @@
                  type="text"
                  placeholder="send a message..."
                  v-model="state.message"
+                 autocomplete="off"
           />
           <!-- @focusin="focusInput(true);focus('chat')"
                     @focusout="focusInput(false);noFocus()" -->
@@ -108,8 +137,12 @@ export default {
     const authenticated = computed(() => AppState.user.isAuthenticated)
     const activeGroupMember = computed(() => AppState.activeGroupMember)
     const state = reactive({
-      message: ''
+      message: '',
+      tabSelect: 'habits'
     })
+    const selectTab = (tab) => {
+      state.tabSelect = tab
+    }
     const sendMessage = () => {
       if (state.message.length > 0) {
         messageService.sendMessage({ groupId: group.value.id, body: state.message })
@@ -162,7 +195,7 @@ export default {
         }
       }, 10)
     })
-    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings }
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab }
   }
 }
 </script>
