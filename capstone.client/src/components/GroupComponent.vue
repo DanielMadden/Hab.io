@@ -19,6 +19,7 @@ import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
 import { groupService } from '../services/GroupService'
+import { closeModals } from '../utils/Modal'
 export default {
   props: {
     group: {
@@ -36,7 +37,10 @@ export default {
       AppState.showModal = true
       AppState.showGroupInfo = true
     }
-    const travel = () => { router.push('/group/' + props.group.id) }
+    const travel = () => {
+      router.push('/group/' + props.group.id)
+      closeModals()
+    }
 
     return {
       showGroupInfo,

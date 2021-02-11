@@ -1,6 +1,7 @@
 <template>
   <div class="about" id="home">
-    <div class="container-fluid" v-if="account">
+    <!-- desktop view -->
+    <div class="container-fluid" v-if="account" id="desktop-view">
       <div class="row border-bottom" id="row-1">
         <div class="col-4 d-flex justify-content-center flex-column text-center align-items-center">
           <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
@@ -72,8 +73,67 @@
          :style="`background: url('${account.backgroundImage}');
   background-size: cover; `"
     >
-      <div class="col-4" v-for="habit in habits" :key="habit.id">
+      <div class="col-4-md col-12" v-for="habit in habits" :key="habit.id">
         <HabitComponent :habit="habit" />
+      </div>
+    </div>
+
+    <!-- mobile view -->
+    <div class="container-fluid d-none" v-if="account" id="mobile-view">
+      <div class="row mt-3 pb-2">
+        <div class="col-5 d-flex align-items-center flex-column">
+          <img :src="account.picture" class="rounded-circle profile-image">
+          <div class="card mt-2">
+            <div class="card-body">
+              <!-- <p class="card-text">Text</p> -->
+              <p class="px-1 clickable" @click="toggleFollowing()">
+                Following <span class="font-weight-bold">{{ following.length }}</span>
+              </p>
+              <p class="px-1 clickable" @click="toggleFollowers()">
+                Followers <span class="font-weight-bold">{{ followers.length }}</span>
+              </p>
+              <p class="px-1  mb-0 clickable" @click="toggleGroups()">
+                Groups <span class="font-weight-bold">{{ groups.length }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">
+                Will: {{ will }}
+              </h4>
+              <h4 class="card-title">
+                Level: {{ state.level }}
+              </h4>
+              <i class="fas fa-user-edit" v-if="account.id === currentUser.id" @click="toggleEdit()"></i>
+              <small class="card-text mb-0">
+                <u>Name</u>
+              </small>
+              <h5 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
+                {{ account.name }}
+              </h5>
+              <small class="card-text mb-0 pt-1">
+                <u>Email</u>
+              </small>
+              <h6 class="card-title">
+                {{ account.email }}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 d-flex justify-content-around mt-1" v-for="badge in allBadges" :key="badge.name">
+          <div>
+            <img
+              :src="badge.imageUrl"
+              :alt="badge.name"
+              :title="`${badge.name}: ${badge.description}`"
+              class="gray sm-badges"
+              :id="badge.description"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -92,6 +152,7 @@ export default {
     function checkBadges() {
       for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
         document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+        document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
       }
     }
     const route = useRoute()
@@ -208,7 +269,29 @@ export default {
   top: 42vh;
   width: 100%;
   min-height: 49.7vh;
-
+}
+@media only screen and (max-width: 769px) {
+  #desktop-view {
+    display: none;
+  }
+  #mobile-view {
+    display: block !important
+  }
+  .profile-image {
+    height: 100px;
+    width: 100px
+  }
+  .sm-badges {
+    height: 70px;
+    width: 70px
+  }
+  #tasks-row {
+  position: absolute;
+  margin: 0;
+  top: 58vh;
+  width: 100%;
+  min-height: 49.7vh;
+}
 }
 @import '../assets/css/global.css';
 </style>

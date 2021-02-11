@@ -17,7 +17,7 @@
       </button>
     </div>
     <div class="row px-3 pb-3">
-      <div class="col-lg-4 col-md-6 col-sm-12 px-3" v-for="group in groups" :key="group.id">
+      <div class="col-lg-4 col-sm-6 col-xs-12 px-3" v-for="group in groups" :key="group.id">
         <group-component :group="group"></group-component>
       </div>
     </div>
