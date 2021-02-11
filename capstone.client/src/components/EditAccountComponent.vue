@@ -2,9 +2,17 @@
   <div class="myModal-content">
     <div class="myModal-frame dark-scrollbar d-flex justify-content-around flex-column">
       <form @submit.prevent="editProfile" class="my-2">
+        <small>Name</small><br>
         <input class="my-1" type="text" placeholder="Name" v-model="state.account.name"><br>
-        <input class="my-1" type="text" placeholder="Profile Image" v-model="state.account.picture"><br>
+        <small>Profile picture</small><br>
+        <input
+          class="my-1"
+          type="text"
+          placeholder="Profile Image"
+          v-model="state.account.picture"
+        ><br>
         <!-- <input class="my-1" type="text" placeholder="Custom Background Image" v-model="state.account.backgroundImage"><br> -->
+        <small>Background image</small>
         <input type="text" placeholder="Image search" @blur="getImages($event)" required="true" /> <br>
         <small class="text-muted">Select an available image</small>
         <div class="container">

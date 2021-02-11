@@ -15,6 +15,7 @@ import { groupMemberService } from '../services/GroupMemberService'
 import { groupService } from '../services/GroupService'
 import { habitService } from '../services/HabitService'
 import { messageService } from '../services/MessageService'
+import { closeModals } from '../utils/Modal'
 export default {
   props: {
     group: {
@@ -25,6 +26,7 @@ export default {
   setup(props) {
     const router = useRouter()
     const travel = () => {
+      closeModals()
       AppState.showMyGroups = false
       AppState.darken = false
       router.push('/group/' + props.group.id)

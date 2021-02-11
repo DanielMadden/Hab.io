@@ -2,7 +2,7 @@ export default class GroupImage {
   constructor(data) {
     this.name = data.alt_description
     this.imageURL = modifyURL(data.urls.regular)
-    this.photohrapher = data.user.name
+    this.photographer = data.user.name
     this.color = data.color
   }
 }

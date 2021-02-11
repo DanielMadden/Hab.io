@@ -47,7 +47,7 @@
                   Will: {{ will }}
                 </h2>
                 <h2 class="card-title">
-                  Level: {{ state.level }}
+                  Level: {{ Math.floor(0.3 * Math.sqrt(will)) }}
                 </h2>
               </div>
             </div>
@@ -82,6 +82,7 @@
     <div class="container-fluid d-none" v-if="account" id="mobile-view">
       <div class="row mt-3 pb-2">
         <div class="col-5 d-flex align-items-center flex-column">
+          <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
           <div class="card mt-2">
             <div class="card-body">
@@ -105,7 +106,7 @@
                 Will: {{ will }}
               </h4>
               <h4 class="card-title">
-                Level: {{ state.level }}
+                Level: {{ Math.floor(0.3 * Math.sqrt(will)) }}
               </h4>
               <i class="fas fa-user-edit" v-if="account.id === currentUser.id" @click="toggleEdit()"></i>
               <small class="card-text mb-0">
@@ -157,7 +158,6 @@ export default {
     }
     const route = useRoute()
     const state = reactive({
-      level: computed(() => Math.floor(0.03 * Math.sqrt(AppState.activeAccount.will))),
       account: computed(() => AppState.user),
       follower: computed(() => AppState.account),
       followee: computed(() => AppState.activeAccount)
@@ -291,6 +291,9 @@ export default {
   top: 58vh;
   width: 100%;
   min-height: 49.7vh;
+}
+.fa-user-plus {
+  font-size: 20px
 }
 }
 @import '../assets/css/global.css';
