@@ -4,28 +4,31 @@
   --transition-time: .3s;
 }
 
+#tab-bar {
+  display: none;
+}
+
 #group-habits {
   position: absolute;
   left: 0;
   width: calc(100% - var(--sidebar-width));
   height: 100%;
+  overflow: scroll;
 }
 
 #group-name {
   color: white;
 }
 
-.group-buttons {
+.group-button {
   border: none;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.3);
   color: white;
-  width: 3.5em;
-  height: 3.5em;
   transition: all .2s
 }
 
-.group-buttons:hover {
+.group-button:hover {
   background-color: rgba(255, 255, 255, 0.1)
 }
 
@@ -33,23 +36,9 @@
   transition: all .5s ease-in-out
 }
 
-.group-buttons:hover .group-button-text {
+.group-button:hover .group-button-text {
   transform: rotate(45deg)
 } */
-
-#add-habit {
-  border: none;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.3);
-  color: white;
-  width: 3.5em;
-  height: 3.5em;
-  transition: all .2s
-}
-
-#add-habit:hover {
-  background-color: rgba(255, 255, 255, 0.1)
-}
 
 #group-sidebar {
   --group-sidebar-height: 95%;
@@ -146,4 +135,83 @@
   height: fit-content;
   width: 100%;
   padding-bottom: 1em;
+}
+
+@media only screen and (min-width: 768px) {
+  .group-button {
+    width: 3.5em;
+    height: 3.5em;
+  }
+}
+
+/* MEDIUM SCREENS AND BELOW */
+
+@media only screen and (max-width: 768px) {
+  #group-details {
+    overflow: hidden;
+  }
+  #tab-bar {
+    display: inline-block;
+    height: var(--nav-height);
+    width: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.3);
+    z-index: 8
+  }
+  #tab-bar-row {
+    height: 100%;
+  }
+  .tab-bar-column {
+    color: white;
+    padding: 0;
+    font-size: 250%;
+  }
+  .tab-bar-column.selected {
+    border-bottom: 3px solid white;
+  }
+  .tab-section {
+    display: none !important;
+  }
+  .tab-section.selected {
+    display: inline-block !important;
+  }
+  #group-habits {
+    position: absolute;
+    top: var(--nav-height);
+    height: calc(100% - var(--nav-height));
+    left: 0;
+    width: 100%;
+    z-index: 7;
+  }
+  #group-habits::-webkit-scrollbar {
+    display: none;
+  }
+  #group-habits {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #group-buttons {
+    width: 100%;
+  }
+  .group-button {
+    width: 45%;
+    margin: 0 !important;
+  }
+  .group-button:hover {
+    background-color: rgba(255, 255, 255, 0.1)
+  }
+  #group-sidebar {
+    position: absolute;
+    top: var(--nav-height);
+    height: calc(100% - var(--nav-height));
+    left: 0;
+    right: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .group-sidebars {
+    border-radius: 0;
+    height: 100% !important;
+  }
 }
