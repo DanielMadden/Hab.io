@@ -13,7 +13,7 @@ class MessageService {
 
   async sendMessage(data) {
     await api.post(baseURL, data)
-    this.getGroupMessages(data.groupId)
+    // this.getGroupMessages(data.groupId)
   }
 }
 

@@ -30,6 +30,7 @@ import { groupService } from '../services/GroupService'
 import { badgeService } from '../services/BadgeService'
 import { AppState } from '../AppState'
 import GroupComponent from '../components/GroupComponent.vue'
+// import { socketService } from '../services/SocketService'
 export default {
   components: { GroupComponent },
   name: 'Home',
@@ -37,6 +38,7 @@ export default {
     onMounted(() => {
       badgeService.getBadges()
       groupService.getPublicGroups()
+      // socketService.emit('join:room', 'home')
     })
     const groups = computed(() => AppState.publicGroups)
     const addGroup = () => {
