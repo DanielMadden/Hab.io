@@ -1,7 +1,7 @@
 @import "./global.css";
 /* :root {} */
 
-@media screen and (min-width: 0px){
+@media screen and (max-width: 575px) {
   #add-group {
     border: solid black 2px;
     background-color: white;
@@ -10,18 +10,15 @@
     height: 3.5em;
     transition: all .2s
   }
-
   #add-group:hover {
     background-color: black;
     color: white;
   }
-
   .group {
     /* Variables */
     --transition-time: .3s;
     --padding: 1em;
   }
-
   .group {
     height: 5em;
     width: 100%;
@@ -34,12 +31,10 @@
     box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
     transition: all var(--transition-time) ease-in-out
   }
-
   .group-content {
     padding: var(--padding);
     position: absolute;
   }
-
   .group-darken {
     position: absolute;
     width: 100%;
@@ -48,32 +43,25 @@
     opacity: 0;
     transition: opacity var(--transition-time)
   }
-
   .group-name {
     font-weight: 300;
   }
-
   .group-description {
     display: none;
   }
-
   .group:hover {
     box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
     transform: translate3d(-5px, -5px, 0px);
   }
-
   .group:hover .group-darken {
     opacity: 1
   }
-
   .group:hover .group-content .group-description {
     opacity: 1
   }
-
 }
 
-@media screen and (min-width: 576px){
-
+@media screen and (min-width: 576px) {
   #add-group {
     border: solid black 2px;
     background-color: white;
@@ -82,18 +70,15 @@
     height: 3.5em;
     transition: all .2s
   }
-
   #add-group:hover {
     background-color: black;
     color: white;
   }
-
   .group {
     /* Variables */
     --transition-time: .3s;
     --padding: 1em;
   }
-
   .group {
     height: 12em;
     width: 100%;
@@ -106,12 +91,10 @@
     box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
     transition: all var(--transition-time) ease-in-out
   }
-
   .group-content {
     padding: var(--padding);
     position: absolute;
   }
-
   .group-darken {
     position: absolute;
     width: 100%;
@@ -120,30 +103,23 @@
     opacity: 0;
     transition: opacity var(--transition-time)
   }
-
   .group-name {
     font-weight: 300;
     font-size: 35px;
   }
-
   .group-description {
     font-weight: 100;
     opacity: 0;
     transition: all var(--transition-time)
   }
-
   .group:hover {
     box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
     transform: translate3d(-5px, -5px, 0px);
   }
-
   .group:hover .group-darken {
     opacity: 1
   }
-
   .group:hover .group-content .group-description {
     opacity: 1
   }
-
 }
-
