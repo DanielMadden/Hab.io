@@ -6,12 +6,16 @@
           <h1>Search for users</h1>
         </div>
         <div class="col py-3 d-flex justify-content-center border-bottom">
-          <input type="text"
-                 placeholder="Search by name or email"
-                 name="invitees"
-                 id="invitees"
-                 v-model="state.query"
-          >
+          <div class="form-group">
+            <input v-model="state.query"
+                   type="text"
+                   class="form-control"
+                   name="invitees"
+                   id="invitees"
+                   aria-describedby="helpId"
+                   placeholder="Search by name or email"
+            >
+          </div>
         </div>
         <div class="col-12 py-3">
           <div class="search-results">

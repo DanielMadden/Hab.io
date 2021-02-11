@@ -1,6 +1,7 @@
 import { AppState } from '../AppState'
 import GroupImage from '../models/GroupImage'
 import { logger } from '../utils/Logger'
+import { accountService } from './AccountService'
 import { api, imageApi } from './AxiosService'
 
 const baseURL = '/api/groups/'
@@ -33,6 +34,7 @@ class GroupService {
   async editGroup(data, groupId) {
     await api.put(baseURL + groupId, data)
     this.getGroup(groupId, true)
+    accountService.getGroupMembersByAccountId(AppState.account.id)
   }
 
   async deleteGroup(groupId) {
