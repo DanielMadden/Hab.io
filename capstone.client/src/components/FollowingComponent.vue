@@ -17,6 +17,7 @@ import { useRouter } from 'vue-router'
 import { accountService } from '../services/AccountService'
 import { badgeService } from '../services/BadgeService'
 import { AppState } from '../AppState'
+import { closeModals } from '../utils/Modal'
 // import { computed } from 'vue'
 export default {
   props: {
@@ -43,6 +44,7 @@ export default {
         accountService.getHabits(props.follow.followeeId.email)
         accountService.getWill(props.follow.followeeId.email)
         badgeService.getBadges()
+        closeModals()
         const waitForBadges = setInterval(() => {
           if (AppState.badges.length > 0) {
             checkBadges()
