@@ -7,22 +7,56 @@
             <h1> Create New Group</h1>
           </div>
           <div class="col-6 my-1">
-            <input placeholder="Group name"
-                   type="text"
-                   required="true"
-                   v-model="form.name"
-            /> <br>
+            <div class="form-group">
+              <input type="text"
+                     v-model="form.name"
+                     class="form-control"
+                     name="new-group-name-input"
+                     id="new-group-name-input"
+                     aria-describedby="helpId"
+                     placeholder="Group name"
+                     required="true"
+              >
+            </div>
           </div>
           <div class="col-6 my-1">
-            <input type="text" placeholder="Group description" v-model="form.description" required="true" />
+            <div class="form-group">
+              <input type="text"
+                     v-model="form.description"
+                     class="form-control"
+                     name="new-group-description-input"
+                     id="new-group-description-input"
+                     aria-describedby="helpId"
+                     placeholder="Group description"
+                     required="true"
+              >
+            </div>
           </div>
           <div class="col-6 my-1">
-            <input type="text" placeholder="Image search" @blur="getImages($event)" required="true" /> <br>
-            <small class="text-muted">Select an available image</small>
+            <div class="form-group">
+              <input type="text"
+                     class="form-control"
+                     name="new-group-image-input"
+                     id="new-group-image-input"
+                     aria-describedby="helpId"
+                     placeholder="Image search"
+                     @blur="getImages($event)"
+              >
+              <small v-if="potentialImages[0]" class="form-text text-muted">Select an available image below</small>
+            </div>
           </div>
           <div class="col-6 my-1">
-            <input type="checkbox" id="private-checkbox" v-model="form.private" />
-            <label class="form-check-label" for="private-checkbox">Private</label>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input v-model="form.private"
+                       class="form-check-input"
+                       type="checkbox"
+                       name="private-checkbox"
+                       id="private-checkbox"
+                       value="checkedValue"
+                > Private
+              </label>
+            </div>
           </div>
         </div>
         <div class="container">

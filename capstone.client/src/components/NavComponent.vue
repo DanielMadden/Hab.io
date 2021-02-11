@@ -2,7 +2,7 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1 @click="travelHome" class="logo hoverable">
+      <h1 @click="travelHome" class="logo hoverable m-0">
         hab.io
       </h1>
     </div>
@@ -12,13 +12,13 @@
           Log In
         </h4>
       </button>
-      <button v-if="user.isAuthenticated" @click="logout" class="nav-item nav-button">
+      <button v-if="user.isAuthenticated" @click="logout" class="nav-item nav-button" id="nav-button-log-out">
         <h4 class="px-3 py-0 m-0">
           Log Out
         </h4>
       </button>
-      <button v-if="user.isAuthenticated" @click="showMyGroups" class="nav-item nav-button">
-        <h4 class="px-3 py-0 m-0">
+      <button v-if="user.isAuthenticated" @click="showMyGroups" class="nav-item nav-button" id="nav-button-my-groups">
+        <h4 class="px-2 px-md-3 py-0 m-0">
           My Groups
         </h4>
       </button>
