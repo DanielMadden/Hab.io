@@ -2,6 +2,13 @@
 /* :root {} */
 
 @media screen and (max-width: 575px) {
+  #home::-webkit-scrollbar {
+    display: none;
+  }
+  #home {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
   #add-group {
     border: solid black 2px;
     background-color: white;
