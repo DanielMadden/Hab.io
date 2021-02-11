@@ -22,7 +22,7 @@ export const AppState = reactive({
   // Active Variables
   activeGroup: {},
   activeAccount: {},
-  activeAccountWill: 0,
+  activeAccountWill: -1,
   activeGroupHabits: [],
   activeGroupMessages: [],
   activeGroupMembers: [],
