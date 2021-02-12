@@ -4,7 +4,6 @@
     <div class="container-fluid" v-if="account" id="desktop-view">
       <div class="row border-bottom" id="row-1">
         <div class="col-4 d-flex justify-content-center flex-column text-center align-items-center">
-          <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
           <div class="d-flex justify-content-center pt-2" id="social-stats">
             <p class="px-1 clickable" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
@@ -16,6 +15,13 @@
             <p class="px-1 clickable" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
+          </div>
+          <div>
+            <div v-if="state.followButton === true">
+              <button class="btn btn-dark" v-if="currentUser.email !== account.email" @click="followUser()">
+                <i class="fas fa-user-plus pr-1"></i>Follow User
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center">
@@ -81,46 +87,46 @@
     <!-- mobile view -->
     <div class="container-fluid d-none" v-if="account" id="mobile-view">
       <div class="row mt-3 pb-2">
-        <div class="col-5 d-flex align-items-center flex-column">
+        <div class="col-5 d-flex align-items-center justify-content-center flex-column">
           <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
           <div class="card mt-2">
-            <div class="card-body">
+            <div class="card-body px-1 text-center">
               <!-- <p class="card-text">Text</p> -->
-              <p class="px-1 clickable" @click="toggleFollowing()">
+              <small class="px-1 clickable" @click="toggleFollowing()">
                 Following <span class="font-weight-bold">{{ following.length }}</span>
-              </p>
-              <p class="px-1 clickable" @click="toggleFollowers()">
+              </small>
+              <small class="px-1 clickable" @click="toggleFollowers()">
                 Followers <span class="font-weight-bold">{{ followers.length }}</span>
-              </p>
-              <p class="px-1  mb-0 clickable" @click="toggleGroups()">
+              </small>
+              <small class="px-1  mb-0 clickable" @click="toggleGroups()">
                 Groups <span class="font-weight-bold">{{ groups.length }}</span>
-              </p>
+              </small>
             </div>
           </div>
         </div>
         <div class="col-7">
           <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">
+            <div class="card-body tect-center p-2">
+              <h5 class="card-title">
                 Will: {{ will }}
-              </h4>
-              <h4 class="card-title">
+              </h5>
+              <h5 class="card-title">
                 Level: {{ Math.floor(0.3 * Math.sqrt(will)) }}
-              </h4>
+              </h5>
               <i class="fas fa-user-edit" v-if="account.id === currentUser.id" @click="toggleEdit()"></i>
               <small class="card-text mb-0">
                 <u>Name</u>
               </small>
-              <h5 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
+              <h6 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
                 {{ account.name }}
-              </h5>
+              </h6>
               <small class="card-text mb-0 pt-1">
                 <u>Email</u>
               </small>
-              <h6 class="card-title">
+              <p class="card-title">
                 {{ account.email }}
-              </h6>
+              </p>
             </div>
           </div>
         </div>
@@ -156,20 +162,31 @@ export default {
         document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
       }
     }
+    function checkFollow(email) {
+      if (accountService.checkFollowing(email)) {
+        console.log(accountService.checkFollowing(email))
+        state.followButton = false
+      } else {
+        console.log(accountService.checkFollowing(email))
+        state.followButton = true
+      }
+    }
     const route = useRoute()
     const state = reactive({
       account: computed(() => AppState.user),
       follower: computed(() => AppState.account),
-      followee: computed(() => AppState.activeAccount)
+      followee: computed(() => AppState.activeAccount),
+      followButton: true
     })
     onMounted(() => {
       accountService.getSelected(route.params.email)
-      accountService.getGroups(route.params.email)
       accountService.getFollowers(route.params.email)
+      accountService.getGroups(route.params.email)
       accountService.getFollowing(route.params.email)
       accountService.getHabits(route.params.email)
       accountService.getWill(route.params.email)
       badgeService.getBadges()
+      checkFollow(route.params.email)
       const waitForBadges = setInterval(() => {
         if (AppState.badges.length > 0) {
           checkBadges()
@@ -183,7 +200,6 @@ export default {
       will: computed(() => AppState.activeAccountWill),
       account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
-      // level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       followers: computed(() => AppState.accountFollowers),
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),
@@ -214,8 +230,8 @@ export default {
         AppState.darken = true
       },
       followUser() {
-        const test = AppState.accountFollowers.find(f => f.followerId === AppState.account.id)
-        if (!test) {
+        if (!accountService.checkFollowing(route.params.email)) {
+          state.followButton = false
           accountService.followUser({ followerId: state.follower.id, followeeId: state.followee.id })
         }
       }
@@ -233,28 +249,19 @@ export default {
   height: 18vh;
   width: auto
 }
-#main-info {
-
-}
 #row-1 {
   height: 30vh
-}
-#account-stats {
-
-}
-#social-stats {
-
 }
 .gray {
   filter: grayscale(100%)
 }
-.fa-user-plus {
+/* .fa-user-plus {
   position: absolute;
   top: 2vh;
   left: 2vw;
   font-size: 40px;
   cursor: pointer;
-}
+} */
 #badges-row {
   height: 20vh
 }
@@ -282,8 +289,8 @@ export default {
     width: 100px
   }
   .sm-badges {
-    height: 70px;
-    width: 70px
+    height: 60px;
+    width: 60px
   }
   #tasks-row {
   position: absolute;
