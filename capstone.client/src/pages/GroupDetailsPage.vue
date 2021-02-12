@@ -94,7 +94,7 @@
         </button>
         <button id="group-member-list-button-invite"
                 class="group-member-list-button"
-                v-if="activeGroupMember.status == 'Member' || activeGroupMember.status == 'Moderator'"
+                v-if="((group.private === false) && (activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')) || (group.private === true && activeGroupMember.status === 'Moderator')"
                 @click="inviteModal"
         >
           Invite

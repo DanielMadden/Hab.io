@@ -41,9 +41,16 @@ import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { accountService } from '../services/AccountService'
+import { badgeService } from '../services/BadgeService'
 
 export default {
   setup() {
+    function checkBadges() {
+      for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
+        document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+        document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
+      }
+    }
     const state = reactive({
       checkAchievement: computed(() => AppState.checkAchievement)
     })
@@ -97,6 +104,19 @@ export default {
       travelHome,
       travel() {
         router.push({ path: '/account/' + account.value.email })
+        accountService.getSelected(account.value.email)
+        accountService.getGroups(account.value.email)
+        accountService.getFollowers(account.value.email)
+        accountService.getFollowing(account.value.email)
+        accountService.getHabits(account.value.email)
+        accountService.getWill(account.value.email)
+        badgeService.getBadges()
+        const waitForBadges = setInterval(() => {
+          if (AppState.badges.length > 0) {
+            checkBadges()
+            clearInterval(waitForBadges)
+          }
+        }, 10)
       }
     }
   }
