@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="myModal-footer">
-        <button id="myModal-button-join-group"
+        <button id="myModal-button-update-group"
                 class="myModal-button"
                 @click="updateGroup"
         >
@@ -74,6 +74,8 @@
 import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { groupService } from '../services/GroupService'
+import { closeModals } from '../utils/Modal'
+import { logger } from '../utils/Logger'
 export default {
   setup() {
     const potentialImages = computed(() => AppState.groupImages)
@@ -84,20 +86,28 @@ export default {
     })
     const group = computed(() => AppState.activeGroup)
     const updateGroup = () => {
-      groupService.editGroup(form, AppState.activeGroup.id)
+      try {
+        form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
+        groupService.editGroup(form, AppState.activeGroup.id)
+        AppState.groupImages = []
+        closeModals()
+      } catch (error) {
+        logger.error(error)
+      }
     }
     return {
       group,
       form,
       updateGroup,
       potentialImages,
+
       async getImages(e) {
         await groupService.getImagesForGroup(e.target.value)
         const elements = document.getElementsByClassName('imageResize')
         if (elements.length > 0) {
           elements[0].classList.add('highlightImage')
-          document.getElementById('myModal-button-join-group').disabled = false
-          document.getElementById('myModal-button-join-group').classList.remove('disabledButton')
+          document.getElementById('myModal-button-update-group').disabled = false
+          document.getElementById('myModal-button-update-group').classList.remove('disabledButton')
         }
       },
       highlightImage(e) {
@@ -109,6 +119,21 @@ export default {
   }
 }
 </script>
-<style lang="">
+<style scoped>
+@import "../assets/css/modals.css";
+.highlightImage {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 3px solid rgba(81, 203, 238, 1);
+}
 
+.imageResize{
+  width: 100%;
+  height: 200px;
+  margin: auto;
+  display: block;
+}
+
+.disabledButton {
+  background-color:#d2d2d2;
+}
 </style>
