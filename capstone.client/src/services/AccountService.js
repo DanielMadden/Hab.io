@@ -51,6 +51,11 @@ class AccountService {
     AppState.accountFollowing = res.data
   }
 
+  checkFollowing(email) {
+    // this.getFollowers(email)
+    return AppState.accountFollowers.find(f => f.followerId.id === AppState.account.id)
+  }
+
   async getWill(email) {
     const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/will')
