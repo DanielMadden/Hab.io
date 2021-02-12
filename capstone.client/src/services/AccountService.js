@@ -53,7 +53,6 @@ class AccountService {
 
   checkFollowing(email) {
     // this.getFollowers(email)
-    console.log(AppState.accountFollowers)
     const acc = AppState.accountFollowers.find(f => {
       return f.followerId.id === AppState.account.id
     })
