@@ -4,7 +4,7 @@
       <div class="myModal-frame dark-scrollbar">
         <div class="row d-flex">
           <div class="col-12 text-center">
-            <h1> Create New Group</h1>
+            <h1>Edit Group</h1>
           </div>
           <div class="col-6 my-1">
             <div class="form-group">
@@ -50,7 +50,7 @@
           <div class="row" v-for="i in Math.ceil(potentialImages.length / 2)" :key="i">
             <div class="col justify-content-center py-1" v-for="img in potentialImages.slice((i - 1) * 2, i * 2)" :key="img.name">
               <img
-                class="imageResize rounded-lg img-fluid"
+                class="imageResizeEdit rounded-lg img-fluid"
                 :src="img.imageURL"
                 :alt="img.name"
                 @click="highlightImage($event)"
@@ -87,7 +87,7 @@ export default {
     const group = computed(() => AppState.activeGroup)
     const updateGroup = async() => {
       try {
-        form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
+        form.imageUrl = document.getElementsByClassName('highlightImageEdit')[0].currentSrc
         logger.log(form)
         await groupService.editGroup(form, AppState.activeGroup.id)
         AppState.groupImages = []
@@ -104,15 +104,15 @@ export default {
 
       async getImages(e) {
         await groupService.getImagesForGroup(e.target.value)
-        const elements = document.getElementsByClassName('imageResize')
+        const elements = document.getElementsByClassName('imageResizeEdit')
         if (elements.length > 0) {
-          elements[0].classList.add('highlightImage')
+          elements[0].classList.add('highlightImageEdit')
         }
       },
       highlightImage(e) {
         const imgs = e.target.parentNode.parentNode.parentNode.querySelectorAll('img')
-        imgs.forEach(i => i.classList.remove('highlightImage'))
-        e.target.classList.add('highlightImage')
+        imgs.forEach(i => i.classList.remove('highlightImageEdit'))
+        e.target.classList.add('highlightImageEdit')
       }
     }
   }
@@ -120,12 +120,12 @@ export default {
 </script>
 <style scoped>
 @import "../assets/css/modals.css";
-.highlightImage {
+.highlightImageEdit {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 3px solid rgba(81, 203, 238, 1);
 }
 
-.imageResize{
+.imageResizeEdit{
   width: 100%;
   height: 200px;
   margin: auto;
