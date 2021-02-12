@@ -46,11 +46,9 @@ import { badgeService } from '../services/BadgeService'
 export default {
   setup() {
     function checkBadges() {
-      for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
-        if (document.getElementById(AppState.activeAccount.badges[i].name)) {
+      if (AppState.activeAccount.badges) {
+        for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
           document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
-        }
-        if (document.getElementById(AppState.activeAccount.badges[i].description)) {
           document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
         }
       }

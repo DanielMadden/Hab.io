@@ -9,13 +9,11 @@ const baseURL = '/api/habithistory/'
 class HabitHistoryService {
   async getToday(habitId) {
     const res = await api.get(baseURL + 'day/' + habitId)
-    console.log(res)
     return res.data
   }
 
   async create(habitId) {
-    const res = await api.post(baseURL, { habitId: habitId })
-    console.log(res)
+    await api.post(baseURL, { habitId: habitId })
   }
 }
 

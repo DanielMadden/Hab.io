@@ -9,7 +9,7 @@ export class GroupMemberController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
-      .post('/invite', this.inviteToPrivateGroup)
+      .post('/invite', this.invite)
       .post('/:id/accept', this.acceptInvite)
       .post('/:id/decline', this.declineInvite)
       .put('/:id', this.edit)
@@ -26,10 +26,10 @@ export class GroupMemberController extends BaseController {
     }
   }
 
-  async inviteToPrivateGroup(req, res, next) {
+  async invite(req, res, next) {
     try {
       req.body.status = 'Pending'
-      const data = await groupMemberService.inviteToPrivateGroup(req.body, req.userInfo.id)
+      const data = await groupMemberService.invite(req.body, req.userInfo.id)
       res.send(data)
     } catch (error) {
       next(error)

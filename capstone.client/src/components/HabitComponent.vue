@@ -18,7 +18,6 @@
       </span>
     </h1>
     <span class="habit-completed-count">{{ state.today.length }} members completed today</span>
-    <p>{{ state.inGroup }}</p>
   </div>
 </template>
 <script>

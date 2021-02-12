@@ -28,6 +28,7 @@ module.exports = {
         allowFirstLine: true
       }
     }],
-    'vue/html-self-closing': OFF
+    'vue/html-self-closing': OFF,
+    'vue/one-component-per-file': OFF
   }
 }
