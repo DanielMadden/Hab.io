@@ -31,7 +31,7 @@ export class HabitHistoryController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.accountId = req.userInfo.id
-      res.send(await habitHistoryService.create(req.body))
+      res.send(await habitHistoryService.create(req.body, req.userInfo.id))
     } catch (error) {
       next(error)
     }

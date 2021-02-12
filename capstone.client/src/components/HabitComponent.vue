@@ -4,6 +4,7 @@
       <span class="habit-checkbox pr-3"
             @click="complete"
             :class="{'completed': completed}"
+            v-if="state.activeGroupMember.status === 'Moderator' || state.activeGroupMember.status === 'Member'"
       >
         <i class="far fa-check-square"
            v-if="completed || state.temp"
@@ -17,6 +18,7 @@
       </span>
     </h1>
     <span class="habit-completed-count">{{ state.today.length }} members completed today</span>
+    <p>{{ state.inGroup }}</p>
   </div>
 </template>
 <script>
@@ -24,6 +26,7 @@ import { computed, onMounted, reactive } from 'vue'
 import { habitService } from '../services/HabitService'
 import { AppState } from '../AppState'
 import { habitHistoryService } from '../services/HabitHistoryService'
+import { groupMemberService } from '../services/GroupMemberService'
 export default {
   props: {
     habit: {
@@ -35,12 +38,22 @@ export default {
   // props.
     const state = reactive({
       today: [],
-      temp: 0
+      temp: 0,
+      activeGroupMember: {}
     })
     const completed = computed(() => state.today.filter(history => history.accountId === AppState.account.id).length)
     onMounted(async() => {
       state.today = await habitHistoryService.getToday(props.habit.id)
+      const waitForLogin = setInterval(() => {
+        if (AppState.user.isAuthenticated) {
+          getActiveGroupMember()
+          clearInterval(waitForLogin)
+        }
+      }, 100)
     })
+    const getActiveGroupMember = async() => {
+      state.activeGroupMember = await groupMemberService.getActiveGroupMember(props.habit.groupId.id, true)
+    }
     const complete = async() => {
       window.event.stopPropagation()
       // Check for achievement

@@ -18,10 +18,13 @@ class HabitHistoryService {
     return will
   }
 
-  async create(data) {
+  async create(data, userId) {
     // Get habit to calculate will
     const habit = await dbContext.Habits.findById(data.habitId)
     data.will = habit.difficulty * 10
+    // Check if user is part of the group the habit is in
+    const groupMember = await dbContext.GroupMembers.findOne({ groupId: habit.groupId, memberId: userId })
+    if (!groupMember || groupMember.status === 'Pending') return 'Not part of group'
     // Set today's date onto object
     const today = new Date()
     data.month = today.getMonth()

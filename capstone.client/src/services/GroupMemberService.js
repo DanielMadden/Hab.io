@@ -11,9 +11,10 @@ class GroupMemberService {
     AppState.activeGroupMembers = res.data
   }
 
-  async getActiveGroupMember(groupId) {
+  async getActiveGroupMember(groupId, habitCheck = false) {
     const res = await api.get('/api/groups/' + groupId + '/activeGroupMember')
-    AppState.activeGroupMember = res.data
+    if (!habitCheck)AppState.activeGroupMember = res.data
+    else return res.data
   }
 
   async joinGroup(accountId, groupId) {
