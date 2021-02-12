@@ -17,6 +17,11 @@
             </p>
           </div>
           <div>
+            <div v-if="state.followButton === false">
+              <button class="btn btn-dark" v-if="currentUser.email !== account.email">
+                Following
+              </button>
+            </div>
             <div v-if="state.followButton === true">
               <button class="btn btn-dark" v-if="currentUser.email !== account.email" @click="followUser()">
                 <i class="fas fa-user-plus pr-1"></i>Follow User
@@ -162,31 +167,32 @@ export default {
         document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
       }
     }
-    function checkFollow(email) {
-      if (accountService.checkFollowing(email)) {
-        console.log(accountService.checkFollowing(email))
-        state.followButton = false
-      } else {
-        console.log(accountService.checkFollowing(email))
-        state.followButton = true
-      }
-    }
+    // function checkFollow(email) {
+    //   console.log(email)
+    //   if (accountService.checkFollowing(email)) {
+    //     console.log(accountService.checkFollowing(email))
+    //     state.followButton = false
+    //   } else {
+    //     console.log(accountService.checkFollowing(email))
+    //     state.followButton = true
+    //   }
+    // }
     const route = useRoute()
     const state = reactive({
       account: computed(() => AppState.user),
       follower: computed(() => AppState.account),
       followee: computed(() => AppState.activeAccount),
-      followButton: true
+      followButton: computed(() => AppState.activeFollowing)
     })
-    onMounted(() => {
+    onMounted(async() => {
       accountService.getSelected(route.params.email)
-      accountService.getFollowers(route.params.email)
+      await accountService.getFollowers(route.params.email)
       accountService.getGroups(route.params.email)
-      accountService.getFollowing(route.params.email)
+      await accountService.getFollowing(route.params.email)
       accountService.getHabits(route.params.email)
       accountService.getWill(route.params.email)
       badgeService.getBadges()
-      checkFollow(route.params.email)
+      accountService.checkFollowing()
       const waitForBadges = setInterval(() => {
         if (AppState.badges.length > 0) {
           checkBadges()
