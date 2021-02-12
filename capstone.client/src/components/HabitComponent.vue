@@ -24,6 +24,8 @@ import { computed, onMounted, reactive } from 'vue'
 import { habitService } from '../services/HabitService'
 import { AppState } from '../AppState'
 import { habitHistoryService } from '../services/HabitHistoryService'
+import { accountService } from '../services/AccountService'
+import { useRoute } from 'vue-router'
 export default {
   props: {
     habit: {
@@ -33,6 +35,7 @@ export default {
   },
   setup(props) {
   // props.
+    const route = useRoute()
     const state = reactive({
       today: [],
       temp: 0
@@ -50,6 +53,7 @@ export default {
         state.temp = 1
         await habitHistoryService.create(props.habit.id)
         state.today = await habitHistoryService.getToday(props.habit.id)
+        accountService.getWill(route.params.email)
         state.temp = 0
       }
     }
