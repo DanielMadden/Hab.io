@@ -13,7 +13,7 @@ class HabitHistoryService {
   }
 
   async create(habitId) {
-    const res = await api.post(baseURL, { habitId: habitId })
+    await api.post(baseURL, { habitId: habitId })
   }
 }
 
