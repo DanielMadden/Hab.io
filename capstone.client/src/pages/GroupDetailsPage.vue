@@ -33,7 +33,7 @@
       {{ groupMembers }}
     </div> -->
     <div id="group-habits"
-         class="container-fluid dark-scrollbar tab-section"
+         class="container-fluid tab-section"
          :class="{'selected': state.tabSelect == 'habits'}"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">

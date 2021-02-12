@@ -22,12 +22,13 @@ class GroupMemberService {
     return await dbContext.GroupMembers.create(groupMember)
   }
 
-  async inviteToPrivateGroup(groupMember, inviterId) {
+  async invite(groupMember, inviterId) {
     const inviter = await dbContext.GroupMembers.findOne({ memberId: inviterId, groupId: groupMember.groupId })
-    if (inviter.status === 'Moderator') {
-      const res = await dbContext.GroupMembers.create(groupMember)
-      return res
-    }
+    if (!inviter) return 'You are not in the group'
+    const existing = await dbContext.GroupMembers.findOne({ memberId: groupMember.memberId, groupId: groupMember.groupId })
+    if (existing) return 'Already in group or invited'
+    const res = await dbContext.GroupMembers.create(groupMember)
+    return res
   }
 
   async edit(groupMemberId, update, accountId) {
@@ -73,4 +74,4 @@ class GroupMemberService {
     }
   }
 }
-export const groupMemberService = new GroupMemberService()
+

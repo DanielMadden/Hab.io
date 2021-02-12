@@ -162,9 +162,11 @@ export default {
   setup() {
     // const allBadges = computed(() => AppState.badges)
     function checkBadges() {
-      for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
-        document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
-        document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
+      if (AppState.activeAccount.badges) {
+        for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
+          document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+          document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
+        }
       }
     }
     // function checkFollow(email) {
