@@ -1,6 +1,6 @@
 <template>
   <div class="myModal-content">
-    <form id="formatForm" @submit.prevent="createGroup">
+    <form id="formatForm" @submit.prevent="updateGroup">
       <div class="myModal-frame dark-scrollbar">
         <div class="row d-flex">
           <div class="col-12 text-center">
@@ -85,10 +85,10 @@ export default {
       imageUrl: AppState.activeGroup.imageUrl
     })
     const group = computed(() => AppState.activeGroup)
-    const updateGroup = () => {
+    const updateGroup = async() => {
       try {
         form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
-        groupService.editGroup(form, AppState.activeGroup.id)
+        await groupService.editGroup(form, AppState.activeGroup.id)
         AppState.groupImages = []
         closeModals()
       } catch (error) {
