@@ -3,7 +3,7 @@
     id="home"
     class="container-fluid dark-scrollbar"
   >
-    <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
+    <div class="row px-sm-1 px-md-2 px-lg-3 pt-3 d-flex justify-content-between align-items-center">
       <h1 class="page-title px-3 pt-3">
         Explore
       </h1>
@@ -16,7 +16,7 @@
         </h1>
       </button>
     </div>
-    <div class="row px-3 pb-3">
+    <div class="row px-sm-1 px-md-2 px-lg-3 pb-3">
       <div class="col-lg-4 col-sm-6 col-xs-12 px-3" v-for="group in groups" :key="group.id">
         <group-component :group="group"></group-component>
       </div>

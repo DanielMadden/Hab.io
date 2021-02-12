@@ -37,6 +37,22 @@ class GroupMemberService {
     }
   }
 
+  async acceptInvite(groupMemberId, userId) {
+    const userGM = await dbContext.GroupMembers.findOne({ _id: groupMemberId, memberId: userId })
+    if (!userGM) return 'not authorized to modify someone else\'s invite'
+    if (userGM.status === 'Pending') {
+      return await dbContext.GroupMembers.findByIdAndUpdate(groupMemberId, { status: 'Member' })
+    }
+  }
+
+  async declineInvite(groupMemberId, userId) {
+    const userGM = await dbContext.GroupMembers.findOne({ _id: groupMemberId, memberId: userId })
+    if (!userGM) return 'not authorized to modify someone else\'s invite'
+    if (userGM.status === 'Pending') {
+      return await dbContext.GroupMembers.findByIdAndDelete(groupMemberId)
+    }
+  }
+
   async leaveGroup(groupMemberId, accountId) {
 
   }
