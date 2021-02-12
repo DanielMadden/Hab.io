@@ -1,5 +1,5 @@
 <template>
-  <div class="group-member d-flex" @click="travelAccount">
+  <div class="group-member d-flex" @click="travelAccount" v-if="groupMember.status !== 'Pending'">
     <div
       class="group-member-image"
       :style="`background: linear-gradient( rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('${groupMember.memberId.picture}') no-repeat center center /cover; overflow-y: hidden`"

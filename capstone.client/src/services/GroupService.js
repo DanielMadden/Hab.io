@@ -34,6 +34,7 @@ class GroupService {
   async editGroup(data, groupId) {
     await api.put(baseURL + groupId, data)
     this.getGroup(groupId, true)
+    // So that My Groups Modal Component for edited group reflects the changes
     accountService.getGroupMembersByAccountId(AppState.account.id)
   }
 

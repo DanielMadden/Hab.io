@@ -37,7 +37,7 @@ import { computed, reactive, watch } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
-import { groupService } from '../services/GroupService'
+// import { groupService } from '../services/GroupService'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { accountService } from '../services/AccountService'
@@ -89,7 +89,10 @@ export default {
     const user = computed(() => AppState.user)
     const login = () => { AuthService.loginWithPopup() }
     const logout = async() => { await AuthService.logout({ returnTo: window.location.origin }) }
-    const getMyGroups = () => { groupService.getAccountGroups(AppState.account.id, true) }
+    const getMyGroups = () => {
+      // groupService.getAccountGroups(AppState.account.id, true)
+      accountService.getGroupMembersByAccountId(AppState.account.id)
+    }
     const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true; getMyGroups() }
     const travelHome = () => { router.push('/') }
     return {

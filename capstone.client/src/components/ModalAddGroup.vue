@@ -74,7 +74,7 @@
       </div>
       <div class="myModal-footer">
         <button
-          id="myModal-button-join-group"
+          id="myModal-button-add-group"
           class="myModal-button disabledButton"
           disabled="true"
           type="submit"
@@ -128,8 +128,8 @@ export default {
         const elements = document.getElementsByClassName('imageResize')
         if (elements.length > 0) {
           elements[0].classList.add('highlightImage')
-          document.getElementById('myModal-button-join-group').disabled = false
-          document.getElementById('myModal-button-join-group').classList.remove('disabledButton')
+          document.getElementById('myModal-button-add-group').disabled = false
+          document.getElementById('myModal-button-add-group').classList.remove('disabledButton')
         }
       },
       highlightImage(e) {

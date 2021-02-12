@@ -42,10 +42,14 @@
         >
           {{ group.name }}
         </h1>
-        <div id="group-buttons" class="d-flex justify-content-between justify-content-md-end">
-          <button id="open-group-settings"
-                  class="group-button mr-3 d-flex justify-content-center align-items-center"
-                  @click="openGroupSettings"
+        <div v-if="activeGroupMember.status === 'Moderator'"
+             id="group-buttons"
+             class="d-flex justify-content-between justify-content-md-end"
+        >
+          <button
+            id="open-group-settings"
+            class="group-button mr-3 d-flex justify-content-center align-items-center"
+            @click="openGroupSettings"
           >
             <h3 class="group-button-text p-0 m-0">
               <i class="fas fa-cog"></i>
@@ -74,10 +78,28 @@
            @mouseover="focus('members')"
            @mouseout="noFocus()"
       >
-        <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
-        <button type="button" class="btn btn-dark" @click="inviteModal">
+        <button id="group-member-list-button-accept"
+                class="group-member-list-button"
+                v-if="activeGroupMember.status === 'Pending'"
+                @click="acceptGroup()"
+        >
+          Accept Invitation
+        </button>
+        <button id="group-member-list-button-decline"
+                class="group-member-list-button"
+                v-if="activeGroupMember.status === 'Pending'"
+                @click="declineGroup()"
+        >
+          Decline Invitation
+        </button>
+        <button id="group-member-list-button-invite"
+                class="group-member-list-button"
+                v-if="((group.private === false) && (activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')) || (group.private === true && activeGroupMember.status === 'Moderator')"
+                @click="inviteModal"
+        >
           Invite
         </button>
+        <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
       </div>
       <div id="group-chat"
            class="group-sidebars tab-section"
@@ -120,7 +142,7 @@
 </template>
 <script>
 import { computed, onMounted, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
@@ -130,6 +152,7 @@ import { socketService } from '../services/SocketService'
 export default {
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const group = computed(() => AppState.activeGroup)
     const groupMembers = computed(() => AppState.activeGroupMembers)
     const habits = computed(() => AppState.activeGroupHabits)
@@ -182,6 +205,13 @@ export default {
       AppState.showModal = true
       AppState.showGroupSettings = true
     }
+    const acceptGroup = () => {
+      groupMemberService.acceptGroupInvite(activeGroupMember.value.id)
+    }
+    const declineGroup = () => {
+      groupMemberService.declineGroupInvite(activeGroupMember.value.id)
+      router.push('/')
+    }
     onMounted(() => {
       groupService.getGroup(route.params.id, true)
       groupMemberService.getGroupMembers(route.params.id)
@@ -195,7 +225,7 @@ export default {
         }
       }, 10)
     })
-    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab }
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab, acceptGroup, declineGroup }
   }
 }
 </script>

@@ -31,12 +31,14 @@ export default {
       AppState.darken = false
       router.push('/group/' + props.group.id)
       AppState.activeGroup = {}
+      AppState.activeGroupMember = {}
       AppState.activeGroupHabits = []
       AppState.activeGroupMembers = []
       AppState.activeGroupMessages = []
       groupService.getGroup(props.group.id, true)
       habitService.getGroupHabits(props.group.id)
       groupMemberService.getGroupMembers(props.group.id)
+      groupMemberService.getActiveGroupMember(props.group.id)
       messageService.getGroupMessages(props.group.id)
     }
     return { travel }

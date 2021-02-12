@@ -1,7 +1,7 @@
 @import "./global.css";
 /* :root {} */
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 992px) {
   #home::-webkit-scrollbar {
     display: none;
   }
@@ -9,6 +9,9 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+@media screen and (max-width: 575px) {
   #add-group {
     border: solid black 2px;
     background-color: white;

@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { accountService } from './AccountService'
 import { api } from './AxiosService'
 
 const baseURL = '/api/groupMembers/'
@@ -26,6 +27,20 @@ class GroupMemberService {
   async sendGroupInvite(inviteeId, groupId) {
     const res = await api.post(baseURL + 'invite', { memberId: inviteeId, groupId: groupId })
     return res.data
+  }
+
+  async acceptGroupInvite(groupMemberId) {
+    const res = await api.post(baseURL + groupMemberId + '/accept')
+    this.getActiveGroupMember(res.data.groupId)
+    this.getGroupMembers(res.data.groupId)
+    accountService.getGroupMembersByAccountId(res.data.memberId)
+  }
+
+  async declineGroupInvite(groupMemberId) {
+    const res = await api.post(baseURL + groupMemberId + '/decline')
+    this.getActiveGroupMember(res.data.groupId)
+    this.getGroupMembers(res.data.groupId)
+    accountService.getGroupMembersByAccountId(res.data.memberId)
   }
 
   async leaveGroup(accountId, groupId) {
