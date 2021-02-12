@@ -16,13 +16,13 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-// import { groupService } from '../services/GroupService'
 export default {
   setup() {
     const myGroups = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status !== 'Pending'))
     const pendingGroups = computed(() => AppState.myGroupMembers.filter(groupMember => groupMember.status === 'Pending'))
     const show = computed(() => AppState.showMyGroups)
-    // onMounted(() => {  })
+    // onMounted(() => {
+    // })
     return {
       myGroups, pendingGroups, show
     }

@@ -1,9 +1,36 @@
 <template>
   <div class="myModal-content">
     <div class="myModal-frame dark-scrollbar">
-      <input type="text" placeholder="name" v-model="form.name">
-      <input type="text" placeholder="description" v-model="form.description">
-      {{ form }}
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1> Create New Habit</h1>
+        </div>
+        <div class="col-6 my-1">
+          <div class="form-group">
+            <input v-model="form.name"
+                   type="text"
+                   class="form-control"
+                   name="name"
+                   id="name"
+                   aria-describedby="helpId"
+                   placeholder="Habit name"
+            >
+          </div>
+        </div>
+        <div class="col-6 my-1">
+          <div class="form-group">
+            <input v-model="form.description"
+                   type="text"
+                   class="form-control"
+                   name="description"
+                   id="description"
+                   aria-describedby="helpId"
+                   placeholder="Habit description"
+            >
+          </div>
+        </div>
+        {{ form }}
+      </div>
     </div>
     <div class="myModal-footer">
       <button id="myModal-button-join-group"
