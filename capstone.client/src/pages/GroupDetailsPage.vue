@@ -43,10 +43,10 @@
           {{ group.name }}
         </h1>
         <div id="group-buttons" class="d-flex justify-content-between justify-content-md-end">
-          <button v-if="group.creatorId === activeGroupMember.memberId.id"
-                  id="open-group-settings"
-                  class="group-button mr-3 d-flex justify-content-center align-items-center"
-                  @click="openGroupSettings"
+          <button
+            id="open-group-settings"
+            class="group-button mr-3 d-flex justify-content-center align-items-center"
+            @click="openGroupSettings"
           >
             <h3 class="group-button-text p-0 m-0">
               <i class="fas fa-cog"></i>
