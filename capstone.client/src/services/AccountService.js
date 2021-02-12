@@ -53,7 +53,15 @@ class AccountService {
 
   checkFollowing(email) {
     // this.getFollowers(email)
-    return AppState.accountFollowers.find(f => f.followerId.id === AppState.account.id)
+    const acc = AppState.accountFollowers.find(f => {
+      return f.followerId.id === AppState.account.id
+    })
+    if (acc) {
+      AppState.activeFollowing = false
+    } else {
+      AppState.activeFollowing = true
+    }
+    return acc
   }
 
   async getWill(email) {

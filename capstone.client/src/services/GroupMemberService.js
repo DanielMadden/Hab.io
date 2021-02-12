@@ -27,6 +27,7 @@ class GroupMemberService {
 
   async sendGroupInvite(inviteeId, groupId) {
     const res = await api.post(baseURL + 'invite', { memberId: inviteeId, groupId: groupId })
+    await groupMemberService.getGroupMembers(groupId)
     return res.data
   }
 

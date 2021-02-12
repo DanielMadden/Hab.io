@@ -20,6 +20,7 @@ export const AppState = reactive({
   publicGroups: [],
   groupImages: [],
   // Active Variables
+  activeFollowing: true,
   activeGroup: {},
   activeAccount: {},
   activeAccountWill: -1,

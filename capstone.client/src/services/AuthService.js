@@ -33,4 +33,7 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
     AppState.achievementName = 'Early Bird Gets the Worm'
     AppState.checkAchievement = true
   }
+  if (router.currentRoute.value.name === 'Account') {
+    accountService.checkFollowing()
+  }
 })
