@@ -43,7 +43,8 @@
           {{ group.name }}
         </h1>
         <div id="group-buttons" class="d-flex justify-content-between justify-content-md-end">
-          <button id="open-group-settings"
+          <button v-if="group.creatorId === activeGroupMember.memberId.id"
+                  id="open-group-settings"
                   class="group-button mr-3 d-flex justify-content-center align-items-center"
                   @click="openGroupSettings"
           >
@@ -51,7 +52,8 @@
               <i class="fas fa-cog"></i>
             </h3>
           </button>
-          <button id="add-habit"
+          <button v-if="activeGroupMember.status === 'Moderator'"
+                  id="add-habit"
                   class="group-button mr-3 d-flex justify-content-center align-items-center"
                   @click="addHabit"
           >
