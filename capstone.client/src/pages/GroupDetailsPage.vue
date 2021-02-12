@@ -42,7 +42,10 @@
         >
           {{ group.name }}
         </h1>
-        <div id="group-buttons" class="d-flex justify-content-between justify-content-md-end">
+        <div v-if="activeGroupMember.status === 'Moderator'"
+             id="group-buttons"
+             class="d-flex justify-content-between justify-content-md-end"
+        >
           <button
             id="open-group-settings"
             class="group-button mr-3 d-flex justify-content-center align-items-center"
