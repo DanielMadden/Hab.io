@@ -62,7 +62,7 @@
       <div class="myModal-footer">
         <button id="myModal-button-update-group"
                 class="myModal-button"
-                @click="updateGroup"
+                type="submit"
         >
           Update
         </button>
@@ -88,6 +88,7 @@ export default {
     const updateGroup = async() => {
       try {
         form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
+        logger.log(form)
         await groupService.editGroup(form, AppState.activeGroup.id)
         AppState.groupImages = []
         closeModals()
@@ -106,8 +107,6 @@ export default {
         const elements = document.getElementsByClassName('imageResize')
         if (elements.length > 0) {
           elements[0].classList.add('highlightImage')
-          document.getElementById('myModal-button-update-group').disabled = false
-          document.getElementById('myModal-button-update-group').classList.remove('disabledButton')
         }
       },
       highlightImage(e) {
@@ -131,9 +130,5 @@ export default {
   height: 200px;
   margin: auto;
   display: block;
-}
-
-.disabledButton {
-  background-color:#d2d2d2;
 }
 </style>
