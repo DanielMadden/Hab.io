@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO Fix 'selected' class toggle, make selections distinguishable -->
   <div class="search-result d-flex" :class="{'selected': state.isSelected}" id="account-search-result-component" @click="!state.isSelected ? selectInvitee() : deselectInvitee()">
     <div
       class="search-result-image"

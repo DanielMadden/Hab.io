@@ -29,7 +29,6 @@
             >
           </div>
         </div>
-        {{ form }}
       </div>
     </div>
     <div class="myModal-footer">

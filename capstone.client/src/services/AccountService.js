@@ -25,7 +25,6 @@ class AccountService {
 
   async getAccountsByQuery(query) {
     try {
-      // TODO test that this query syntax is passed and handled properly
       const res = await api.get(`/account/query?search=${query}`)
       AppState.accountSearchResults = res.data
     } catch (error) {
