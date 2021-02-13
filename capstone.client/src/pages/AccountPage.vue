@@ -85,7 +85,7 @@
   background-size: cover; `"
     >
       <div class="col-4-md col-12" v-for="habit in habits" :key="habit.id">
-        <HabitComponent :habit="habit" />
+        <HabitComponent :habit="habit" :page="'Account'" />
       </div>
     </div>
 

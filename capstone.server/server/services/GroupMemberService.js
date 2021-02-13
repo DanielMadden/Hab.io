@@ -75,3 +75,4 @@ class GroupMemberService {
   }
 }
 
+export const groupMemberService = new GroupMemberService()
