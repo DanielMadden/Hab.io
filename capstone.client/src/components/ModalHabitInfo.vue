@@ -28,7 +28,7 @@
     >
       <span class="habit-completed-count">{{ state.today.length }} members completed today</span>
       <button v-if="state.activeGroupMember.status === 'Moderator'"
-              class="myModal-button mt-3"
+              class="myModal-button mt-3 delete"
               id="habit-button-trash"
               @click="deleteHabit"
       >

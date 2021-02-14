@@ -39,11 +39,15 @@ class GroupService {
     return group
   }
 
-  async delete(id) {
-    const group = await dbContext.Groups.findOneAndRemove({ _id: id })
-    if (!group) {
-      throw new BadRequest('You are not the user, or this is not a valid group')
-    }
+  async delete(groupId, userId) {
+    const relationship = await dbContext.GroupMembers.findOne({ groupId: groupId, memberId: userId })
+    if (!relationship) return 'Not part of group'
+    if (relationship.status !== 'Moderator') return 'Unauthorized'
+    const group = await dbContext.Groups.findOneAndRemove({ _id: groupId })
+    if (!group) return 'No group by id'
+    await dbContext.Habits.deleteMany({ groupId: groupId })
+    await dbContext.GroupMembers.deleteMany({ groupId: groupId })
+    await dbContext.Messages.deleteMany({ groupId: groupId })
     return group
   }
 }

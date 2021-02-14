@@ -102,8 +102,7 @@ export class GroupController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      req.body.id = req.params.id
-      const data = await groupService.delete(req.body)
+      const data = await groupService.delete(req.params.id, req.userInfo.id)
       res.send(data)
     } catch (error) {
       next(error)
