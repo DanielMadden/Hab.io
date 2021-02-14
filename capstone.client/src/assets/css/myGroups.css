@@ -56,3 +56,21 @@
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   transform: translate3d(-5px, -5px, 0px);
 }
+
+@media screen and (max-width: 575px) {
+  #myGroups-container {
+    --container-width: calc(75%);
+  }
+  #myGroups-container.show {
+    right: 0em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  #myGroups-container h1 {
+    font-size: 150%;
+  }
+  .myGroups-group {
+    height: 3em;
+    --padding: .5em
+  }
+}
