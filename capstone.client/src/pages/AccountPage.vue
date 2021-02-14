@@ -84,7 +84,7 @@
          :style="`background: url('${account.backgroundImage}');
   background-size: cover; `"
     >
-      <div class="col-4-md col-12" v-for="habit in habits" :key="habit.id">
+      <div class="col-md-4 col-12" v-for="habit in habits" :key="habit.id">
         <HabitComponent :habit="habit" />
       </div>
     </div>

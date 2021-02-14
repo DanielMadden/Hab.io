@@ -19,6 +19,14 @@
     </h1>
     <span class="habit-completed-count">{{ state.today.length }} members completed today</span>
     <p>{{ state.inGroup }}</p>
+    <div class="group-name">
+      <p>
+        group
+      </p>
+      <h4>
+        {{ habit.groupId.name }}
+      </h4>
+    </div>
   </div>
 </template>
 <script>
