@@ -32,6 +32,7 @@ export default {
     const showGroupInfo = () => {
       AppState.activeGroupInfo = props.group
       groupService.getGroup(props.group.id, false)
+      AppState.activeGroupMember = {}
       groupMemberService.getActiveGroupMember(props.group.id)
       AppState.darken = true
       AppState.showModal = true

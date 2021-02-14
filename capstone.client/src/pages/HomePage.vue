@@ -30,12 +30,14 @@ import { groupService } from '../services/GroupService'
 import { badgeService } from '../services/BadgeService'
 import { AppState } from '../AppState'
 import GroupComponent from '../components/GroupComponent.vue'
+import { accountService } from '../services/AccountService'
 // import { socketService } from '../services/SocketService'
 export default {
   components: { GroupComponent },
   name: 'Home',
   setup() {
     onMounted(() => {
+      if (AppState.account) accountService.getGroupMembersByAccountId(AppState.account.id)
       badgeService.getBadges()
       groupService.getPublicGroups()
       // socketService.emit('join:room', 'home')
