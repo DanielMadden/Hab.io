@@ -3,7 +3,7 @@ import { BadRequest } from '../utils/Errors'
 
 class HabitService {
   async getById(habitId) {
-    return await dbContext.Habits.findById(habitId)
+    return await dbContext.Habits.findById(habitId).populate('groupId')
   }
 
   async getHabitsByAccountId(accountId) {
