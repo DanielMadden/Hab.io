@@ -17,6 +17,9 @@
         {{ habit.name }}
       </span>
     </h1>
+    <h4 class="habit-group-name" v-if="page === 'Account'">
+      {{ habit.groupId.name }}
+    </h4>
     <span class="habit-completed-count">{{ state.today.length }} members completed today</span>
     <p>{{ state.inGroup }}</p>
     <div class="group-name">
@@ -42,6 +45,10 @@ export default {
     habit: {
       type: Object,
       required: true
+    },
+    page: {
+      type: String,
+      default: 'GroupPage'
     }
   },
   setup(props) {

@@ -3,7 +3,7 @@ import { BadRequest } from '../utils/Errors'
 
 class HabitService {
   async getById(habitId) {
-    return await dbContext.Habits.findById(habitId)
+    return await dbContext.Habits.findById(habitId).populate('groupId')
   }
 
   async getHabitsByAccountId(accountId) {
@@ -50,7 +50,12 @@ class HabitService {
   }
 
   async delete(habitId, userId) {
-    throw new Error('Method not implemented.')
+    const habit = await dbContext.Habits.findById(habitId)
+    if (!habit) return 'No habit'
+    const modCheck = await dbContext.GroupMembers.findOne({ groupId: habit.groupId, memberId: userId })
+    if (!modCheck) return 'Not in group'
+    if (modCheck.status !== 'Moderator') return 'Not moderator'
+    return await dbContext.Habits.findByIdAndDelete(habitId)
   }
 }
 

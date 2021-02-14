@@ -25,7 +25,6 @@ class AccountService {
 
   async getAccountsByQuery(query) {
     try {
-      // TODO test that this query syntax is passed and handled properly
       const res = await api.get(`/account/query?search=${query}`)
       AppState.accountSearchResults = res.data
     } catch (error) {
@@ -53,7 +52,6 @@ class AccountService {
 
   checkFollowing(email) {
     // this.getFollowers(email)
-    console.log(AppState.accountFollowers)
     const acc = AppState.accountFollowers.find(f => {
       return f.followerId.id === AppState.account.id
     })

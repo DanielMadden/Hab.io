@@ -50,7 +50,7 @@ export default {
       activeGroup: computed(() => AppState.activeGroup),
       activeGroupMembers: computed(() => AppState.activeGroupMembers),
       accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees),
-      searchResults: computed(() => AppState.accountSearchResults.filter(account => !(state.activeGroupMembers.some(groupMember => groupMember.memberId.id === account._id))))
+      searchResults: computed(() => AppState.accountSearchResults.filter(account => !(state.activeGroupMembers.some(groupMember => (groupMember.memberId.id === account._id)))))
 
     })
     watchEffect(() => { if (state.query !== '') { accountService.getAccountsByQuery(state.query) } })

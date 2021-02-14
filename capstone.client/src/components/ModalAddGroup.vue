@@ -95,7 +95,8 @@ import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
-      activeGroup: computed(() => AppState.activeGroup)
+      activeGroup: computed(() => AppState.activeGroup),
+      creating: false
     })
     const form = reactive({
       name: '',
@@ -106,15 +107,18 @@ export default {
     const potentialImages = computed(() => AppState.groupImages)
     const groupInfo = computed(() => AppState.activeGroupInfo)
     const createGroup = async() => {
-      try {
-        form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
-        await groupService.createGroup(form)
-        closeModals()
-        AppState.groupImages = []
-        logger.log('right before route push' + state.activeGroup.id)
-        router.push({ name: 'Group', params: { id: state.activeGroup.id } })
-      } catch (error) {
-        logger.error(error)
+      if (state.creating === false) {
+        state.creating = true
+        try {
+          form.imageUrl = document.getElementsByClassName('highlightImage')[0].currentSrc
+          await groupService.createGroup(form)
+          closeModals()
+          AppState.groupImages = []
+          router.push({ name: 'Group', params: { id: state.activeGroup.id } })
+          state.creating = false
+        } catch (error) {
+          logger.error(error)
+        }
       }
     }
     return {

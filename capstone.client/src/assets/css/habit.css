@@ -12,11 +12,12 @@
   margin-top: 1em;
   margin-bottom: 1em;
   position: relative;
-  cursor: pointer;
+  cursor: help;
   box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-time) ease-in-out;
   padding: var(--padding);
   background-color: white;
+  position: relative;
 }
 
 .group-name {
@@ -33,6 +34,11 @@
   font-weight: 300;
   font-size: 35px;
 }
+
+.habit-checkbox {
+  cursor: pointer;
+}
+
 .habit-checkbox.completed {
   cursor: no-drop;
 }

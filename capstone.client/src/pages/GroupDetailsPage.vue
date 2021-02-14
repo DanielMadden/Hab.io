@@ -33,7 +33,7 @@
       {{ groupMembers }}
     </div> -->
     <div id="group-habits"
-         class="container-fluid dark-scrollbar tab-section"
+         class="container-fluid tab-section"
          :class="{'selected': state.tabSelect == 'habits'}"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div id="habit-section" class="row px-0 px-md-3 pb-3">
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4 px-3" v-for="habit in habits" :key="habit.id">
+        <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-lg-4 px-3" v-for="habit in habits" :key="habit.id">
           <habit-component :habit="habit"></habit-component>
         </div>
       </div>
