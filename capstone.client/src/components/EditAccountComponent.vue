@@ -12,7 +12,7 @@
           v-model="state.account.picture"
         ><br>
         <!-- <input class="my-1" type="text" placeholder="Custom Background Image" v-model="state.account.backgroundImage"><br> -->
-        <small>Background image</small>
+        <small>Background image</small><br>
         <input type="text" placeholder="Image search" @blur="getImages($event)" required="true" /> <br>
         <small class="text-muted">Select an available image</small>
         <div class="container">

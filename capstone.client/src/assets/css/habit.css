@@ -1,6 +1,6 @@
 .habit {
   /* Variables */
-  --transition-time: .3s;
+  --transition-time: 0.3s;
   --padding: 1em;
 }
 
@@ -20,6 +20,11 @@
   position: relative;
 }
 
+.group-name {
+  position: absolute;
+  right: 10px;
+  top: 40px;
+}
 .habit:hover {
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   transform: translate3d(-5px, -5px, 0px);
@@ -38,13 +43,6 @@
   cursor: no-drop;
 }
 
-.habit-checkbox.completed+.habit-name {
+.habit-checkbox.completed + .habit-name {
   text-decoration: line-through;
-}
-
-.habit-group-name {}
-
-#habit-button-trash:hover {
-  background-color: rgb(255, 0, 0);
-  color: black;
 }
