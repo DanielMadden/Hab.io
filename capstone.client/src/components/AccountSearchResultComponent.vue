@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { computed, reactive } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 export default {
   props: {
@@ -25,12 +25,17 @@ export default {
     const state = reactive({
       accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees),
       isSelected: false
-
+    })
+    watchEffect(() => {
+      if (AppState.accountSelectedInvitees.find(invite => invite._id === props.searchResult._id)) {
+        state.isSelected = true
+      } else { state.isSelected = false }
     })
     return {
       state,
       selectInvitee() {
         AppState.accountSelectedInvitees.push(props.searchResult)
+        console.log(AppState.accountSelectedInvitees)
         state.isSelected = true
       },
       deselectInvitee() {
