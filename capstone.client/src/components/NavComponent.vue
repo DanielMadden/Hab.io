@@ -2,7 +2,7 @@
   <div id="nav-bar" class="d-flex justify-content-between">
     <!-- <div id="nav-vert-stretch" class="d-flex justify-content-between"> -->
     <div class="d-flex justify-content-start align-items-center">
-      <h1 @click="travelHome" class="logo hoverable">
+      <h1 @click="travelHome" class="logo hoverable m-0">
         hab.io
       </h1>
     </div>
@@ -12,13 +12,13 @@
           Log In
         </h4>
       </button>
-      <button v-if="user.isAuthenticated" @click="logout" class="nav-item nav-button">
+      <button v-if="user.isAuthenticated" @click="logout" class="nav-item nav-button" id="nav-button-log-out">
         <h4 class="px-3 py-0 m-0">
           Log Out
         </h4>
       </button>
-      <button v-if="user.isAuthenticated" @click="showMyGroups" class="nav-item nav-button">
-        <h4 class="px-3 py-0 m-0">
+      <button v-if="user.isAuthenticated" @click="showMyGroups" class="nav-item nav-button" id="nav-button-my-groups">
+        <h4 class="px-2 px-md-3 py-0 m-0">
           My Groups
         </h4>
       </button>
@@ -37,13 +37,22 @@ import { computed, reactive, watch } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { useRouter } from 'vue-router'
-import { groupService } from '../services/GroupService'
+// import { groupService } from '../services/GroupService'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { accountService } from '../services/AccountService'
+import { badgeService } from '../services/BadgeService'
 
 export default {
   setup() {
+    function checkBadges() {
+      if (AppState.activeAccount.badges) {
+        for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
+          document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+          document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
+        }
+      }
+    }
     const state = reactive({
       checkAchievement: computed(() => AppState.checkAchievement)
     })
@@ -82,7 +91,10 @@ export default {
     const user = computed(() => AppState.user)
     const login = () => { AuthService.loginWithPopup() }
     const logout = async() => { await AuthService.logout({ returnTo: window.location.origin }) }
-    const getMyGroups = () => { groupService.getAccountGroups(AppState.account.id, true) }
+    const getMyGroups = () => {
+      // groupService.getAccountGroups(AppState.account.id, true)
+      accountService.getGroupMembersByAccountId(AppState.account.id)
+    }
     const showMyGroups = () => { AppState.showMyGroups = true; AppState.darken = true; getMyGroups() }
     const travelHome = () => { router.push('/') }
     return {
@@ -94,6 +106,19 @@ export default {
       travelHome,
       travel() {
         router.push({ path: '/account/' + account.value.email })
+        accountService.getSelected(account.value.email)
+        accountService.getGroups(account.value.email)
+        accountService.getFollowers(account.value.email)
+        accountService.getFollowing(account.value.email)
+        accountService.getHabits(account.value.email)
+        accountService.getWill(account.value.email)
+        badgeService.getBadges()
+        const waitForBadges = setInterval(() => {
+          if (AppState.badges.length > 0) {
+            checkBadges()
+            clearInterval(waitForBadges)
+          }
+        }, 10)
       }
     }
   }
@@ -114,5 +139,9 @@ export default {
 
 .logo{
   font-family: "Pacifico";
+}
+#nav-bar {
+  background-image: url(https://cutewallpaper.org/21/black-texture-wallpaper/Black-Scratched-Paint-Texture-Wallpaper-42274-Baltana.jpg);
+  background-size: cover;
 }
 </style>

@@ -15,6 +15,7 @@ import { groupMemberService } from '../services/GroupMemberService'
 import { groupService } from '../services/GroupService'
 import { habitService } from '../services/HabitService'
 import { messageService } from '../services/MessageService'
+import { closeModals } from '../utils/Modal'
 export default {
   props: {
     group: {
@@ -25,16 +26,19 @@ export default {
   setup(props) {
     const router = useRouter()
     const travel = () => {
+      closeModals()
       AppState.showMyGroups = false
       AppState.darken = false
       router.push('/group/' + props.group.id)
       AppState.activeGroup = {}
+      AppState.activeGroupMember = {}
       AppState.activeGroupHabits = []
       AppState.activeGroupMembers = []
       AppState.activeGroupMessages = []
       groupService.getGroup(props.group.id, true)
       habitService.getGroupHabits(props.group.id)
       groupMemberService.getGroupMembers(props.group.id)
+      groupMemberService.getActiveGroupMember(props.group.id)
       messageService.getGroupMessages(props.group.id)
     }
     return { travel }

@@ -13,20 +13,25 @@ export const AppState = reactive({
   accountGroups: [],
   accountSearchResults: [],
   accountSelectedInvitees: [],
+  accountImages: [],
   // Group Variables
   myGroups: [],
   myGroupMembers: [],
   publicGroups: [],
   groupImages: [],
   // Active Variables
+  activeFollowing: true,
   activeGroup: {},
   activeAccount: {},
+  activeAccountWill: -1,
   activeGroupHabits: [],
   activeGroupMessages: [],
   activeGroupMembers: [],
   activeGroupMember: {}, // (for relationship between user and currently viewed group)
   activeGroupInfo: {}, // (when viewing group modal on home)
+  activeGroupInfoGroupMember: null,
   activeHabit: {}, // (when viewing habit modal on groupdetails)
+  activeHabitToday: [], // (don't ask.)
   // Visual Variables
   darken: false,
   showMyGroups: false,
@@ -42,5 +47,6 @@ export const AppState = reactive({
   showEditAccount: false,
   checkAchievement: false,
   showHabitInfo: false,
+  showGroupSettings: false,
   achievementName: null
 })

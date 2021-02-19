@@ -1,5 +1,5 @@
 <template>
-  <div class="group-member d-flex">
+  <div class="group-member d-flex" @click="travelAccount" v-if="groupMember.status !== 'Pending'">
     <div
       class="group-member-image"
       :style="`background: linear-gradient( rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('${groupMember.memberId.picture}') no-repeat center center /cover; overflow-y: hidden`"
@@ -16,11 +16,19 @@
   </div>
 </template>
 <script>
+import { useRouter } from 'vue-router'
 export default {
   props: {
     groupMember: {
       type: Object,
       required: true
+    }
+  },
+  setup(props) {
+    const router = useRouter()
+    const travelAccount = () => { router.push('/account/' + props.groupMember.memberId.email) }
+    return {
+      travelAccount
     }
   }
 }

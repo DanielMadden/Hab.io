@@ -164,3 +164,56 @@ button:focus {
   border-radius: 20px;
   border: var(--scrollbar-padding) white solid
 }
+
+/* MEDIUM SCREENS AND BELOW */
+
+@media only screen and (max-width: 768px) {
+  /* Nav Bar */
+  #nav-bar {
+    /* Changing font-size will affect height */
+    font-size: 16px;
+    /* Usual */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height);
+    background-color: black;
+    color: white;
+    padding-right: .5em;
+    padding-left: .5em
+  }
+  #nav-bar h1 {
+    font-size: 200%;
+  }
+  #nav-bar h4 {
+    font-size: 100%;
+  }
+  #nav-button-log-out {
+    display: none;
+  }
+  /* #nav-vert-stretch {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden
+} */
+  #nav-profile-image {
+    height: calc(var(--nav-height) * 9/12);
+    border-radius: 100%
+  }
+  .nav-item {
+    margin-left: 1em
+  }
+  .nav-button {
+    height: calc(var(--nav-height) * 6/12);
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    transition: all .2s;
+  }
+  .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: black;
+  }
+}

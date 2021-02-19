@@ -2,48 +2,108 @@
   <div id="group-details"
        :style="`background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)), url('${group.imageUrl}') no-repeat center center /cover; overflow-y: hidden`"
   >
+    <div id="tab-bar" class="container-fluid p-0">
+      <div id="tab-bar-row" class="row">
+        <div id="tab-bar-members"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'members'}"
+             @click="selectTab('members')"
+        >
+          <i class="fas fa-users"></i>
+        </div>
+        <div id="tab-bar-habits"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'habits'}"
+             @click="selectTab('habits')"
+        >
+          <i class="fas fa-check-double"></i>
+        </div>
+        <div id="tab-bar-chat"
+             class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
+             :class="{'selected': state.tabSelect == 'chat'}"
+             @click="selectTab('chat')"
+        >
+          <i class="fas fa-comments"></i>
+        </div>
+      </div>
+    </div>
     <!-- Hello group details:
     {{ group }}
     <div style="color:red">
       {{ groupMembers }}
     </div> -->
     <div id="group-habits"
-         class="container-fluid dark-scrollbar"
+         class="container-fluid tab-section"
+         :class="{'selected': state.tabSelect == 'habits'}"
     >
       <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
         <h1 id="group-name"
-            class="page-title px-3 pt-3"
+            class="page-title px-md-3 pt-3"
         >
           {{ group.name }}
         </h1>
-        <button id="add-habit"
-                class="mr-3 d-flex justify-content-center align-items-center"
-                @click="addHabit"
+        <div v-if="activeGroupMember.status === 'Moderator'"
+             id="group-buttons"
+             class="d-flex justify-content-between justify-content-md-end"
         >
-          <h1 class="p-0 m-0">
-            +
-          </h1>
-        </button>
+          <button
+            id="open-group-settings"
+            class="group-button mr-3 d-flex justify-content-center align-items-center"
+            @click="openGroupSettings"
+          >
+            <h3 class="group-button-text p-0 m-0">
+              <i class="fas fa-cog"></i>
+            </h3>
+          </button>
+          <button id="add-habit"
+                  class="group-button mr-3 d-flex justify-content-center align-items-center"
+                  @click="addHabit"
+          >
+            <h1 class="group-button-text p-0 m-0">
+              +
+            </h1>
+          </button>
+        </div>
       </div>
-      <div class="row px-3 pb-3">
-        <div class="col-4 px-3" v-for="habit in habits" :key="habit.id">
+      <div id="habit-section" class="row px-0 px-md-3 pb-3">
+        <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-lg-4 px-3" v-for="habit in habits" :key="habit.id">
           <habit-component :habit="habit"></habit-component>
         </div>
       </div>
     </div>
     <div id="group-sidebar">
       <div id="group-members"
-           class="group-sidebars d-flex flex-column p-3"
+           class="group-sidebars d-flex flex-column p-3 tab-section"
+           :class="{'selected': state.tabSelect == 'members'}"
            @mouseover="focus('members')"
            @mouseout="noFocus()"
       >
-        <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
-        <button type="button" class="btn btn-dark" @click="inviteModal">
+        <button id="group-member-list-button-accept"
+                class="group-member-list-button"
+                v-if="activeGroupMember.status === 'Pending'"
+                @click="acceptGroup()"
+        >
+          Accept Invitation
+        </button>
+        <button id="group-member-list-button-decline"
+                class="group-member-list-button"
+                v-if="activeGroupMember.status === 'Pending'"
+                @click="declineGroup()"
+        >
+          Decline Invitation
+        </button>
+        <button id="group-member-list-button-invite"
+                class="group-member-list-button"
+                v-if="((group.private === false) && (activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')) || (group.private === true && activeGroupMember.status === 'Moderator')"
+                @click="inviteModal"
+        >
           Invite
         </button>
+        <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
       </div>
       <div id="group-chat"
-           class="group-sidebars"
+           class="group-sidebars tab-section"
+           :class="{'selected': state.tabSelect == 'chat'}"
            @mouseover="focus('chat')"
            @mouseout="noFocus()"
            v-if="authenticated"
@@ -63,6 +123,7 @@
                  type="text"
                  placeholder="send a message..."
                  v-model="state.message"
+                 autocomplete="off"
           />
           <!-- @focusin="focusInput(true);focus('chat')"
                     @focusout="focusInput(false);noFocus()" -->
@@ -81,15 +142,17 @@
 </template>
 <script>
 import { computed, onMounted, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { groupService } from '../services/GroupService'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
 import { habitService } from '../services/HabitService'
 import { messageService } from '../services/MessageService'
+import { socketService } from '../services/SocketService'
 export default {
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const group = computed(() => AppState.activeGroup)
     const groupMembers = computed(() => AppState.activeGroupMembers)
     const habits = computed(() => AppState.activeGroupHabits)
@@ -97,8 +160,12 @@ export default {
     const authenticated = computed(() => AppState.user.isAuthenticated)
     const activeGroupMember = computed(() => AppState.activeGroupMember)
     const state = reactive({
-      message: ''
+      message: '',
+      tabSelect: 'habits'
     })
+    const selectTab = (tab) => {
+      state.tabSelect = tab
+    }
     const sendMessage = () => {
       if (state.message.length > 0) {
         messageService.sendMessage({ groupId: group.value.id, body: state.message })
@@ -125,11 +192,25 @@ export default {
       AppState.darken = true
       AppState.showModal = true
       AppState.showInviteModal = true
+      AppState.accountSearchResults = []
+      AppState.accountSelectedInvitees = []
     }
     const addHabit = () => {
       AppState.darken = true
       AppState.showModal = true
       AppState.showAddHabitForm = true
+    }
+    const openGroupSettings = () => {
+      AppState.darken = true
+      AppState.showModal = true
+      AppState.showGroupSettings = true
+    }
+    const acceptGroup = () => {
+      groupMemberService.acceptGroupInvite(activeGroupMember.value.id)
+    }
+    const declineGroup = () => {
+      groupMemberService.declineGroupInvite(activeGroupMember.value.id)
+      router.push('/')
     }
     onMounted(() => {
       groupService.getGroup(route.params.id, true)
@@ -139,11 +220,12 @@ export default {
         if (AppState.user.isAuthenticated) {
           messageService.getGroupMessages(route.params.id)
           groupMemberService.getActiveGroupMember(route.params.id)
+          socketService.emit('join:room', route.params.id)
           clearInterval(waitForLogin)
         }
       }, 10)
     })
-    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember }
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab, acceptGroup, declineGroup }
   }
 }
 </script>

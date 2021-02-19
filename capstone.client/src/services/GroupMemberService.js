@@ -1,8 +1,9 @@
 import { AppState } from '../AppState'
+import { accountService } from './AccountService'
 import { api } from './AxiosService'
 
-const baseURL = '/api/groupmembers/'
-const baseURLQuery = '/api/groupmembers?'
+const baseURL = '/api/groupMembers/'
+const baseURLQuery = '/api/groupMembers?'
 
 class GroupMemberService {
   async getGroupMembers(groupId) {
@@ -10,10 +11,10 @@ class GroupMemberService {
     AppState.activeGroupMembers = res.data
   }
 
-  async getActiveGroupMember(groupId) {
+  async getActiveGroupMember(groupId, habitCheck = false) {
     const res = await api.get('/api/groups/' + groupId + '/activeGroupMember')
-    AppState.activeGroupMember = res.data
-    console.log(AppState.activeGroupMember)
+    if (!habitCheck)AppState.activeGroupMember = res.data
+    else return res.data
   }
 
   async joinGroup(accountId, groupId) {
@@ -25,7 +26,23 @@ class GroupMemberService {
   }
 
   async sendGroupInvite(inviteeId, groupId) {
-    await api.post(baseURL, { memberId: inviteeId, groupId: groupId })
+    const res = await api.post(baseURL + 'invite', { memberId: inviteeId, groupId: groupId })
+    await groupMemberService.getGroupMembers(groupId)
+    return res.data
+  }
+
+  async acceptGroupInvite(groupMemberId) {
+    const res = await api.post(baseURL + groupMemberId + '/accept')
+    this.getActiveGroupMember(res.data.groupId)
+    this.getGroupMembers(res.data.groupId)
+    accountService.getGroupMembersByAccountId(res.data.memberId)
+  }
+
+  async declineGroupInvite(groupMemberId) {
+    const res = await api.post(baseURL + groupMemberId + '/decline')
+    this.getActiveGroupMember(res.data.groupId)
+    this.getGroupMembers(res.data.groupId)
+    accountService.getGroupMembersByAccountId(res.data.memberId)
   }
 
   async leaveGroup(accountId, groupId) {

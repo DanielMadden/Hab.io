@@ -13,9 +13,10 @@
       <account-following-component v-if="modalChoice.following"></account-following-component>
       <account-followers-component v-if="modalChoice.followers"></account-followers-component>
       <account-groups-component v-if="modalChoice.accountGroups"></account-groups-component>
-      <badges-modal-component v-if="modalChoice.badges"></badges-modal-component>
+      <!-- <badges-modal-component v-if="modalChoice.badges"></badges-modal-component> -->
       <edit-account-component v-if="modalChoice.editAccount"></edit-account-component>
       <modal-habit-info v-if="modalChoice.habitInfo"></modal-habit-info>
+      <modal-group-settings v-if="modalChoice.groupSettings"></modal-group-settings>
     </div>
   </div>
 </template>
@@ -26,11 +27,10 @@ import { AppState } from '../AppState'
 import ModalAddGroup from './ModalAddGroup.vue'
 import AccountFollowersComponent from './AccountFollowersComponent.vue'
 import AccountGroupsComponent from './AccountGroupsComponent.vue'
-import BadgesModalComponent from './BadgesModalComponent.vue'
 import EditAccountComponent from './EditAccountComponent.vue'
 import { closeModals } from '../utils/Modal'
 export default {
-  components: { ModalGroupInfo, ModalAddGroup, AccountFollowersComponent, AccountGroupsComponent, BadgesModalComponent, EditAccountComponent },
+  components: { ModalGroupInfo, ModalAddGroup, AccountFollowersComponent, AccountGroupsComponent, EditAccountComponent },
   setup() {
     const showModal = computed(() => AppState.showModal)
     const modalChoice = reactive({
@@ -42,8 +42,9 @@ export default {
       followers: computed(() => AppState.showFollowers),
       accountGroups: computed(() => AppState.showAccountGroups),
       editAccount: computed(() => AppState.showEditAccount),
-      badges: computed(() => AppState.showBadges),
-      habitInfo: computed(() => AppState.showHabitInfo)
+      // badges: computed(() => AppState.showBadges),
+      habitInfo: computed(() => AppState.showHabitInfo),
+      groupSettings: computed(() => AppState.showGroupSettings)
     })
     // const close = closeModals()
     return {

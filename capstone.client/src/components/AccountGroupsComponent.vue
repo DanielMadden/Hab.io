@@ -39,7 +39,7 @@ import { AppState } from '../AppState'
 export default {
   setup() {
     return {
-      groups: computed(() => AppState.accountGroups)
+      groups: computed(() => AppState.accountGroups.filter(group => group.private !== true))
     }
   }
 }

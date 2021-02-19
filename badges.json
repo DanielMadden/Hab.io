@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "601c754f039c8e151cba7632"
+  },
+  "name": "Goal Setting",
+  "imageUrl": "https://imgur.com/99xXHWx.png",
+  "description": "Join your first group",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "601c75af039c8e151cba7633"
+  },
+  "name": "I Knew You Could",
+  "imageUrl": "https://imgur.com/h3ch003.png",
+  "description": "Complete one month without missing a habit",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "601c75fe039c8e151cba7634"
+  },
+  "name": "Ever Journey Begins With a Single Step",
+  "imageUrl": "https://imgur.com/FKopKHv.png",
+  "description": "Check off a habit for one day",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "601c76df039c8e151cba7635"
+  },
+  "name": "Early Bird Gets the Worm",
+  "imageUrl": "https://imgur.com/aGo5kNx.png",
+  "description": "Early adopter of hab.io",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6023198e6c67723ac4834a4d"
+  },
+  "name": "The More the Merrier",
+  "imageUrl": "https://imgur.com/8FfVad3.png",
+  "description": "Invite someone to join a group",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "602319f66c67723ac4834a4e"
+  },
+  "name": "Status Update",
+  "imageUrl": "https://imgur.com/pgpvz6Y.png",
+  "description": "Send a message to a group",
+  "__v": 0
+}]

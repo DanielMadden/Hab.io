@@ -25,7 +25,6 @@ class AccountService {
 
   async getAccountsByQuery(query) {
     try {
-      // TODO test that this query syntax is passed and handled properly
       const res = await api.get(`/account/query?search=${query}`)
       AppState.accountSearchResults = res.data
     } catch (error) {
@@ -49,7 +48,25 @@ class AccountService {
     const account = await api.get(emailQueryURL + email)
     const res = await api.get('/account/' + account.data.id + '/followees')
     AppState.accountFollowing = res.data
-    console.log(AppState.accountFollowing)
+  }
+
+  checkFollowing(email) {
+    // this.getFollowers(email)
+    const acc = AppState.accountFollowers.find(f => {
+      return f.followerId.id === AppState.account.id
+    })
+    if (acc) {
+      AppState.activeFollowing = false
+    } else {
+      AppState.activeFollowing = true
+    }
+    return acc
+  }
+
+  async getWill(email) {
+    const account = await api.get(emailQueryURL + email)
+    const res = await api.get('/account/' + account.data.id + '/will')
+    AppState.activeAccountWill = res.data
   }
 
   async followUser(body) {

@@ -1,5 +1,6 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import socketService from './SocketService'
 // import { groupService } from '../services/GroupService'
 
 class MessageService {
@@ -9,6 +10,8 @@ class MessageService {
       throw new BadRequest('Invalid group or user does not belong to group')
     }
     const newMessage = await dbContext.Messages.create(body)
+    const populatedMessage = await dbContext.Messages.findOne(newMessage).populate('creator')
+    socketService.messageRoom(newMessage.groupId, 'create:message', populatedMessage)
     return newMessage
   }
 

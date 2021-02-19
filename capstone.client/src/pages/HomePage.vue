@@ -3,7 +3,7 @@
     id="home"
     class="container-fluid dark-scrollbar"
   >
-    <div class="row px-3 pt-3 d-flex justify-content-between align-items-center">
+    <div class="row px-sm-1 px-md-2 px-lg-3 pt-3 d-flex justify-content-between align-items-center">
       <h1 class="page-title px-3 pt-3">
         Explore
       </h1>
@@ -16,8 +16,8 @@
         </h1>
       </button>
     </div>
-    <div class="row px-3 pb-3">
-      <div class="col-4 px-3" v-for="group in groups" :key="group.id">
+    <div class="row px-sm-1 px-md-2 px-lg-3 pb-3">
+      <div class="col-lg-4 col-sm-6 col-xs-12 px-3" v-for="group in groups" :key="group.id">
         <group-component :group="group"></group-component>
       </div>
     </div>
@@ -30,13 +30,17 @@ import { groupService } from '../services/GroupService'
 import { badgeService } from '../services/BadgeService'
 import { AppState } from '../AppState'
 import GroupComponent from '../components/GroupComponent.vue'
+import { accountService } from '../services/AccountService'
+// import { socketService } from '../services/SocketService'
 export default {
   components: { GroupComponent },
   name: 'Home',
   setup() {
     onMounted(() => {
+      if (AppState.account) accountService.getGroupMembersByAccountId(AppState.account.id)
       badgeService.getBadges()
       groupService.getPublicGroups()
+      // socketService.emit('join:room', 'home')
     })
     const groups = computed(() => AppState.publicGroups)
     const addGroup = () => {

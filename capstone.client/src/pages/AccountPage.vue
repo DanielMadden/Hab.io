@@ -1,20 +1,32 @@
 <template>
   <div class="about" id="home">
-    <div class="container" v-if="account">
+    <!-- desktop view -->
+    <div class="container-fluid" v-if="account" id="desktop-view">
       <div class="row border-bottom" id="row-1">
         <div class="col-4 d-flex justify-content-center flex-column text-center align-items-center">
-          <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
           <img :src="account.picture" class="rounded-circle profile-image">
           <div class="d-flex justify-content-center pt-2" id="social-stats">
-            <p class="px-1" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#following" @click="toggleFollowing()">
               Following <span class="font-weight-bold">{{ following.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#followers" @click="toggleFollowers()">
               Followers <span class="font-weight-bold">{{ followers.length }}</span>
             </p>
-            <p class="px-1" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
+            <p class="px-1 clickable" data-toggle="modal" data-target="#groups" @click="toggleGroups()">
               Groups <span class="font-weight-bold">{{ groups.length }}</span>
             </p>
+          </div>
+          <div>
+            <div v-if="state.followButton === false">
+              <button class="btn btn-dark" v-if="currentUser.email !== account.email">
+                Following
+              </button>
+            </div>
+            <div v-if="state.followButton === true">
+              <button class="btn btn-dark" v-if="currentUser.email !== account.email" @click="followUser()">
+                <i class="fas fa-user-plus pr-1"></i>Follow User
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center">
@@ -42,53 +54,98 @@
           <div id="account-stats">
             <div class="card">
               <div class="card-body">
-                <h3 class="card-title">
-                  Will: {{ account.will }}
-                </h3>
-                <h3 class="card-title">
-                  Level: {{ state.level }}
-                </h3>
-                <h3 class="card-title">
-                  Title: in progress
-                </h3>
+                <h2 class="card-title">
+                  Will: {{ will }}
+                </h2>
+                <h2 class="card-title">
+                  Level: {{ Math.floor(0.3 * Math.sqrt(will)) }}
+                </h2>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="row" id="badges-row">
-        <div class="col-12 d-flex justify-content-between">
-          <h4 class="pt-3">
-            Badges
-          </h4>
-          <!-- <div v-for="badge in badges" :key="badge.name">
+        <div class="col-12 d-flex justify-content-around mt-1">
+          <div v-for="badge in allBadges" :key="badge.name">
             <img
               :src="badge.imageUrl"
               :alt="badge.name"
-            /> -->
-          <!-- Button trigger modal -->
-          <button type="button"
-                  class="btn btn-secondary mt-3"
-                  data-toggle="modal"
-                  data-target="#modelId"
-                  id="see-badges"
-                  @click="toggleBadges"
-          >
-            see all
-          </button>
-        </div>
-        <div v-for="badge in badges" :key="badge.name">
-          <img
-            :src="badge.imageUrl"
-            :alt="badge.name"
-          />
+              :title="`${badge.name}: ${badge.description}`"
+              class="gray"
+              :id="badge.name"
+            />
+          </div>
         </div>
       </div>
-      <Modal />
     </div>
-    <div class="row d-flex" id="tasks-row" :style="`background: url('${account.backgroundImage}') `">
-      <div class="col-4" v-for="habit in habits" :key="habit.id">
-        <HabitComponent :habit="habit" />
+    <div class="row d-flex"
+         id="tasks-row"
+         :style="`background: url('${account.backgroundImage}');
+  background-size: cover; `"
+    >
+      <div class="col-4-md col-12" v-for="habit in habits" :key="habit.id">
+        <HabitComponent :habit="habit" :page="'Account'" />
+      </div>
+    </div>
+
+    <!-- mobile view -->
+    <div class="container-fluid d-none" v-if="account" id="mobile-view">
+      <div class="row mt-3 pb-2">
+        <div class="col-5 d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-user-plus text-success" v-if="currentUser.email !== account.email" @click="followUser()"></i>
+          <img :src="account.picture" class="rounded-circle profile-image">
+          <div class="card mt-2">
+            <div class="card-body px-1 text-center">
+              <!-- <p class="card-text">Text</p> -->
+              <small class="px-1 clickable" @click="toggleFollowing()">
+                Following <span class="font-weight-bold">{{ following.length }}</span>
+              </small>
+              <small class="px-1 clickable" @click="toggleFollowers()">
+                Followers <span class="font-weight-bold">{{ followers.length }}</span>
+              </small>
+              <small class="px-1  mb-0 clickable" @click="toggleGroups()">
+                Groups <span class="font-weight-bold">{{ groups.length }}</span>
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="card">
+            <div class="card-body tect-center p-2">
+              <h5 class="card-title">
+                Will: {{ will }}
+              </h5>
+              <h5 class="card-title">
+                Level: {{ Math.floor(0.3 * Math.sqrt(will)) }}
+              </h5>
+              <i class="fas fa-user-edit" v-if="account.id === currentUser.id" @click="toggleEdit()"></i>
+              <small class="card-text mb-0">
+                <u>Name</u>
+              </small>
+              <h6 class="card-title" :contenteditable="account.id === currentUser.id" @blur="editName">
+                {{ account.name }}
+              </h6>
+              <small class="card-text mb-0 pt-1">
+                <u>Email</u>
+              </small>
+              <p class="card-title">
+                {{ account.email }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 d-flex justify-content-around mt-1" v-for="badge in allBadges" :key="badge.name">
+          <div>
+            <img
+              :src="badge.imageUrl"
+              :alt="badge.name"
+              :title="`${badge.name}: ${badge.description}`"
+              class="gray sm-badges"
+              :id="badge.description"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -99,33 +156,64 @@ import { computed, onMounted, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { accountService } from '../services/AccountService'
+import { badgeService } from '../services/BadgeService'
 export default {
   name: 'Account',
   setup() {
+    // const allBadges = computed(() => AppState.badges)
+    function checkBadges() {
+      if (AppState.activeAccount.badges) {
+        for (let i = 0; i < AppState.activeAccount.badges.length; i++) {
+          document.getElementById(AppState.activeAccount.badges[i].name).classList.remove('gray')
+          document.getElementById(AppState.activeAccount.badges[i].description).classList.remove('gray')
+        }
+      }
+    }
+    // function checkFollow(email) {
+    //   console.log(email)
+    //   if (accountService.checkFollowing(email)) {
+    //     console.log(accountService.checkFollowing(email))
+    //     state.followButton = false
+    //   } else {
+    //     console.log(accountService.checkFollowing(email))
+    //     state.followButton = true
+    //   }
+    // }
     const route = useRoute()
     const state = reactive({
-      level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.activeAccount.will))),
       account: computed(() => AppState.user),
       follower: computed(() => AppState.account),
-      followee: computed(() => AppState.activeAccount)
+      followee: computed(() => AppState.activeAccount),
+      followButton: computed(() => AppState.activeFollowing)
     })
-    onMounted(() => {
+    onMounted(async() => {
       accountService.getSelected(route.params.email)
+      await accountService.getFollowers(route.params.email)
       accountService.getGroups(route.params.email)
-      accountService.getFollowers(route.params.email)
-      accountService.getFollowing(route.params.email)
+      await accountService.getFollowing(route.params.email)
       accountService.getHabits(route.params.email)
+      accountService.getWill(route.params.email)
+      badgeService.getBadges()
+      accountService.checkFollowing()
+      const waitForBadges = setInterval(() => {
+        if (AppState.badges.length > 0) {
+          checkBadges()
+          clearInterval(waitForBadges)
+        }
+      }, 10)
     })
     return {
+      checkBadges,
       state,
+      will: computed(() => AppState.activeAccountWill),
       account: computed(() => AppState.activeAccount),
       currentUser: computed(() => AppState.account),
-      // level: computed(() => Math.floor(0.3 * Math.sqrt(AppState.account.will))),
       followers: computed(() => AppState.accountFollowers),
       following: computed(() => AppState.accountFollowing),
       groups: computed(() => AppState.accountGroups),
       habits: computed(() => AppState.accountHabits),
       badges: computed(() => AppState.activeAccount.badges),
+      allBadges: computed(() => AppState.badges),
       editName(e) {
         accountService.edit(this.account.id, e.target.innerText)
       },
@@ -144,19 +232,14 @@ export default {
         AppState.showModal = true
         AppState.darken = true
       },
-      toggleBadges() {
-        AppState.showBadges = true
-        AppState.showModal = true
-        AppState.darken = true
-      },
       toggleEdit() {
         AppState.showEditAccount = true
         AppState.showModal = true
         AppState.darken = true
       },
       followUser() {
-        const test = AppState.accountFollowers.find(f => f.followerId === AppState.account.id)
-        if (!test) {
+        if (!accountService.checkFollowing(route.params.email)) {
+          state.followButton = false
           accountService.followUser({ followerId: state.follower.id, followeeId: state.followee.id })
         }
       }
@@ -166,34 +249,29 @@ export default {
 </script>
 
 <style scoped>
-.profile-image {
-  height: 15vh;
-  width: auto
+.clickable {
+  cursor: pointer;
 }
-#main-info {
 
+.profile-image {
+  height: 18vh;
+  width: auto
 }
 #row-1 {
   height: 30vh
 }
-#account-stats {
-
+.gray {
+  filter: grayscale(100%)
 }
-#social-stats {
-
-}
-.fa-user-plus {
+/* .fa-user-plus {
   position: absolute;
   top: 2vh;
   left: 2vw;
   font-size: 40px;
-  z-index: 50;
-}
+  cursor: pointer;
+} */
 #badges-row {
   height: 20vh
-}
-#see-badges {
-  height: 4vh;
 }
 .fa-user-edit {
   position: absolute;
@@ -203,9 +281,35 @@ export default {
 #tasks-row {
   position: absolute;
   margin: 0;
-  top: 55vh;
+  top: 42vh;
   width: 100%;
-  min-height: 40vh
+  min-height: 49.7vh;
+}
+@media only screen and (max-width: 769px) {
+  #desktop-view {
+    display: none;
+  }
+  #mobile-view {
+    display: block !important
+  }
+  .profile-image {
+    height: 100px;
+    width: 100px
+  }
+  .sm-badges {
+    height: 60px;
+    width: 60px
+  }
+  #tasks-row {
+  position: absolute;
+  margin: 0;
+  top: 58vh;
+  width: 100%;
+  min-height: 49.7vh;
+}
+.fa-user-plus {
+  font-size: 20px
+}
 }
 @import '../assets/css/global.css';
 </style>

@@ -9,7 +9,8 @@ import { logger } from './utils/Logger'
 export default class Startup {
   static ConfigureGlobalMiddleware(app) {
     // NOTE Configure and Register Middleware
-    const whitelist = ['http://localhost:8080']
+    // Was trying to use https for phone use. Doesn't break anything - Danny
+    const whitelist = ['http://localhost:8080', 'http://192.168.0.31:8080', 'https://localhost:8080', 'https://192.168.0.31:8080']
     const corsOptions = {
       origin: function(origin, callback) {
         const originIsWhitelisted = whitelist.indexOf(origin) !== -1

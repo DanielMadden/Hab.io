@@ -3,14 +3,27 @@ import { BadRequest } from '../utils/Errors'
 
 class HabitService {
   async getById(habitId) {
-    return await dbContext.Habits.findById(habitId)
+    return await dbContext.Habits.findById(habitId).populate('groupId')
   }
 
   async getHabitsByAccountId(accountId) {
-    const groupMembers = await dbContext.GroupMembers.find({ memberId: accountId })
-    const groupIds = groupMembers.map(groupMember => groupMember.groupId)
+    const allGroupMembers = await dbContext.GroupMembers.find({ memberId: accountId })
+    const noPendingGroupMembers = allGroupMembers.filter(groupMember => groupMember.status !== 'Pending')
+    const groupIds = noPendingGroupMembers.map(groupMember => groupMember.groupId)
     // groups.forEach(group => groupIds.push(group.groupId))
-    return await dbContext.Habits.find({ groupId: { $in: groupIds } })
+    return await dbContext.Habits.find({ groupId: { $in: groupIds } }).populate('groupId')
+  }
+
+  async getHabitsByGroupId(query = {}, userId, groupId) {
+    // const memberCheck = await dbContext.GroupMembers.findOne({ memberId: userId, groupId: groupId })
+    // if (!memberCheck) {
+    //   throw new BadRequest('Invalid group or user does not belong to group')
+    // }
+    const habits = await dbContext.Habits.find(query).populate('groupId')
+    if (!habits) {
+      throw new BadRequest('Invalid Id')
+    }
+    return habits
   }
 
   async create(habit) {
@@ -37,19 +50,12 @@ class HabitService {
   }
 
   async delete(habitId, userId) {
-    throw new Error('Method not implemented.')
-  }
-
-  async getHabitsByGroupId(query = {}, userId, groupId) {
-    // const memberCheck = await dbContext.GroupMembers.findOne({ memberId: userId, groupId: groupId })
-    // if (!memberCheck) {
-    //   throw new BadRequest('Invalid group or user does not belong to group')
-    // }
-    const habits = await dbContext.Habits.find(query)
-    if (!habits) {
-      throw new BadRequest('Invalid Id')
-    }
-    return habits
+    const habit = await dbContext.Habits.findById(habitId)
+    if (!habit) return 'No habit'
+    const modCheck = await dbContext.GroupMembers.findOne({ groupId: habit.groupId, memberId: userId })
+    if (!modCheck) return 'Not in group'
+    if (modCheck.status !== 'Moderator') return 'Not moderator'
+    return await dbContext.Habits.findByIdAndDelete(habitId)
   }
 }
 

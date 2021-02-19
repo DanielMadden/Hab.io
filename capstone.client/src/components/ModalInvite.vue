@@ -5,16 +5,19 @@
         <div class="col-12 text-center">
           <h1>Search for users</h1>
         </div>
-        <div class="col py-1 d-flex justify-content-center border-bottom">
-          <input type="text"
-                 placeholder="Search by name or email"
-                 name="invitees"
-                 id="invitees"
-                 v-model="state.query"
-                 @change="getAccounts"
-          >
+        <div class="col py-3 d-flex justify-content-center border-bottom">
+          <div class="form-group">
+            <input v-model="state.query"
+                   type="text"
+                   class="form-control"
+                   name="invitees"
+                   id="invitees"
+                   aria-describedby="helpId"
+                   placeholder="Search by name or email"
+            >
+          </div>
         </div>
-        <div class="col-12 py-1">
+        <div class="col-12 py-3">
           <div class="search-results">
             <AccountSearchResultComponent v-for="searchResult in state.searchResults" :key="searchResult.id" :search-result="searchResult">
             </AccountSearchResultComponent>
@@ -38,39 +41,44 @@ import { logger } from '../utils/Logger'
 import { accountService } from '../services/AccountService'
 import { groupMemberService } from '../services/GroupMemberService'
 import { AppState } from '../AppState'
+import { closeModals } from '../utils/Modal'
 export default {
   setup() {
     const state = reactive({
       query: '',
-      selectedInvitees: [],
+      selectedInvitees: computed(() => AppState.accountSelectedInvitees),
       activeGroup: computed(() => AppState.activeGroup),
       activeGroupMembers: computed(() => AppState.activeGroupMembers),
       accountSelectedInvitees: computed(() => AppState.accountSelectedInvitees),
-      searchResults: computed(() => AppState.accountSearchResults.filter(account => !(state.activeGroupMembers.some(groupMember => groupMember.memberId === account.id))))
+      searchResults: computed(() => AppState.accountSearchResults.filter(account => !(state.activeGroupMembers.some(groupMember => (groupMember.memberId.id === account._id)))))
 
     })
-    watchEffect(() => accountService.getAccountsByQuery(state.query))
+    watchEffect(() => { if (state.query !== '') { accountService.getAccountsByQuery(state.query) } })
+    async function sendInvites() {
+      state.selectedInvitees.forEach(invitee => {
+        sendInvite(invitee._id, state.activeGroup.id)
+      })
+      closeModals()
+    }
+    async function sendInvite(inviteeId, groupId) {
+      try {
+        await groupMemberService.sendGroupInvite(inviteeId, groupId)
+      } catch (error) {
+        logger.error(error)
+      }
+    }
     return {
       state,
-      async getAccounts() {
-        try {
-          await accountService.getAccountsByQuery(state.query)
-        } catch (error) {
-          logger.error(error)
-        }
-      },
-      async sendInvites() {
-        state.selectedInvitees.forEach(invitee => {
-          this.sendInvite(invitee.id, state.activeGroup.id)
-        })
-      },
-      async sendInvite(inviteeId, groupId) {
-        try {
-          await groupMemberService.sendGroupInvite(inviteeId, groupId)
-        } catch (error) {
-          logger.error(error)
-        }
-      }
+      sendInvites,
+      sendInvite
+      // async getAccounts() {
+      //   try {
+      //     await accountService.getAccountsByQuery(state.query)
+      //   } catch (error) {
+      //     logger.error(error)
+      //   }
+      // },
+
     }
   }
 }

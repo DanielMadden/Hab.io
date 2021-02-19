@@ -14,11 +14,9 @@
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "socket.io-client": "^2.2.0",
-    "sweetalert2": "^10.14.0",
+    "sweetalert2": "^10.14.1",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.3"
-  },
-  "devDependencies": {
+    "vue-router": "^4.0.3",
     "@vue/cli-plugin-eslint": "~4.5.10",
     "@vue/cli-plugin-router": "~4.5.10",
     "@vue/cli-service": "~4.5.10",
