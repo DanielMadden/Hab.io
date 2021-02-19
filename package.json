@@ -2,10 +2,9 @@
   "name": "capstone",
   "version": "1.0.0",
   "scripts": {
-    "build": "npm run setup:client && npm run setup:server && npm run build:client",
+    "build": "npm run setup:client && npm run setup:server",
     "setup:client": "cd capstone.client && npm i",
     "setup:server": "cd capstone.server && npm i",
-    "build:client": "npm run --prefix capstone.client build",
     "start": "node capstone.server/index.js"
   },
   "engines": {
