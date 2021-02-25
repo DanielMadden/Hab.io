@@ -244,8 +244,8 @@ export default {
       groupMemberService.declineGroupInvite(activeGroupMember.value.id)
       router.push('/')
     }
-    const joinGroup = () => {
-      groupMemberService.joinGroup(AppState.account.id, route.params.id)
+    const joinGroup = async() => {
+      await groupMemberService.joinGroup(AppState.account.id, route.params.id)
       loadPage()
     }
     onMounted(() => loadPage())

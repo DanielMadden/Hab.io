@@ -42,6 +42,7 @@ import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { accountService } from '../services/AccountService'
 import { badgeService } from '../services/BadgeService'
+import { logger } from '../utils/Logger'
 
 export default {
   setup() {
@@ -58,32 +59,34 @@ export default {
     })
     watch(() => state.checkAchievement,
       (val, prevVal) => {
-        if (val === true) {
-          if (!AppState.account.badges.some(e => e.name === AppState.achievementName)) {
-            AppState.account.badges.push(AppState.badges.find(b => b.name === AppState.achievementName))
-            accountService.editBadges(AppState.account.id, AppState.account.badges)
-            AppState.checkAchievement = false
+        try {
+          if (val === true) {
+            if (!AppState.account.badges.some(e => e.name === AppState.achievementName)) {
+              AppState.account.badges.push(AppState.badges.find(b => b.name === AppState.achievementName))
+              accountService.editBadges(AppState.account.id, AppState.account.badges)
+              AppState.checkAchievement = false
 
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 5000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
 
-            Toast.fire({
-              icon: 'success',
-              title: AppState.achievementName
-            })
-          } else {
-            AppState.checkAchievement = false
+              Toast.fire({
+                icon: 'success',
+                title: AppState.achievementName
+              })
+            } else {
+              AppState.checkAchievement = false
+            }
           }
-        }
+        } catch (error) { logger.error(error) }
       }
     )
     const router = useRouter()

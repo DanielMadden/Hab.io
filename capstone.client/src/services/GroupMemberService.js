@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
 import { api } from './AxiosService'
 
@@ -20,8 +21,12 @@ class GroupMemberService {
   async joinGroup(accountId, groupId) {
     const res = await api.post(baseURL, { memberId: accountId, groupId: groupId })
     // Check for achievement
-    AppState.achievementName = 'Goal Setting'
-    AppState.checkAchievement = true
+    try {
+      AppState.achievementName = 'Goal Setting'
+      AppState.checkAchievement = true
+    } catch (error) {
+      logger.error(error)
+    }
     return res.data
   }
 
