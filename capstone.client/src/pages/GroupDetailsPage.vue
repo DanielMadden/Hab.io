@@ -162,12 +162,10 @@
 <script>
 import { computed, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { groupService } from '../services/GroupService'
 import { AppState } from '../AppState'
 import { groupMemberService } from '../services/GroupMemberService'
-import { habitService } from '../services/HabitService'
 import { messageService } from '../services/MessageService'
-import { socketService } from '../services/SocketService'
+import { loadDetailsPage } from '../utils/LoadDetails'
 export default {
   setup() {
     const route = useRoute()
@@ -182,19 +180,6 @@ export default {
       message: '',
       tabSelect: 'habits'
     })
-    const loadPage = () => {
-      groupService.getGroup(route.params.id, true)
-      groupMemberService.getGroupMembers(route.params.id)
-      habitService.getGroupHabits(route.params.id)
-      const waitForLogin = setInterval(() => {
-        if (AppState.user.isAuthenticated) {
-          messageService.getGroupMessages(route.params.id)
-          groupMemberService.getActiveGroupMember(route.params.id)
-          socketService.emit('join:room', route.params.id)
-          clearInterval(waitForLogin)
-        }
-      }, 10)
-    }
     const selectTab = (tab) => {
       state.tabSelect = tab
     }
@@ -246,9 +231,9 @@ export default {
     }
     const joinGroup = async() => {
       await groupMemberService.joinGroup(AppState.account.id, route.params.id)
-      loadPage()
+      loadDetailsPage(route.params.id)
     }
-    onMounted(() => loadPage())
+    onMounted(() => loadDetailsPage(route.params.id))
     return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab, acceptGroup, declineGroup, joinGroup }
   }
 }
