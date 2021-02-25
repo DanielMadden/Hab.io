@@ -6,14 +6,22 @@
       <div id="tab-bar-row" class="row">
         <div id="tab-bar-members"
              class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
-             :class="{'selected': state.tabSelect == 'members'}"
+             :class="{
+               'selected': state.tabSelect == 'members',
+               'col-4': activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator',
+               'col-6': !(activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')
+             }"
              @click="selectTab('members')"
         >
           <i class="fas fa-users"></i>
         </div>
         <div id="tab-bar-habits"
              class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
-             :class="{'selected': state.tabSelect == 'habits'}"
+             :class="{
+               'selected': state.tabSelect == 'habits',
+               'col-4': activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator',
+               'col-6': !(activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')
+             }"
              @click="selectTab('habits')"
         >
           <i class="fas fa-check-double"></i>
@@ -22,6 +30,7 @@
              class="tab-bar-column col-4 d-flex justify-content-center align-items-center"
              :class="{'selected': state.tabSelect == 'chat'}"
              @click="selectTab('chat')"
+             v-if="activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator'"
         >
           <i class="fas fa-comments"></i>
         </div>
@@ -74,7 +83,10 @@
     <div id="group-sidebar">
       <div id="group-members"
            class="group-sidebars d-flex flex-column p-3 tab-section"
-           :class="{'selected': state.tabSelect == 'members'}"
+           :class="{
+             'selected': state.tabSelect == 'members',
+             'full-column': !(activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')
+           }"
            @mouseover="focus('members')"
            @mouseout="noFocus()"
       >
@@ -94,10 +106,17 @@
         </button>
         <button id="group-member-list-button-invite"
                 class="group-member-list-button"
-                v-if="((group.private === false) && (activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')) || (group.private === true && activeGroupMember.status === 'Moderator')"
+                v-else-if="((group.private === false) && (activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator')) || (group.private === true && activeGroupMember.status === 'Moderator')"
                 @click="inviteModal"
         >
           Invite
+        </button>
+        <button id="group-member-list-button-join"
+                class="group-member-list-button"
+                v-else-if="!activeGroupMember.status && authenticated"
+                @click="joinGroup()"
+        >
+          Join Group
         </button>
         <group-member-component v-for="groupMember in groupMembers" :key="groupMember.id" :group-member="groupMember"></group-member-component>
       </div>
@@ -106,7 +125,7 @@
            :class="{'selected': state.tabSelect == 'chat'}"
            @mouseover="focus('chat')"
            @mouseout="noFocus()"
-           v-if="authenticated"
+           v-if="activeGroupMember.status === 'Member' || activeGroupMember.status === 'Moderator'"
       >
         <div id="group-chat-message-box"
              class="d-flex flex-column flex-reverse"
@@ -163,6 +182,19 @@ export default {
       message: '',
       tabSelect: 'habits'
     })
+    const loadPage = () => {
+      groupService.getGroup(route.params.id, true)
+      groupMemberService.getGroupMembers(route.params.id)
+      habitService.getGroupHabits(route.params.id)
+      const waitForLogin = setInterval(() => {
+        if (AppState.user.isAuthenticated) {
+          messageService.getGroupMessages(route.params.id)
+          groupMemberService.getActiveGroupMember(route.params.id)
+          socketService.emit('join:room', route.params.id)
+          clearInterval(waitForLogin)
+        }
+      }, 10)
+    }
     const selectTab = (tab) => {
       state.tabSelect = tab
     }
@@ -212,20 +244,12 @@ export default {
       groupMemberService.declineGroupInvite(activeGroupMember.value.id)
       router.push('/')
     }
-    onMounted(() => {
-      groupService.getGroup(route.params.id, true)
-      groupMemberService.getGroupMembers(route.params.id)
-      habitService.getGroupHabits(route.params.id)
-      const waitForLogin = setInterval(() => {
-        if (AppState.user.isAuthenticated) {
-          messageService.getGroupMessages(route.params.id)
-          groupMemberService.getActiveGroupMember(route.params.id)
-          socketService.emit('join:room', route.params.id)
-          clearInterval(waitForLogin)
-        }
-      }, 10)
-    })
-    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab, acceptGroup, declineGroup }
+    const joinGroup = () => {
+      groupMemberService.joinGroup(AppState.account.id, route.params.id)
+      loadPage()
+    }
+    onMounted(() => loadPage())
+    return { group, groupMembers, focus, noFocus, addHabit, habits, inviteModal, state, focusInput, sendMessage, messages, scrollBottom, authenticated, activeGroupMember, openGroupSettings, selectTab, acceptGroup, declineGroup, joinGroup }
   }
 }
 </script>

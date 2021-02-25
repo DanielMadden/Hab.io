@@ -69,6 +69,10 @@
   overflow-y: scroll
 }
 
+#group-members.full-column {
+  height: 100%;
+}
+
 #group-members::-webkit-scrollbar {
   display: none;
 }
@@ -94,6 +98,10 @@
 
 #group-member-list-button-decline {
   background-color: rgb(251, 92, 92)
+}
+
+#group-member-list-button-join:hover {
+  background-color: rgb(153, 255, 0);
 }
 
 #group-chat {

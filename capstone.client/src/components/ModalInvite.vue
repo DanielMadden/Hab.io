@@ -3,7 +3,7 @@
     <div class="myModal-frame dark-scrollbar">
       <div class="row d-flex">
         <div class="col-12 text-center">
-          <h1>Search for users</h1>
+          <h1>Search</h1>
         </div>
         <div class="col py-3 d-flex justify-content-center border-bottom">
           <div class="form-group">

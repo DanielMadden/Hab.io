@@ -35,7 +35,6 @@ export default {
       state,
       selectInvitee() {
         AppState.accountSelectedInvitees.push(props.searchResult)
-        console.log(AppState.accountSelectedInvitees)
         state.isSelected = true
       },
       deselectInvitee() {
@@ -50,42 +49,9 @@ export default {
 <style scoped>
 @import "../assets/css/searchProfile.css";
 
-.selected{
+.selected {
   /* border: 2px, skyblue;
   box-shadow: 2px; */
   color: aquamarine;
-}
-.hoverable{
-  cursor: pointer;
-}
-
-.search-result {
-  width: 100%;
-  margin-bottom: 1em;
-  background-color: white;
-  padding: 1em;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 4px 4px 3px 2px rgba(0, 0, 0, 0.3);
-  transition: all var(--transition-time) ease-in-out
-}
-
-.search-result:hover {
-  box-shadow: 5px 5px 8px 3px rgba(0, 0, 0, 0.4);
-  transform: translate3d(-5px, -5px, 0px);
-}
-
-.search-result-image {
-  width: 3em;
-  height: 3em;
-  border-radius: 100%;
-}
-
-.search-result-text {
-  margin-left: 1em;
-}
-
-.search-result-role {
-  color: gray;
 }
 </style>
